@@ -1150,3 +1150,62 @@ def cv_scores_missing(X,y,cat,clf,cv,amount,information):
         return scorings,guessed
     else:
         return scorings
+    
+    
+def cv_scores_scales(X,y,clf,cv,amount,information):        
+    X,y = shuffle_set(X,y)
+    sc = 1
+    scorings = [[]]
+    score = [[]]
+    predict = [[]]
+    guessed = [[]]
+    predicts = [[],[]]
+    time = [0,0]
+    X,y  = split(X,y,amount)
+    for i in range(0,cv):
+        cv_clf = copy(clf)
+        if i == 0 or i== 9:
+            if i== 0 :
+                X_train = X[0:len(X)-len(X)//cv]
+                X_test = X[len(X)-len(X)//cv:len(X)]
+                y_train = y[0:len(y)-len(y)//cv]
+                y_test = y[len(y)-len(y)//cv:len(y)]
+            else:
+                X_train = X[len(X)//cv:len(X)]
+                X_test = X[0:len(X)//cv]
+                y_train = y[len(y)//cv:len(y)]
+                y_test = y[0:len(y)//cv]                
+        else:
+            X_train = X[0:len(X)//10*i]
+            X_train.extend(X[len(X)//10*(i+1):len(X)])
+            X_test = X[len(X)//10*i:len(X)//10*(i+1)]
+            y_train = y[0:len(y)//10*i]
+            y_train.extend(y[len(y)//10*(i+1):len(y)])
+            y_test = y[len(y)//10*i:len(y)//10*(i+1)]
+        with stopwatch() as sw:
+            _ = cv_clf.fit(X_train,y_train)
+        time[0] = time[0] + sw.duration
+        with stopwatch() as sw:
+            predict[0] = cv_clf.predict(X_test)
+        time[1] = time[1] + sw.duration
+        for k in range(0,sc):
+            score[k] = 0
+        if information >=2:            
+            for k in range(0,sc):
+                guessed[k].append(distr_guessed(predict[k]))        
+                    
+        for k in range(0,sc):
+            scorings[k].append(accuracy_score(y_test,predict[k]))
+        if information >= 3:
+            for k in range(0,sc):
+                predicts[k].append(predict[k])
+            predicts[sc].append(y_test)
+        
+    
+    if(information >= 3):
+        return scorings,guessed,predicts,time
+    
+    elif information == 2:
+        return scorings,guessed
+    else:
+        return scorings

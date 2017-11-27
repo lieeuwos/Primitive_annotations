@@ -306,6 +306,11 @@ def remove_features(X,amount):
         X2.append(X[i][:len(X[i])-amount])
     return X2
 
+def split(X,y,amount):
+    X = X[:amount]
+    y = y[:amount]
+    return X,y
+
 
 
     
