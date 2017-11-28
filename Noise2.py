@@ -233,6 +233,73 @@ def random_test_set4(X,y):
             noise_X[i][j] = noise_X[i][j] + y[i]
     return noise_X
 
+def noise_set(X,cat,amount):
+    noise_X = deepcopy(X)
+    std_x = std_G(X,cat)
+    for i,x in enumerate(noise_X):
+        for j,x2 in enumerate(x):
+            if random() > 0.5 and not cat[j]:
+                noise_X[i][j] = noise_X[i][j] + amount*random()*std_x[j]
+            elif cat[j]:
+                noise_X[i][j] = noise_X[i][j] - amount*random()*std_x[j]
+            else:
+                r = random()
+                su = 0
+                for i in std_x[j]:
+                    su = su + std_x[j][str(i)]/len(noise_X)
+                    if r > su:
+                        noise_X[i][j] = i           
+    return noise_X
+
+def noise_set2(X,cat,amount):
+    noise_X = deepcopy(X)
+    std_x = std_G(X,cat)
+    for i,x in enumerate(noise_X):
+        for j,x2 in enumerate(x):
+            if random() > 0.5 and not cat[j]:
+                noise_X[i][j] = noise_X[i][j] + amount*random()*std_x[j]
+            elif cat[j]:
+                noise_X[i][j] = noise_X[i][j] - amount*random()*std_x[j]
+            else:
+                noise_X[i][j] = random.choice(std_x[j])          
+    return noise_X
+
+def std_G(X,cat):
+    std = []
+    Xt = list(map(list, zip(*X)))
+    if type(Xt) == np.ndarray:
+        for x,i in enumerate(Xt):
+            if cat[x]:
+                temp1,temp2 = weighted_target(x)
+                std.append(temp1)
+            else:
+                std.append(i.std())
+    else:
+        for x,i in enumerate(Xt):
+            if cat[x]:
+                temp1,temp2 = weighted_target(x)
+                std.append(temp1)
+            else:
+                std.append(np.array(i).std())            
+    return std
+
+def std_G2(X,cat):
+    std = []
+    Xt = list(map(list, zip(*X)))
+    if type(Xt) == np.ndarray:
+        for x,i in enumerate(Xt):
+            if cat[x]:
+                std.append(i)
+            else:
+                std.append(i.std())
+    else:
+        for x,i in enumerate(Xt):
+            if cat[x]:
+                std.append(i)
+            else:
+                std.append(np.array(i).std())            
+    return std
+
 def test_set_missing_values(X_test,amount):
     X2 = deepcopy(X_test)
     X_Ttrans = list(map(list, zip(*X2)))
