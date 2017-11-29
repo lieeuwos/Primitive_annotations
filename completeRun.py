@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2
 from sklearn.metrics import accuracy_score
 #import psutil
 
@@ -284,6 +284,68 @@ def cv_scores_BrainWebb(did,cv,amount,typ):
             with stopwatch() as sw:
                 predict[j][0] = cv_clf.predict(X_test)
             time[j][1] = time[j][1] + sw.duration
+            for k in range(0,sc):
+                score[j][k] = 0                        
+            for k in range(0,sc):
+                guessed[j][k].append(distr_guessed(predict[j][k]))      
+                        
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
+            for k in range(0,sc):
+                predicts[j][k].append(predict[j][k])
+            predicts[j][sc].append(y_test)
+            j = j + 1
+        
+    j = 0
+    for clfName in clfNames:            
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveSingleDict(guessed[j],func,clfName,did,amount,'SummaryGuesses' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+        j = j + 1
+
+
+def cv_feature(did,cv,amount):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    func = 'cvFeatureSTD1'
+#    func = 'TestcvScoreFeatures4'
+    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB']
+    clf = []
+    scorings = []
+    score = []
+    predict = []
+    guessed = []
+    predicts = []
+    time = []
+    for clfName in clfNames:
+        clf.append(clfs(clfName))
+        scorings.append([[],[]])
+        score.append([[],[]])
+        predict.append([[],[]])
+        guessed.append([[],[]])
+        predicts.append([[],[],[]])
+        time.append([0,0,0])
+            
+    X,y = shuffle_set(X,y)
+    sc = 2
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        test_X = noise_set2(X_test,cat,amount)
+        j = 0
+        for clfName in clfNames:
+            cv_clf = clfs(clfName)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predict[j][0] = cv_clf.predict(X_test)
+            time[j][1] = time[j][1] + sw.duration
+            with stopwatch() as sw:
+                predict[j][1] = cv_clf.predict(test_X)
+            time[j][2] = time[j][2] + sw.duration
             for k in range(0,sc):
                 score[j][k] = 0                        
             for k in range(0,sc):

@@ -7,7 +7,8 @@ Created on Thu Oct 12 11:27:44 2017
 import random
 from copy import copy
 from copy import deepcopy
-from random import shuffle,random
+from random import shuffle
+import random
 import numpy as np
 
 def add_noise(X,y,adj,local):
@@ -238,9 +239,9 @@ def noise_set(X,cat,amount):
     std_x = std_G(X,cat)
     for i,x in enumerate(noise_X):
         for j,x2 in enumerate(x):
-            if random() > 0.5 and not cat[j]:
+            if random.random() > 0.5 and not cat[j]:
                 noise_X[i][j] = noise_X[i][j] + amount*random()*std_x[j]
-            elif cat[j]:
+            elif not cat[j]:
                 noise_X[i][j] = noise_X[i][j] - amount*random()*std_x[j]
             else:
                 r = random()
@@ -253,13 +254,13 @@ def noise_set(X,cat,amount):
 
 def noise_set2(X,cat,amount):
     noise_X = deepcopy(X)
-    std_x = std_G(X,cat)
+    std_x = std_G2(X,cat)
     for i,x in enumerate(noise_X):
         for j,x2 in enumerate(x):
-            if random() > 0.5 and not cat[j]:
-                noise_X[i][j] = noise_X[i][j] + amount*random()*std_x[j]
-            elif cat[j]:
-                noise_X[i][j] = noise_X[i][j] - amount*random()*std_x[j]
+            if random.random() > 0.5 and not cat[j]:
+                noise_X[i][j] = noise_X[i][j] + amount*random.random()*std_x[j]
+            elif not cat[j]:
+                noise_X[i][j] = noise_X[i][j] - amount*random.random()*std_x[j]
             else:
                 noise_X[i][j] = random.choice(std_x[j])          
     return noise_X
@@ -270,14 +271,14 @@ def std_G(X,cat):
     if type(Xt) == np.ndarray:
         for x,i in enumerate(Xt):
             if cat[x]:
-                temp1,temp2 = weighted_target(x)
+                temp1,temp2 = weighted_target(i)
                 std.append(temp1)
             else:
                 std.append(i.std())
     else:
         for x,i in enumerate(Xt):
             if cat[x]:
-                temp1,temp2 = weighted_target(x)
+                temp1,temp2 = weighted_target(i)
                 std.append(temp1)
             else:
                 std.append(np.array(i).std())            
