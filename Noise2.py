@@ -262,7 +262,8 @@ def noise_set2(X,cat,amount):
             elif not cat[j]:
                 noise_X[i][j] = noise_X[i][j] - amount*random.random()*std_x[j]
             else:
-                noise_X[i][j] = random.choice(std_x[j])          
+                if random.random()*amount > 0.5:
+                    noise_X[i][j] = random.choice(std_x[j])          
     return noise_X
 
 def std_G(X,cat):

@@ -310,7 +310,7 @@ def cv_scores_BrainWebb(did,cv,amount,typ):
 def cv_feature(did,cv,amount):
     X,y = read_did(did)
     cat = read_did_cat(did)
-    func = 'cvFeatureSTD1'
+    func = 'cvFeatureCAT2'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB']
     clf = []
