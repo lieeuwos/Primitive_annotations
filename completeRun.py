@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features
 from sklearn.metrics import accuracy_score
 #import psutil
 
@@ -32,8 +32,10 @@ def featureClf(did,cv,amount,typ):
         func = 'cvScoreFeatures1'
     elif typ == 1:
         func = 'cvScoreFeatures3'
-    elif typ ==2:
+    elif typ == 2:
         func = 'cvScoreFeatures4'
+    elif typ == 3:
+        func = 'cvScoreFeatures5'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf']#, 'SVC-linear','SVC-poly']#, 'GaussianNB', 'BernoulliNB', 'MultinomialNB']
     clf = []
@@ -67,12 +69,12 @@ def featureClf(did,cv,amount,typ):
                 y_train = y[len(y)//cv:len(y)]
                 y_test = y[0:len(y)//cv]
         else:
-            X_train = X[0:len(X)//10*i]
-            X_train.extend(X[len(X)//10*(i+1):len(X)])
-            X_test = X[len(X)//10*i:len(X)//10*(i+1)]
-            y_train = y[0:len(y)//10*i]
-            y_train.extend(y[len(y)//10*(i+1):len(y)])
-            y_test = y[len(y)//10*i:len(y)//10*(i+1)]
+            X_train = X[0:len(X)//cv*i]
+            X_train.extend(X[len(X)//cv*(i+1):len(X)])
+            X_test = X[len(X)//cv*i:len(X)//cv*(i+1)]
+            y_train = y[0:len(y)//cv*i]
+            y_train.extend(y[len(y)//cv*(i+1):len(y)])
+            y_test = y[len(y)//cv*i:len(y)//cv*(i+1)]
         train_X = add_type(X_train,cat,amount,typ)
         test_X = add_type(X_test,cat,amount,typ)
         j = 0
@@ -141,6 +143,8 @@ def add_type(X,cat,amount,typ):
         return add_noise_features(X,amount)
     elif typ == 2:
         return add_noise_features2(X,cat,amount)
+    elif typ == 3:
+        return add_copy_features(X,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
@@ -238,12 +242,12 @@ def cv_noise_splits(X,y,i,cv):
             y_train = y[len(y)//cv:len(y)]
             y_test = y[0:len(y)//cv]
     else:#if i=== 0 or i== 9
-        X_train = X[0:len(X)//10*i]
-        X_train.extend(X[len(X)//10*(i+1):len(X)])
-        X_test = X[len(X)//10*i:len(X)//10*(i+1)]
-        y_train = y[0:len(y)//10*i]
-        y_train.extend(y[len(y)//10*(i+1):len(y)])
-        y_test = y[len(y)//10*i:len(y)//10*(i+1)]            
+        X_train = X[0:len(X)//cv*i]
+        X_train.extend(X[len(X)//cv*(i+1):len(X)])
+        X_test = X[len(X)//cv*i:len(X)//cv*(i+1)]
+        y_train = y[0:len(y)//cv*i]
+        y_train.extend(y[len(y)//cv*(i+1):len(y)])
+        y_test = y[len(y)//cv*i:len(y)//cv*(i+1)]            
         
     return X_train,y_train,X_test,y_test
 

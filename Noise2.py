@@ -120,6 +120,17 @@ def add_noise_features(X,amount):
             i.append(random())            
     return temp
 
+def add_copy_features(X,amount):
+    temp = deepcopy(X)
+    Xt = list(map(list, zip(*X)))
+    feature = []
+    for i in range(amount):
+        feature.append(random.choice(range(len(Xt))))
+    for x,i in enumerate(temp):
+        for j in range(0,amount):
+            i.append(Xt[feature[j]][x])
+    return temp
+
 def add_noise_features2(X,cat,amount):
     assert amount >= 1, "features should be added"
     assert type(amount) == int , "amount should be integer"
