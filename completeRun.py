@@ -37,7 +37,7 @@ def featureClf(did,cv,amount,typ):
     elif typ == 3:
         func = 'cvScoreFeatures5'
 #    func = 'TestcvScoreFeatures4'
-    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB']
+    clfNames = [ 'RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB']
     clf = []
     scorings = []
     score = []

@@ -139,11 +139,11 @@ def add_noise_features2(X,cat,amount):
     for i in temp:
         if cats > 0:
             for j in range(0,amount):
-                i.append(int(3*random()))
+                i.append(int(3*random.random()))
             cats = cats - 1
         else: 
             for j in range(0,amount):
-                i.append(random())            
+                i.append(random.random())            
     return temp
 
 def cat_needed(X,cat,amount):
