@@ -16,6 +16,9 @@ from sklearn.model_selection import cross_val_score
 from random import shuffle
 from sklearn.metrics import accuracy_score
 from utils import stopwatch
+from scipy.stats import expon
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 local = True
 
 
@@ -1209,3 +1212,18 @@ def cv_scores_scales(X,y,clf,cv,amount,information):
         return scorings,guessed
     else:
         return scorings
+    
+def optimizeRF(did,amount):
+    X,y = read_did(did)
+    X = add_copy_features(X,amount)
+    X_train, X_test, y_train, y_test = train_test_split(X, y)
+    clf = RandomForestClassifier()
+    params = {'max_features': range(1,len(X[0])), 'min_samples_split': range(2,20)}
+    randomRF = RandomizedSearchCV(clf, param_distributions=params,
+                                       n_iter=40,n_jobs = 3)
+    with stopwatch() as sw:
+        _=randomRF.fit(X_train, y_train)
+    duration = sw.duration
+    estimator = randomRF.best_estimator_
+    score = randomRF.score(X_test,y_test)
+    return estimator,score,duration
