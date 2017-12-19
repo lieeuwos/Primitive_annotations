@@ -5,20 +5,17 @@ Created on Wed Oct  4 11:31:33 2017
 @author: S127788
 """
 from copy import copy
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
 from sklearn.svm import SVC
 from Noise2 import *
 from preamble import *
 from LocalDatasets import read_did
 import numpy as np
-from sklearn.model_selection import cross_val_score
-from random import shuffle
+from random import shuffle,random,uniform
 from sklearn.metrics import accuracy_score
 from utils import stopwatch
 from scipy.stats import expon
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV,RandomizedSearchCV,train_test_split,cross_val_score
 local = True
 
 
@@ -1225,5 +1222,48 @@ def optimizeRF(did,amount):
         _=randomRF.fit(X_train, y_train)
     duration = sw.duration
     estimator = randomRF.best_estimator_
-    score = randomRF.score(X_test,y_test)
-    return estimator,score,duration
+    cv_score = list(cross_val_score(randomRF.best_estimator_,X,y,cv = 10))
+    cv_score.append(randomRF.score(X_test,y_test))
+    return estimator,cv_score,duration
+
+
+def optimizeGBC(did,amount):
+    X,y = read_did(did)
+    iters = 40
+    X = add_copy_features(X,amount)
+    X_train, X_test, y_train, y_test = train_test_split(X, y)
+    clf = GradientBoostingClassifier()
+    learns = [random()*1.9 + 0.1 for i in range(iters*4)]
+    if len(X[0]) < 10 :
+        depths = range(1,len(X[0]))
+    else:
+        depths = range(1,10)
+    params = {'max_depth': depths, 'learning_rate': learns}
+    randomRF = RandomizedSearchCV(clf, param_distributions=params,
+                                       n_iter=iters,n_jobs = 3)
+    with stopwatch() as sw:
+        _=randomRF.fit(X_train, y_train)
+    duration = sw.duration
+    estimator = randomRF.best_estimator_
+    cv_score = list(cross_val_score(randomRF.best_estimator_,X,y,cv = 10))
+    cv_score.append(randomRF.score(X_test,y_test))
+    return estimator,cv_score,duration
+
+
+def optimizeADA(did,amount):
+    X,y = read_did(did)
+    iters = 40
+    X = add_copy_features(X,amount)
+    X_train, X_test, y_train, y_test = train_test_split(X, y)
+    clf = GradientBoostingClassifier()
+    learns = [random()*1.9 + 0.1 for i in range(iters*4)]
+    params = {'learning_rate': learns}
+    randomRF = RandomizedSearchCV(clf, param_distributions=params,
+                                       n_iter=iters,n_jobs = 3)
+    with stopwatch() as sw:
+        _=randomRF.fit(X_train, y_train)
+    duration = sw.duration
+    estimator = randomRF.best_estimator_
+    cv_score = list(cross_val_score(randomRF.best_estimator_,X,y,cv = 10))
+    cv_score.append(randomRF.score(X_test,y_test))
+    return estimator,cv_score,duration
