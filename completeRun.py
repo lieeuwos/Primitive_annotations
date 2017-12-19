@@ -7,7 +7,7 @@ Created on Fri Nov 17 09:48:47 2017
 
 from Noise2 import add_noise_features2,distr_guessed,add_noise_features,remove_features
 from LocalDatasets import checkForExistFile,read_did,read_did_cat,saveSingleDict,savePredictsScore
-from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier
+from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
@@ -37,8 +37,7 @@ def featureClf(did,cv,amount,typ):
     elif typ == 3:
         func = 'cvScoreFeatures5'
 #    func = 'TestcvScoreFeatures4'
-    clfNames = [ 'RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB']
-    
+    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
     clf = []
     scorings = []
     score = []
@@ -135,6 +134,8 @@ def clfs(clfName):
         clf = BernoulliNB()
     elif (clfName == 'MultinomialNB'):
         clf = MultinomialNB()
+    elif (clfName == 'GradientBoost'):
+        clf = GradientBoostingClassifier()
     return clf
 
 def add_type(X,cat,amount,typ):
@@ -151,7 +152,7 @@ def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
     catagorical = read_did_cat(did)
     X,y = shuffle_set(X,y) 
-    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf']#, 'SVC-linear','SVC-poly']#, 'GaussianNB', 'BernoulliNB', 'MultinomialNB']
+    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GradientBoost']#, 'SVC-linear','SVC-poly']#, 'GaussianNB', 'BernoulliNB', 'MultinomialNB']
     scorings = []
     score = []
     predict = []
@@ -317,7 +318,8 @@ def cv_feature(did,cv,amount):
     cat = read_did_cat(did)
     func = 'cvFeatureSTD1'
 #    func = 'TestcvScoreFeatures4'
-    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB']
+    clfNames = ['GradientBoost']
+    'RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB'
     clf = []
     scorings = []
     score = []
