@@ -6,7 +6,7 @@ Created on Fri Nov 17 09:48:47 2017
 """
 
 from Noise2 import add_noise_features2,distr_guessed,add_noise_features,remove_features
-from LocalDatasets import checkForExistFile,read_did,read_did_cat,saveSingleDict,savePredictsScore
+from LocalDatasets import checkForExistFile,read_did,read_did_cat,saveSingleDict,savePredictsScore,saveEstimator
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
@@ -15,6 +15,8 @@ from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
 from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV,RandomizedSearchCV
+from random import random
 #import psutil
 
 
@@ -38,6 +40,7 @@ def featureClf(did,cv,amount,typ):
         func = 'cvScoreFeatures5'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
+    clfNames = ['GradientBoost']
     clf = []
     scorings = []
     score = []
@@ -374,3 +377,46 @@ def cv_feature(did,cv,amount):
             savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
             saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
         j = j + 1
+        
+def optimizeCVGBC(did,amount,cv):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    sc = 2
+    iters = 40
+    func = 'cvOptimizeGBC'
+    time = [0,0,0]
+    estimator = []
+    predicts = [[],[],[]]
+    scorings = [[],[]]
+    clfName = 'GradientBoost'
+    X,y = shuffle_set(X,y)
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        test_X = noise_set2(X_test,cat,amount)
+        clf = GradientBoostingClassifier()
+        learns = [random()*1.9 + 0.1 for i in range(iters*4)]
+        learns = sorted(learns)
+        params = {'learning_rate': learns}
+        cv_clf = RandomizedSearchCV(clf, param_distributions=params,
+                                       n_iter=iters,n_jobs = 3)
+        with stopwatch() as sw:
+            _ = cv_clf.fit(X_train,y_train)
+        time[0] = time[0] + sw.duration
+        with stopwatch() as sw:
+            predicts[0].append(cv_clf.predict(X_test))
+        time[1] = time[1] + sw.duration
+        with stopwatch() as sw:
+            predicts[1].append(cv_clf.predict(test_X))
+        time[2] = time[2] + sw.duration
+        estimator.append(cv_clf.best_estimator_)
+        predicts[sc].append(y_test)
+        for k in range(0,sc):
+            scorings[k].append(accuracy_score(y_test,predicts[k][i]))
+    count = checkForExistFile(func,clfName,did,amount)
+    if count >= 0:
+        saveSingleDict(scorings,func,clfName,did,amount,'scores' + str(count))
+        saveEstimator(str(estimator),func,clfName,did,amount,'Estimators' + str(count))
+        savePredictsScore(predicts,func,clfName,did,amount,'Predictions' + str(count))
+        saveSingleDict([time],func,clfName,did,amount,'duration' + str(count))
+        
+        

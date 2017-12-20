@@ -11,8 +11,7 @@ import os
 import ast
 from sklearn.metrics import accuracy_score,precision_score
 from sklearn.metrics import recall_score,zero_one_loss,cohen_kappa_score
-pathL = ''
-dropbox = ''
+
 def download_save_sets(list):
     for i in list:
         data = oml.datasets.get_dataset(i)
@@ -84,6 +83,16 @@ def saveSingleDict(dict1,func,clfName,amount,did,name):
     with open(newpath + name + '.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerows(dict1)
+        
+def saveEstimator(str1,func,clfName,amount,did,name):
+    assert type(name) == str
+    assert type(func) == str
+    assert type(clfName) == str
+    newpath = dropbox + func + '\\' + clfName + '\\' + str(amount) + '\\' + str(did) + '\\'
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)    
+    with open(newpath + name + '.txt','a+') as f: 
+        f.write(str1)
         
 def saveDuration(dict1,func,clfName,amount,did,name):
     assert type(name) == str
