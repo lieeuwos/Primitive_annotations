@@ -1255,7 +1255,7 @@ def optimizeADA(did,amount):
     iters = 40
     X = add_copy_features(X,amount)
     X_train, X_test, y_train, y_test = train_test_split(X, y)
-    clf = GradientBoostingClassifier()
+    clf = AdaBoostClassifier()
     learns = [random()*1.9 + 0.1 for i in range(iters*4)]
     params = {'learning_rate': learns}
     randomRF = RandomizedSearchCV(clf, param_distributions=params,

@@ -17,6 +17,7 @@ from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV,RandomizedSearchCV
 from random import random
+from scipy.stats import expon
 #import psutil
 
 
@@ -322,7 +323,7 @@ def cv_feature(did,cv,amount):
     func = 'cvFeatureSTD1'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['GradientBoost']
-    'RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB'
+#    'RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB'
     clf = []
     scorings = []
     score = []
@@ -419,4 +420,124 @@ def optimizeCVGBC(did,amount,cv):
         savePredictsScore(predicts,func,clfName,did,amount,'Predictions' + str(count))
         saveSingleDict([time],func,clfName,did,amount,'duration' + str(count))
         
+def optimizeCVclf(did,amount,cv,clfName):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    sc = 2
+    iters = 40
+    func = 'cvOptimizeSTD'
+    time = [0,0,0]
+    estimator = []
+    predicts = [[],[],[]]
+    scorings = [[],[]]
+    X,y = shuffle_set(X,y)
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        test_X = noise_set2(X_test,cat,amount)
+        cv_clf = optimizeCLF(clfName,len(X[0]),iters)
+        with stopwatch() as sw:
+            _ = cv_clf.fit(X_train,y_train)
+        time[0] = time[0] + sw.duration
+        with stopwatch() as sw:
+            predicts[0].append(cv_clf.predict(X_test))
+        time[1] = time[1] + sw.duration
+        with stopwatch() as sw:
+            predicts[1].append(cv_clf.predict(test_X))
+        time[2] = time[2] + sw.duration
+        estimator.append(cv_clf.best_estimator_)
+        predicts[sc].append(y_test)
+        for k in range(0,sc):
+            scorings[k].append(accuracy_score(y_test,predicts[k][i]))
+    count = checkForExistFile(func,clfName,did,amount)
+    if count >= 0:
+        saveSingleDict(scorings,func,clfName,did,amount,'scores' + str(count))
+        saveEstimator(str(estimator),func,clfName,did,amount,'Estimators' + str(count))
+        savePredictsScore(predicts,func,clfName,did,amount,'Predictions' + str(count))
+        saveSingleDict([time],func,clfName,did,amount,'duration' + str(count))
+
+def optimizeCVclfs(did,amount,cv):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    sc = 2
+    iters = 40
+    func = 'cvOptimizeSTD'
+    clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
+    time = []
+    estimator = []
+    predicts = []
+    scorings = []
+    for clfName in clfNames:
+        scorings.append([[],[]])
+        estimator.append([])
+        predicts.append([[],[],[]])
+        time.append([0,0,0])    
+    X,y = shuffle_set(X,y)
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        test_X = noise_set2(X_test,cat,amount)
+        for j,clfName in enumerate(clfNames):
+            cv_clf = optimizeCLF(clfName,len(X[0]),iters)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predicts[j][0].append(cv_clf.predict(X_test))
+            time[j][1] = time[j][1] + sw.duration
+            with stopwatch() as sw:
+                predicts[j][1].append(cv_clf.predict(test_X))
+            time[j][2] = time[j][2] + sw.duration
+            estimator[j].append(cv_clf.best_estimator_)
+            predicts[j][sc].append(y_test)
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predicts[j][k][i]))
+    for j,clfName in enumerate(clfNames):
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveEstimator(str(estimator[j]),func,clfName,did,amount,'Estimators' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+
+
+
+
+      
+def optimizeCLF(clfName,maxFeatures,iters):
+    if (clfName == 'RandomForestClassifier'):
+        clf = RandomForestClassifier()
+        params = {'max_features': range(1,maxFeatures), 'min_samples_split': range(2,20)}
+        cv_clf = RandomizedSearchCV(clf, param_distributions=params,
+                                           n_iter=iters,n_jobs = 3)
+    elif (clfName == 'KNeighborsClassifier'):
+        clf = KNeighborsClassifier()
+        params = {'weights': ['uniform','distance'], 'n_neighbors' : range(1,50), 'p' : [1,2]}
+        cv_clf = RandomizedSearchCV(clf, param_distributions=params,
+                                       n_iter=iters,n_jobs = 3)
+    elif (clfName == '1NeighborsClassifier'):
+        clf =  KNeighborsClassifier(n_neighbors=1)  
+    elif (clfName == 'SGDClassifier'):
+        clf = SGDClassifier()
+    elif (clfName == 'AdaBoost'):
+        clf = AdaBoostClassifier()
+        learns = [random()*1.9 + 0.1 for i in range(iters*4)]
+        params = {'learning_rate': learns}
+        cv_clf = RandomizedSearchCV(clf, param_distributions=params,
+                                           n_iter=iters,n_jobs = 3)
+    elif (clfName[:4] == 'SVC-'):
+        param_grid_rbf = {'C': expon(scale=100), 
+              'gamma': expon(scale=.1), 'kernel' : ['rbf', 'sigmoid']}
+        cv_clf = RandomizedSearchCV(SVC(), param_distributions=param_grid_rbf,
+                                           n_iter=40,n_jobs = 3)
+    elif (clfName == 'GaussianNB'):
+        clf = GaussianNB()
+    elif (clfName == 'BernoulliNB'):
+        clf = BernoulliNB()
+    elif (clfName == 'GradientBoost'):
+        clf = GradientBoostingClassifier()
+        learns = [random()*1.9 + 0.1 for i in range(iters*4)]
+        learns = sorted(learns)
+        params = {'learning_rate': learns}
+        cv_clf = RandomizedSearchCV(clf, param_distributions=params,
+                                       n_iter=iters,n_jobs = 3)
+    return cv_clf
         
