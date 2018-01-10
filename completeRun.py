@@ -320,7 +320,7 @@ def cv_scores_BrainWebb(did,cv,amount,typ):
 def cv_feature(did,cv,amount):
     X,y = read_did(did)
     cat = read_did_cat(did)
-    func = 'cvFeatureSTD1'
+    func = 'cvFeatureCAT2'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['GradientBoost']
 #    'RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB'
@@ -507,12 +507,12 @@ def optimizeCLF(clfName,maxFeatures,iters):
         clf = RandomForestClassifier()
         params = {'max_features': range(1,maxFeatures), 'min_samples_split': range(2,20)}
         cv_clf = RandomizedSearchCV(clf, param_distributions=params,
-                                           n_iter=iters,n_jobs = 3)
+                                           n_iter=iters,n_jobs = -1)
     elif (clfName == 'KNeighborsClassifier'):
         clf = KNeighborsClassifier()
         params = {'weights': ['uniform','distance'], 'n_neighbors' : range(1,50), 'p' : [1,2]}
         cv_clf = RandomizedSearchCV(clf, param_distributions=params,
-                                       n_iter=iters,n_jobs = 3)
+                                       n_iter=iters,n_jobs = -1)
     elif (clfName == '1NeighborsClassifier'):
         clf =  KNeighborsClassifier(n_neighbors=1)  
     elif (clfName == 'SGDClassifier'):
@@ -522,12 +522,12 @@ def optimizeCLF(clfName,maxFeatures,iters):
         learns = [random()*1.9 + 0.1 for i in range(iters*4)]
         params = {'learning_rate': learns}
         cv_clf = RandomizedSearchCV(clf, param_distributions=params,
-                                           n_iter=iters,n_jobs = 3)
+                                           n_iter=iters,n_jobs = -1)
     elif (clfName[:4] == 'SVC-'):
         param_grid_rbf = {'C': expon(scale=100), 
               'gamma': expon(scale=.1), 'kernel' : ['rbf', 'sigmoid']}
         cv_clf = RandomizedSearchCV(SVC(), param_distributions=param_grid_rbf,
-                                           n_iter=40,n_jobs = 3)
+                                           n_iter=40,n_jobs = -1)
     elif (clfName == 'GaussianNB'):
         clf = GaussianNB()
     elif (clfName == 'BernoulliNB'):
@@ -538,6 +538,97 @@ def optimizeCLF(clfName,maxFeatures,iters):
         learns = sorted(learns)
         params = {'learning_rate': learns}
         cv_clf = RandomizedSearchCV(clf, param_distributions=params,
-                                       n_iter=iters,n_jobs = 3)
+                                       n_iter=iters,n_jobs = -1)
     return cv_clf
+
+def featureOptClf(did,cv,amount,typ):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    if typ == 0:
+        func = 'cvOptScoreFeatures1'
+    elif typ == 1:
+        func = 'cvOptScoreFeatures3'
+    elif typ == 2:
+        func = 'cvOptScoreFeatures4'
+    elif typ == 3:
+        func = 'cvOptScoreFeatures5'
+#    func = 'TestcvScoreFeatures4'
+    clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
+    iters = 40
+    clf = []
+    scorings = []
+    score = []
+    predict = []
+    estimator = []
+    predicts = []
+    time = []
+    for clfName in clfNames:
+        clf.append(clfs(clfName))
+        scorings.append([[],[]])
+        score.append([[],[]])
+        predict.append([[],[]])
+        predicts.append([[],[],[]])
+        time.append([0,0,0,0])
+        estimator.append([])
+            
+    X,y = shuffle_set(X,y)
+    sc = 2
+    for i in range(0,cv):        
+        if i == 0 or i== 9:
+            if i== 0 :
+                X_train = X[0:len(X)-len(X)//cv]
+                X_test = X[len(X)-len(X)//cv:len(X)]
+                y_train = y[0:len(y)-len(y)//cv]
+                y_test = y[len(y)-len(y)//cv:len(y)]
+            else:
+                X_train = X[len(X)//cv:len(X)]
+                X_test = X[0:len(X)//cv]
+                y_train = y[len(y)//cv:len(y)]
+                y_test = y[0:len(y)//cv]
+        else:
+            X_train = X[0:len(X)//cv*i]
+            X_train.extend(X[len(X)//cv*(i+1):len(X)])
+            X_test = X[len(X)//cv*i:len(X)//cv*(i+1)]
+            y_train = y[0:len(y)//cv*i]
+            y_train.extend(y[len(y)//cv*(i+1):len(y)])
+            y_test = y[len(y)//cv*i:len(y)//cv*(i+1)]
+        train_X = add_type(X_train,cat,amount,typ)
+        test_X = add_type(X_test,cat,amount,typ)
+        j = 0
+        for clfName in clfNames:
+            cv_clf = optimizeCLF(clfName,len(X_train[0]),iters)
+            cv_clf2 = optimizeCLF(clfName,len(train_X[0]),iters)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predict[j][0] = cv_clf.predict(X_test)
+            time[j][1] = time[j][1] + sw.duration
+            for k in range(0,sc):
+                score[j][k] = 0
+            with stopwatch() as sw:    
+                _ = cv_clf2.fit(train_X,y_train)
+            time[j][2] = time[j][2] + sw.duration
+            with stopwatch() as sw:
+                predict[j][1] = cv_clf2.predict(test_X)
+            time[j][3] = time[j][3] + sw.duration                  
+                        
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
+            for k in range(0,sc):
+                predicts[j][k].append(predict[j][k])
+            predicts[j][sc].append(y_test)
+            estimator[j].append(cv_clf.best_estimator_)
+            estimator[j].append(cv_clf2.best_estimator_)
+            j = j + 1
+        
+    j = 0
+    for clfName in clfNames:            
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveEstimator(str(estimator[j]),func,clfName,did,amount,'Estimators' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+        j = j + 1
         
