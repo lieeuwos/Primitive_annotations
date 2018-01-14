@@ -8,7 +8,6 @@ import random
 from copy import copy
 from copy import deepcopy
 from random import shuffle
-import random
 import numpy as np
 
 def add_noise(X,y,adj,local):
@@ -391,6 +390,17 @@ def split(X,y,amount):
     y = y[:amount]
     return X,y
 
+def add_identifiers(X):
+    for i,x in enumerate(X):
+        X[i].append(i)
+    return X
 
-
-    
+def split_identifiers(X):
+    iden = []
+    for i,x in enumerate(X):
+        iden.append(X[i].pop())
+    return X,iden
+        
+        
+        
+        
