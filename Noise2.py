@@ -112,7 +112,7 @@ def generate_X_noise(X,amount,rand):
     return noise_X
 
 def add_noise_features(X,amount):
-    assert amount >= 1, "features should be added"
+#    assert amount >= 1, "features should be added"
     assert type(amount) == int , "amount should be integer"
     temp = deepcopy(X)
     for i in temp:
@@ -132,7 +132,7 @@ def add_copy_features(X,amount):
     return temp
 
 def add_noise_features2(X,cat,amount):
-    assert amount >= 1, "features should be added"
+#    assert amount >= 1, "features should be added"
     assert type(amount) == int , "amount should be integer"
     temp = deepcopy(X)
     cats = cat_needed(X,cat,amount)
