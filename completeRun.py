@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -132,6 +132,8 @@ def clfs(clfName):
         clf = AdaBoostClassifier()
     elif (clfName[:4] == 'SVC-'):
         clf = SVC(kernel = clfName[4:])
+        if (clfName == 'SVC-'):
+            clf = SVC(kernel = 'rbf')
     elif (clfName == 'GaussianNB'):
         clf = GaussianNB()
     elif (clfName == 'BernoulliNB'):
@@ -151,6 +153,8 @@ def add_type(X,cat,amount,typ):
         return add_noise_features2(X,cat,amount)
     elif typ == 3:
         return add_copy_features(X,amount)
+    elif typ == 4:
+        return add_copy(X,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
@@ -552,6 +556,8 @@ def featureOptClf(did,cv,amount,typ):
         func = 'cvOptScoreFeatures4'
     elif typ == 3:
         func = 'cvOptScoreFeatures5'
+    elif typ == 4:
+        func = 'cvOpt2ScoreFeatures6'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
     iters = 40
@@ -643,6 +649,8 @@ def featureOptClf2(did,cv,amount,typ):
         func = 'cvOpt2ScoreFeatures4'
     elif typ == 3:
         func = 'cvOpt2ScoreFeatures5'
+    elif typ == 4:
+        func = 'cvOpt2ScoreFeatures6'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
     iters = 40
@@ -725,3 +733,228 @@ def featureOptClf2(did,cv,amount,typ):
             saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
         j = j + 1
         
+def featureOptClf3(did,cv,amount,typ):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    if typ == 0:
+        func = 'cvOpt3ScoreFeatures1'
+    elif typ == 1:
+        func = 'cvOpt3ScoreFeatures3'
+    elif typ == 2:
+        func = 'cvOpt3ScoreFeatures4'
+    elif typ == 3:
+        func = 'cvOpt3ScoreFeatures5'
+    elif typ == 4:
+        func = 'cvOpt3ScoreFeatures6'
+#    func = 'TestcvScoreFeatures4'
+    clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
+    iters = 40
+    clf = []
+    scorings = []
+    score = []
+    predict = []
+    estimator = []
+    predicts = []
+    time = []
+    for clfName in clfNames:
+        clf.append(clfs(clfName))
+        scorings.append([[],[],[]])
+        score.append([[],[],[]])
+        predict.append([[],[],[]])
+        predicts.append([[],[],[],[]])
+        time.append([0,0,0,0,0,0])
+        estimator.append([])
+    X = add_identifiers(X)        
+    X,y = shuffle_set(X,y)
+    X,iden = split_identifiers(X)
+    sc = 3
+    for i in range(0,cv):        
+        if i == 0 or i== 9:
+            if i== 0 :
+                X_train = X[0:len(X)-len(X)//cv]
+                X_test = X[len(X)-len(X)//cv:len(X)]
+                y_train = y[0:len(y)-len(y)//cv]
+                y_test = y[len(y)-len(y)//cv:len(y)]
+            else:
+                X_train = X[len(X)//cv:len(X)]
+                X_test = X[0:len(X)//cv]
+                y_train = y[len(y)//cv:len(y)]
+                y_test = y[0:len(y)//cv]
+        else:
+            X_train = X[0:len(X)//cv*i]
+            X_train.extend(X[len(X)//cv*(i+1):len(X)])
+            X_test = X[len(X)//cv*i:len(X)//cv*(i+1)]
+            y_train = y[0:len(y)//cv*i]
+            y_train.extend(y[len(y)//cv*(i+1):len(y)])
+            y_test = y[len(y)//cv*i:len(y)//cv*(i+1)]
+        train_X = add_type(X_train,cat,amount,typ)
+        test_X = add_type(X_test,cat,amount,typ)
+        j = 0
+        for clfName in clfNames:
+            cv_clf = optimizeCLF(clfName,len(X_train[0]),iters)
+            cv_clf2 = optimizeCLF(clfName,len(train_X[0]),iters)
+            cv_clf3 = clfs(clfName)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predict[j][0] = cv_clf.predict(X_test)
+            time[j][1] = time[j][1] + sw.duration
+            for k in range(0,sc):
+                score[j][k] = 0
+            with stopwatch() as sw:    
+                _ = cv_clf2.fit(train_X,y_train)
+            time[j][2] = time[j][2] + sw.duration
+            with stopwatch() as sw:
+                predict[j][1] = cv_clf2.predict(test_X)
+            time[j][3] = time[j][3] + sw.duration
+            with stopwatch() as sw:
+                _ = cv_clf3.fit(train_X,y_train)
+            time[j][4] = time[j][4] + sw.duration
+            with stopwatch() as sw:
+                predict[j][2] = cv_clf3.predict(test_X)
+            time[j][5] = time[j][5] + sw.duration
+            
+            
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
+            for k in range(0,sc):
+                predicts[j][k].append(predict[j][k])
+            predicts[j][sc].append(y_test)
+            estimator[j].append(cv_clf.best_estimator_)
+            estimator[j].append(cv_clf2.best_estimator_)
+            j = j + 1
+        
+    j = 0
+    for clfName in clfNames:            
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveEstimator(str(estimator[j]),func,clfName,did,amount,'Estimators' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+            saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
+        j = j + 1
+        
+        
+def optimizeFeatCVclf(did,cv,amount,typ,clfName):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    sc = 2
+    iters = 40
+    func = 'cvOptimizeFeatures' + str(typ + 2)
+    time = [0,0,0,0]
+    estimator = [[],[]]
+    predicts = [[],[],[]]
+    scorings = [[],[]]
+    X,y = shuffle_set(X,y)
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        train_X = add_type(X_train,cat,amount,typ)
+        test_X = add_type(X_test,cat,amount,typ)
+        cv_clf = optimizeCLF(clfName,len(X[0]),iters)
+        cv_clf2 = optimizeCLF(clfName,len(X[0]),iters)
+        with stopwatch() as sw:
+            _ = cv_clf.fit(X_train,y_train)
+        time[0] = time[0] + sw.duration
+        with stopwatch() as sw:
+            predicts[0].append(cv_clf.predict(X_test))
+        time[1] = time[1] + sw.duration
+        with stopwatch() as sw:
+            _ = cv_clf2.fit(train_X,y_train)
+        time[2] = time[2] + sw.duration
+        with stopwatch() as sw:
+            predicts[1].append(cv_clf2.predict(test_X))
+        time[3] = time[3] + sw.duration       
+        estimator[0].append(cv_clf.best_estimator_)
+        estimator[1].append(cv_clf2.best_estimator_)
+        predicts[sc].append(y_test)
+        for k in range(0,sc):
+            scorings[k].append(accuracy_score(y_test,predicts[k][i]))
+    count = checkForExistFile(func,clfName,did,amount)
+    if count >= 0:
+        saveSingleDict(scorings,func,clfName,did,amount,'scores' + str(count))
+        saveEstimator(str(estimator),func,clfName,did,amount,'Estimators' + str(count))
+        savePredictsScore(predicts,func,clfName,did,amount,'Predictions' + str(count))
+        saveSingleDict([time],func,clfName,did,amount,'duration' + str(count))
+        
+        
+def NoiseOptClf2(did,cv,amount):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    func = 'noiseOptClf'
+#    func = 'TestcvScoreFeatures4'
+    clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
+    iters = 40
+    clf = []
+    scorings = []
+    score = []
+    predict = []
+    estimator = []
+    predicts = []
+    time = []
+    for clfName in clfNames:
+        clf.append(clfs(clfName))
+        scorings.append([[],[]])
+        score.append([[],[]])
+        predict.append([[],[]])
+        predicts.append([[],[],[]])
+        time.append([0,0,0])
+        estimator.append([])
+    X = add_identifiers(X)        
+    X,y = shuffle_set(X,y)
+    X,iden = split_identifiers(X)
+    sc = 2
+    for i in range(0,cv):        
+        if i == 0 or i== 9:
+            if i== 0 :
+                X_train = X[0:len(X)-len(X)//cv]
+                X_test = X[len(X)-len(X)//cv:len(X)]
+                y_train = y[0:len(y)-len(y)//cv]
+                y_test = y[len(y)-len(y)//cv:len(y)]
+            else:
+                X_train = X[len(X)//cv:len(X)]
+                X_test = X[0:len(X)//cv]
+                y_train = y[len(y)//cv:len(y)]
+                y_test = y[0:len(y)//cv]
+        else:
+            X_train = X[0:len(X)//cv*i]
+            X_train.extend(X[len(X)//cv*(i+1):len(X)])
+            X_test = X[len(X)//cv*i:len(X)//cv*(i+1)]
+            y_train = y[0:len(y)//cv*i]
+            y_train.extend(y[len(y)//cv*(i+1):len(y)])
+            y_test = y[len(y)//cv*i:len(y)//cv*(i+1)]
+        test_X = noise_set2(X_test,cat,amount)
+        j = 0
+        for clfName in clfNames:
+            cv_clf = optimizeCLF(clfName,len(X_train[0]),iters)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predict[j][0] = cv_clf.predict(X_test)
+            time[j][1] = time[j][1] + sw.duration
+            for k in range(0,sc):
+                score[j][k] = 0
+            with stopwatch() as sw:
+                predict[j][1] = cv_clf.predict(test_X)
+            time[j][2] = time[j][2] + sw.duration                  
+                        
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
+            for k in range(0,sc):
+                predicts[j][k].append(predict[j][k])
+            predicts[j][sc].append(y_test)
+            estimator[j].append(cv_clf.best_estimator_)
+            j = j + 1
+        
+    j = 0
+    for clfName in clfNames:            
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveEstimator(str(estimator[j]),func,clfName,did,amount,'Estimators' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+            saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
+        j = j + 1
