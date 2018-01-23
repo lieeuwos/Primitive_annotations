@@ -401,6 +401,16 @@ def split_identifiers(X):
         iden.append(X[i].pop())
     return X,iden
         
-        
-        
+def orderX(X,y,iden):
+    shuX = copy(X)
+    shuy = copy(y)
+    for i in range(0,len(shuy)):
+        shuX[i].append(shuy[i])
+    newX = []
+    for i,x in enumerate(iden):
+        newX.append(shuX[x])
+    shuy = []
+    for i in range(0,len(shuX)):
+        shuy.append(shuX[i].pop())
+    return newX,shuy
         

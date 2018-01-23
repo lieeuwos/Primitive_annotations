@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,orderX
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -154,7 +154,7 @@ def add_type(X,cat,amount,typ):
     elif typ == 3:
         return add_copy_features(X,amount)
     elif typ == 4:
-        return add_copy(X,amount)
+        return add_copy_features(X,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
@@ -958,3 +958,37 @@ def NoiseOptClf2(did,cv,amount):
             saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
             saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
         j = j + 1
+        
+def optimizeIdenCVclf(did,iden,amount,cv,clf,clfName):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    sc = 2
+    func = 'cvOptimizeSTD'
+    time = [0,0,0]
+    estimator = []
+    predicts = [[],[],[]]
+    scorings = [[],[]]
+    X,y = orderX(X,y,iden)
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        test_X = noise_set2(X_test,cat,amount)
+        cv_clf = clf[i]
+        with stopwatch() as sw:
+            _ = cv_clf.fit(X_train,y_train)
+        time[0] = time[0] + sw.duration
+        with stopwatch() as sw:
+            predicts[0].append(cv_clf.predict(X_test))
+        time[1] = time[1] + sw.duration
+        with stopwatch() as sw:
+            predicts[1].append(cv_clf.predict(test_X))
+        time[2] = time[2] + sw.duration
+        estimator.append(cv_clf.best_estimator_)
+        predicts[sc].append(y_test)
+        for k in range(0,sc):
+            scorings[k].append(accuracy_score(y_test,predicts[k][i]))
+    count = checkForExistFile(func,clfName,did,amount)
+    if count >= 0:
+        saveSingleDict(scorings,func,clfName,did,amount,'scores' + str(count))
+        saveEstimator(str(estimator),func,clfName,did,amount,'Estimators' + str(count))
+        savePredictsScore(predicts,func,clfName,did,amount,'Predictions' + str(count))
+        saveSingleDict([time],func,clfName,did,amount,'duration' + str(count))
