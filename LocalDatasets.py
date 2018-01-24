@@ -12,17 +12,20 @@ import ast
 from sklearn.metrics import accuracy_score,precision_score
 from sklearn.metrics import recall_score,zero_one_loss,cohen_kappa_score
 
+pathL = 
+dropbox =  
+
 def download_save_sets(list):
     for i in list:
         data = oml.datasets.get_dataset(i)
         X, y, categorical = data.get_data(target = data.default_target_attribute, return_categorical_indicator = True)
-        with open('did/' + str(i) + 'X.csv', 'w') as f:
+        with open(pathL + 'did\\' + str(i) + 'X.csv', 'w') as f:
             writer = csv.writer(f)
             writer.writerows(X)
-        with open('did/' + str(i) + 'y.csv', 'w') as f:
+        with open(pathL + 'did\\' + str(i) + 'y.csv', 'w') as f:
             writer = csv.writer(f)
             writer.writerows([y])
-        with open('did/' + str(i) + 'cat.csv', 'w') as f:
+        with open(pathL + 'did\\' + str(i) + 'cat.csv', 'w') as f:
             writer = csv.writer(f)
             writer.writerows([categorical])
     
@@ -169,7 +172,7 @@ def read_duration(func,clfName,amount,did):
     return duration
 
 def read_features(func,clfName,amount,did):
-    scorez = [0,0] # amount of scores in the set
+    scorez = [0,0,0] # amount of scores in the set
     name = 'scores'
     Ramount = checkForExistFile(func,clfName,amount,did)
     for i in range(0,Ramount):
@@ -231,4 +234,85 @@ def ScoresFromPredictions(func,clfName,amount,did,scoreM):
                 score[i].append(cohen_kappa_score(predictions[i][j],predictions[4][j]))
         
     return score
-      
+
+def readEstimator(func,clfName,amount,did):
+    estimator = []
+    name = 'Estimators' 
+    Ramount = checkForExistFile(func,clfName,amount,did) +1 
+    for i in range(0,Ramount):
+        temp = readSingleEstimator(func,clfName,amount,did,name + str(i))
+        
+        estimator.append(temp)
+    return estimator
+
+def readSingleEstimator(func,clfName,amount,did,name):
+    newpath = dropbox + func + '\\' + clfName + '\\' + str(amount) + '\\' + str(did) + '\\'
+    with open(newpath + name + '.txt','r') as f: 
+        output = f.read()
+    firstSplit = output.split(', ' + clfFronts(clfName))
+    output = []
+    for i,x in enumerate(firstSplit):
+        if not i==0:
+            output.append(clfFronts(clfName) + x)
+        else:
+            output.append(x)
+    return output
+
+def ClfAnalysis(listE,clfName):
+    listP = []      
+    for j,zu in enumerate(listE):
+        if (clfName == 'RandomForestClassifier'):
+            for i,x in enumerate(listE[j]):
+                tempD = {}
+                tempD['max_features'] = float(x.split('max_features=')[1].split(',')[0])
+                tempD['min_samples_split'] = float(x.split('min_samples_split=')[1].split(',')[0])
+                listP.append(tempD)
+        elif (clfName == 'KNeighborsClassifier'):
+            for i,x in enumerate(listE[j]):
+                tempD = {}
+                tempD['weights'] = str(x.split('weights=')[1].split(',')[0])
+                tempD['n_neighbors'] = float(x.split('n_neighbors=')[1].split(',')[0])
+                tempD['p'] = int(listE[1].split('p=')[i].split(',')[0])
+                listP.append(tempD)
+        elif (clfName == 'AdaBoost'):
+            for i,x in enumerate(listE[j]):
+                tempD = {}
+                tempD['learning_rate'] = float(x.split('learning_rate=')[1].split(',')[0])
+                listP.append(tempD)
+        elif (clfName[:4] == 'SVC-'):
+            for i,x in enumerate(listE[j]):
+                tempD = {}
+                tempD['C'] = float(x.split('C=')[1].split(',')[0])
+                tempD['gamma'] = float(x.split('gamma=')[1].split(',')[0])
+                tempD['kernel'] = str(x.split('kernel=')[1].split(',')[0])
+                listP.append(tempD)    
+        elif (clfName == 'GradientBoost'):
+            for i,x in enumerate(listE[j]):
+                tempD = {}
+                tempD['learning_rate'] = float(x.split('learning_rate=')[1].split(',')[0])
+                listP.append(tempD)
+    return listP
+
+def splitClfAnalysis(estimators,cv,splits):
+    splitList = []
+    for i in range(splits):
+        splitList.append([])
+    divider = splits - 1
+    for i,x in enumerate(estimators):
+        if i % cv == 0:
+            divider = (divider + 1) % splits
+        splitList[divider].append(x)
+    return splitList
+
+def clfFronts(clfName):
+    if (clfName == 'RandomForestClassifier'):
+        front = 'RandomForestClassifier('
+    elif (clfName == 'KNeighborsClassifier'):
+        front = 'KNeighborsClassifier('
+    elif (clfName == 'AdaBoost'):
+        front = 'AdaBoostClassifier(' 
+    elif (clfName[:4] == 'SVC-'):
+        front = 'SVC(' 
+    elif (clfName == 'GradientBoost'):
+        front = 'GradientBoostClassifier('
+    return front

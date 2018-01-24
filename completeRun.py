@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,orderX
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -154,7 +154,7 @@ def add_type(X,cat,amount,typ):
     elif typ == 3:
         return add_copy_features(X,amount)
     elif typ == 4:
-        return add_copy_features(X,amount)
+        return add_copy(X,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
@@ -959,6 +959,7 @@ def NoiseOptClf2(did,cv,amount):
             saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
         j = j + 1
         
+
 def optimizeIdenCVclf(did,iden,amount,cv,clf,clfName):
     X,y = read_did(did)
     cat = read_did_cat(did)
