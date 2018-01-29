@@ -425,4 +425,8 @@ def orderX(X,y,iden):
         shuy.append(shuX[i].pop())
     return newX,shuy     
         
+def reduce_dataset(X,y,amount):
+    shuffle_set(X,y)
+    
+    return X[:len(X)-round(amount*len(X))],y[:len(y)-round(amount*len(y))]
         
