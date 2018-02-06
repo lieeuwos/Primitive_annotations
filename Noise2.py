@@ -428,4 +428,12 @@ def orderX(X,y,iden):
 def reduce_dataset(X,y,amount):
     X,y = shuffle_set(X,y)    
     return X[:len(X)-round(amount*len(X))],y[:len(y)-round(amount*len(y))]
-        
+   
+def remove_features2(X,amount):
+    X2 = list(map(list, zip(*X)))
+    for i in range(amount):
+        if len(X2) == 1:
+            print("Error")
+            return list(map(list, zip(*X2)))
+        X2.pop()    
+    return list(map(list, zip(*X2)))     

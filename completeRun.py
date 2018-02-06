@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset,remove_features2
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -39,6 +39,10 @@ def featureClf(did,cv,amount,typ):
         func = 'cvScoreFeatures4'
     elif typ == 3:
         func = 'cvScoreFeatures5'
+    elif typ == 4:
+        func = 'cvScoreFeatures6'
+    elif typ == 5:
+        func = 'removedFeatures'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
 #    clfNames = ['GradientBoost']
@@ -155,6 +159,8 @@ def add_type(X,cat,amount,typ):
         return add_copy_features(X,amount)
     elif typ == 4:
         return add_copy(X,amount)
+    elif typ == 5:
+        return remove_features2(X,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
@@ -557,7 +563,9 @@ def featureOptClf(did,cv,amount,typ):
     elif typ == 3:
         func = 'cvOptScoreFeatures5'
     elif typ == 4:
-        func = 'cvOpt2ScoreFeatures6'
+        func = 'cvOptScoreFeatures6'
+    elif typ == 5:
+        func = 'FeaturesOptRemoved'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
     iters = 40
@@ -651,6 +659,8 @@ def featureOptClf2(did,cv,amount,typ):
         func = 'cvOpt2ScoreFeatures5'
     elif typ == 4:
         func = 'cvOpt2ScoreFeatures6'
+    elif typ == 5:
+        func = 'FeaturesOptRemoved2'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
     iters = 40
@@ -746,6 +756,8 @@ def featureOptClf3(did,cv,amount,typ):
         func = 'cvOpt3ScoreFeatures5'
     elif typ == 4:
         func = 'cvOpt3ScoreFeatures6'
+    elif typ == 5:
+        func = 'FeaturesOptRemoved3'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
     iters = 40
@@ -882,7 +894,7 @@ def optimizeFeatCVclf(did,cv,amount,typ,clfName):
 def NoiseOptClf2(did,cv,amount):
     X,y = read_did(did)
     cat = read_did_cat(did)
-    func = 'noiseOptClf'
+    func = 'noiseOptClf2'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
     iters = 40
@@ -895,16 +907,16 @@ def NoiseOptClf2(did,cv,amount):
     time = []
     for clfName in clfNames:
         clf.append(clfs(clfName))
-        scorings.append([[],[]])
-        score.append([[],[]])
-        predict.append([[],[]])
-        predicts.append([[],[],[]])
-        time.append([0,0,0])
+        scorings.append([[],[],[]])
+        score.append([[],[],[]])
+        predict.append([[],[],[]])
+        predicts.append([[],[],[],[]])
+        time.append([0,0,0,0,0])
         estimator.append([])
     X = add_identifiers(X)        
     X,y = shuffle_set(X,y)
     X,iden = split_identifiers(X)
-    sc = 2
+    sc = 3
     for i in range(0,cv):        
         if i == 0 or i== 9:
             if i== 0 :
@@ -928,6 +940,7 @@ def NoiseOptClf2(did,cv,amount):
         j = 0
         for clfName in clfNames:
             cv_clf = optimizeCLF(clfName,len(X_train[0]),iters)
+            cv_clf2 = clfs(clfName)
             with stopwatch() as sw:
                 _ = cv_clf.fit(X_train,y_train)
             time[j][0] = time[j][0] + sw.duration
@@ -939,7 +952,13 @@ def NoiseOptClf2(did,cv,amount):
             with stopwatch() as sw:
                 predict[j][1] = cv_clf.predict(test_X)
             time[j][2] = time[j][2] + sw.duration                  
-                        
+            with stopwatch() as sw:
+                _ = cv_clf2.fit(X_train,y_train)
+            time[j][3] = time[j][3] + sw.duration
+            with stopwatch() as sw:
+                predict[j][2] = cv_clf.predict(test_X)
+            time[j][4] = time[j][4] + sw.duration 
+            
             for k in range(0,sc):
                 scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
             for k in range(0,sc):
@@ -983,7 +1002,7 @@ def optimizeIdenCVclf(did,iden,amount,cv,clf,clfName):
         with stopwatch() as sw:
             predicts[1].append(cv_clf.predict(test_X))
         time[2] = time[2] + sw.duration
-        estimator.append(cv_clf.best_estimator_)
+        estimator.append(cv_clf)
         predicts[sc].append(y_test)
         for k in range(0,sc):
             scorings[k].append(accuracy_score(y_test,predicts[k][i]))
@@ -1015,7 +1034,7 @@ def featureRemovedClf(did,cv,amount):
         predict.append([[],[]])
         guessed.append([[],[]])
         predicts.append([[],[],[]])
-        time.append([0,0,0,0])
+        time.append([0,0])
       
     X = add_identifiers(X)
     X,y = reduce_dataset(X,y,amount)
