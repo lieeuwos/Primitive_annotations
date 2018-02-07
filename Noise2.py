@@ -149,7 +149,7 @@ def add_noise_features2(X,cat,amount):
     for i in temp:
         if cats > 0:
             for j in range(0,amount):
-                i.append(int(3*random.random()))
+                i.append(int(100*random.random()))
             cats = cats - 1
         else: 
             for j in range(0,amount):
@@ -426,9 +426,10 @@ def orderX(X,y,iden):
     return newX,shuy     
         
 def reduce_dataset(X,y,amount):
-    X,y = shuffle_set(X,y)    
+    X,y = shuffle_set(X,y)
+    
     return X[:len(X)-round(amount*len(X))],y[:len(y)-round(amount*len(y))]
-   
+
 def remove_features2(X,amount):
     X2 = list(map(list, zip(*X)))
     for i in range(amount):
@@ -436,4 +437,10 @@ def remove_features2(X,amount):
             print("Error")
             return list(map(list, zip(*X2)))
         X2.pop()    
-    return list(map(list, zip(*X2)))     
+    return list(map(list, zip(*X2)))
+    
+def create_features(y):
+    X = []
+    for i in y:
+        X.append([i,i])
+    return X
