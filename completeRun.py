@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset,remove_features2,create_features
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset,remove_features2,create_features,add_noise_features3
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -44,7 +44,9 @@ def featureClf(did,cv,amount,typ):
     elif typ == 5:
         func = 'removedFeatures'
     elif typ == 6:
-        func = 'OnlyNoisyFeatures' 
+        func = 'OnlyNoisyFeatures'
+    elif typ == 7:
+        func = 'cvScoreFeatures7'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
 #    clfNames = ['GradientBoost']
@@ -168,6 +170,11 @@ def add_type(X,cat,amount,typ):
         for i in range(len(X)):
             X2.append([])
         return add_noise_features2(X2,cat,amount)
+    elif typ == 7:
+        X2 = []
+        for i in range(len(X)):
+            X2.append([])
+        return add_noise_features3(X2,cat,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
