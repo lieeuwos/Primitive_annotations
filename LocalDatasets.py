@@ -13,7 +13,7 @@ from sklearn.metrics import accuracy_score,precision_score
 from sklearn.metrics import recall_score,zero_one_loss,cohen_kappa_score
 
 pathL = 
-dropbox =  
+dropbox = 
 
 def download_save_sets(list):
     for i in list:
@@ -162,12 +162,13 @@ def read_did_pred(func,clfName,amount,did,name):
 
 
 def read_duration(func,clfName,amount,did):
-    duration = [0,0,0,0] # amount of scores in the set
+    duration = [] # amount of scores in the set
     name = 'duration'
     Ramount = checkForExistFile(func,clfName,amount,did)
     for i in range(0,Ramount):
         temp = read_did_pred(func,clfName,amount,did,name + str(i))[0]
-        for j in range(0,len(duration)):
+        for j in range(0,len(temp)):
+            duration.append(0)
             duration[j] = duration[j] + temp[j]/Ramount
     return duration
 
