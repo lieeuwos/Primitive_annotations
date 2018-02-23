@@ -145,15 +145,15 @@ def add_noise_features2(X,cat,amount):
 #    assert amount >= 1, "features should be added"
     assert type(amount) == int , "amount should be integer"
     temp = deepcopy(X)
-    cats = cat_needed(X,cat,amount)
+    cats = cat_needed(X,cat,amount)               
     for i in temp:
-        if cats > 0:
-            for j in range(0,amount):
+        for j in range(0,amount):
+            if cats > 0:
                 i.append(int(100*random.random()))
-            cats = cats - 1
-        else: 
-            for j in range(0,amount):
-                i.append(random.random())            
+                cats = cats - 1
+            else:
+                i.append(random.random())
+        cats = cat_needed(X,cat,amount)
     return temp
 
 def add_noise_features3(X,cat,amount):
@@ -162,13 +162,14 @@ def add_noise_features3(X,cat,amount):
     temp = deepcopy(X)
     cats = cat_needed(X,cat,amount)
     for i in temp:
-        if cats > 0:
-            for j in range(0,amount):
+        for j in range(0,amount):
+            if cats > 0:
                 i.append(int(abs(random.gauss(50,50))))
-            cats = cats - 1
-        else: 
-            for j in range(0,amount):
-                i.append(abs(random.gauss(0,1)))            
+                cats = cats - 1
+            else:
+                i.append(abs(random.gauss(0,1)))
+        cats = cat_needed(X,cat,amount)
+                     
     return temp
 
 def cat_needed(X,cat,amount):
@@ -176,7 +177,7 @@ def cat_needed(X,cat,amount):
     for i in cat:
         if i:
             count = count + 1
-    return count/len(cat)*amount
+    return count
     
 
 def random_test_set(X,y,amount,rand):
