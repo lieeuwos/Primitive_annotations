@@ -1,0 +1,25 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Problem definition}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Outline}{3}{subsection.1.2}
+\contentsline {section}{\numberline {2}Background and definitions}{4}{section.2}
+\contentsline {section}{\numberline {3}Experiments}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}Motivation}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Description}{6}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Main method}{6}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Strategy 1}{6}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Strategy 2}{6}{subsubsection.3.2.3}
+\contentsline {subsubsection}{\numberline {3.2.4}Strategy 3}{6}{subsubsection.3.2.4}
+\contentsline {subsubsection}{\numberline {3.2.5}Strategy 4}{6}{subsubsection.3.2.5}
+\contentsline {subsubsection}{\numberline {3.2.6}Strategy 5}{6}{subsubsection.3.2.6}
+\contentsline {subsubsection}{\numberline {3.2.7}Strategy 6}{6}{subsubsection.3.2.7}
+\contentsline {subsection}{\numberline {3.3}Realist model}{6}{subsection.3.3}
+\contentsline {section}{\numberline {4}Results}{7}{section.4}
+\contentsline {subsubsection}{\numberline {4.0.1}Main method}{7}{subsubsection.4.0.1}
+\contentsline {subsubsection}{\numberline {4.0.2}Strategy 1}{7}{subsubsection.4.0.2}
+\contentsline {subsubsection}{\numberline {4.0.3}Strategy 2}{8}{subsubsection.4.0.3}
+\contentsline {subsubsection}{\numberline {4.0.4}Strategy 3}{8}{subsubsection.4.0.4}
+\contentsline {subsubsection}{\numberline {4.0.5}Strategy 4}{8}{subsubsection.4.0.5}
+\contentsline {subsubsection}{\numberline {4.0.6}Strategy 5}{8}{subsubsection.4.0.6}
+\contentsline {subsubsection}{\numberline {4.0.7}Strategy 6}{9}{subsubsection.4.0.7}
+\contentsline {section}{\numberline {5}Discussion}{10}{section.5}
