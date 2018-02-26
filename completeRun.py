@@ -36,7 +36,8 @@ def featureClf(did,cv,amount,typ):
     elif typ == 1:
         func = 'cvScoreFeatures3'
     elif typ == 2:
-        func = 'cvScoreFeatures4'
+        func = 'cvScoreFeatures4Fixed'
+        # previous version of add_noise_features2
     elif typ == 3:
         func = 'cvScoreFeatures5'
     elif typ == 4:
@@ -47,6 +48,8 @@ def featureClf(did,cv,amount,typ):
         func = 'OnlyNoisyFeatures'
     elif typ == 7:
         func = 'cvScoreFeatures7'
+    elif typ == 8:
+        func = 'ReversedFeatureAddition'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
 #    clfNames = ['GradientBoost']
@@ -175,6 +178,13 @@ def add_type(X,cat,amount,typ):
         for i in range(len(X)):
             X2.append([])
         return add_noise_features3(X2,cat,amount)
+    elif typ == 8:
+        for i,val in enumerate(cat):
+            if val:
+                cat[i] = False
+            else:
+                cat[i] = True
+        return add_noise_features2(X,cat,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
