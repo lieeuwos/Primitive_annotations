@@ -9,6 +9,7 @@ from copy import copy
 from copy import deepcopy
 from random import shuffle
 import numpy as np
+from LocalDatasets import readDict
 
 def add_noise(X,y,adj,local):
     assert len(X) == len(y), "There should be equal feature set as targets"
@@ -460,3 +461,15 @@ def create_features(y):
     for i in y:
         X.append([i,i])
     return X
+
+def features(did,amount):
+    list1 = []
+    list1.append(np.log(1-amount))
+    list1.append(np.log((1-amount)*readDict(did)['NumberOfInstances']))
+    list1.append(readDict(did)['NumberOfFeatures'])
+    list1.append(readDict(did)['NumberOfInstances'])
+    list1.append(readDict(did)['NumberOfSymbolicFeatures'])
+    list1.append(readDict(did)['NumberOfNumericFeatures'])
+    list1.append(did)
+    list1.append(readDict(did)['NumberOfClasses'])
+    return list1
