@@ -18,6 +18,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
 from scipy.stats import expon
+import numpy as np
 #import psutil
 
 
@@ -1211,3 +1212,18 @@ def featureYClf(did,cv,amount):
             savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
             saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
         j = j + 1
+
+def correlation_analysis(did,amount):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    X2 = noise_set2(X,cat,amount)
+    XT = list(map(list, zip(*X)))
+    X2T = list(map(list, zip(*X2)))
+    for i in X2T:
+        XT.append(i)
+    X = list(map(list, zip(*XT)))
+    correlation = np.corrcoef(X,rowvar = False)
+    corr = []
+    for i,item in enumerate(correlation[:(round(len(correlation)/2))]):
+        corr.append(item[i+len(X2[0])])
+    return corr
