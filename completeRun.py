@@ -19,6 +19,7 @@ from sklearn.model_selection import RandomizedSearchCV
 from random import random
 from scipy.stats import expon
 import numpy as np
+from sklearn.model_selection import ShuffleSplit
 #import psutil
 
 
@@ -51,6 +52,10 @@ def featureClf(did,cv,amount,typ):
         func = 'cvScoreFeatures7'
     elif typ == 8:
         func = 'ReversedFeatureAddition'
+    if typ == 2:
+        func = 'cvScoreFeatures4Duration'
+    if typ == 3:
+        func = 'cvScoreFeatures5Duration'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
 #    clfNames = ['GradientBoost']
@@ -1227,3 +1232,156 @@ def correlation_analysis(did,amount):
     for i,item in enumerate(correlation[:(round(len(correlation)/2))]):
         corr.append(item[i+len(X2[0])])
     return corr
+
+
+def compute_bias_variance(did,amount):
+    # Bootstraps
+    X,y = read_did(did)
+    X = np.array(X)
+    y = np.array(y)
+    n_repeat = amount
+    shuffle_split = ShuffleSplit(test_size=0.33, n_splits=n_repeat)
+    func = 'BiasVarianceV2'
+    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
+    # Store sample predictions
+    for clfName in clfNames:
+        timeClf = []
+        timePred = []
+        trueY = []
+        clf = clfs(clfName)
+        y_all_pred = [[] for _ in range(len(y))]
+        score = []
+        # Train classifier on each bootstrap and score predictions
+        for i, (train_index, test_index) in enumerate(shuffle_split.split(X)):
+            # Train and predict
+            with stopwatch() as sw:
+                clf.fit(X[train_index], y[train_index])
+            timeClf.append(sw.duration)
+            with stopwatch() as sw:
+                y_pred = clf.predict(X[test_index])
+            timePred.append(sw.duration)
+    
+            # Store predictions
+            for j,index in enumerate(test_index):
+                y_all_pred[index].append(y_pred[j])
+            score.append(clf.score(X[test_index],y[test_index]))
+            trueY.append(y[test_index])
+        
+        # Compute bias, variance, error
+        bias_sq = sum([ (1 - x.count(y[i])/len(x))**2 * len(x)/n_repeat
+                    for i,x in enumerate(y_all_pred)])
+        
+        var = sum([((1 - ((x.count(0)/len(x))**2 + (x.count(1)/len(x))**2))/2) * len(x)/n_repeat
+                    for i,x in enumerate(y_all_pred)])
+#        var = sum([((1 - sum(x.count(j)/len(x)**2 for j in set(y)))/len(set(y))) * len(x)/n_repeat
+#                   for i,x in enumerate(y_all_pred)])
+        error = sum([ (1- x.count(y[i])/len(x)) * len(x)/n_repeat for i,x in enumerate(y_all_pred)])
+        count = checkForExistFile(func,clfName,did,amount)
+        saveSingleDict([score],func,clfName,did,amount,'scores' + str(count))
+#        savePredictsScore(trueY,func,clfName,did,amount,'TrueY' + str(count))
+        savePredictsScore([y_all_pred,trueY],func,clfName,did,amount,'Predictions' + str(count))
+        saveSingleDict([[bias_sq,var,error]],func,clfName,did,amount,'biasVarErr' + str(count))
+        saveSingleDict([timeClf],func,clfName,did,amount,'durationCLF' + str(count))
+        saveSingleDict([timePred],func,clfName,did,amount,'durationPred' + str(count))
+    
+def compute_bias_varianceOpt(did,amount):
+    # Bootstraps
+    X,y = read_did(did)
+    X = np.array(X)
+    y = np.array(y)
+    n_repeat = amount
+    shuffle_split = ShuffleSplit(test_size=0.33, n_splits=n_repeat)
+    func = 'BiasVarianceOptV2'
+    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
+    clfNames = ['SVC-','GradientBoost','RandomForestClassifier', 'AdaBoost','KNeighborsClassifier']
+    # Store sample predictions
+    for clfName in clfNames:
+        timeClf = []
+        timePred = []
+        trueY = []
+        clf = optimizeCLF(clfName,len(X[0]),20)
+        y_all_pred = [[] for _ in range(len(y))]
+        score = []
+        # Train classifier on each bootstrap and score predictions
+        for i, (train_index, test_index) in enumerate(shuffle_split.split(X)):
+            # Train and predict
+            with stopwatch() as sw:
+                clf.fit(X[train_index], y[train_index])
+            timeClf.append(sw.duration)
+            with stopwatch() as sw:
+                y_pred = clf.predict(X[test_index])
+            timePred.append(sw.duration)
+    
+            # Store predictions
+            for j,index in enumerate(test_index):
+                y_all_pred[index].append(y_pred[j])
+            score.append(clf.score(X[test_index],y[test_index]))
+            trueY.append(y[test_index])
+        
+        # Compute bias, variance, error
+        bias_sq = sum([ (1 - x.count(y[i])/len(x))**2 * len(x)/n_repeat
+                    for i,x in enumerate(y_all_pred)])
+        
+        var = sum([((1 - ((x.count(0)/len(x))**2 + (x.count(1)/len(x))**2))/2) * len(x)/n_repeat
+                    for i,x in enumerate(y_all_pred)])
+#        var = sum([((1 - sum(x.count(j)/len(x)**2 for j in set(y)))/len(set(y))) * len(x)/n_repeat
+#                   for i,x in enumerate(y_all_pred)])
+        error = sum([ (1- x.count(y[i])/len(x)) * len(x)/n_repeat for i,x in enumerate(y_all_pred)])
+        count = checkForExistFile(func,clfName,did,amount)
+        saveSingleDict([score],func,clfName,did,amount,'scores' + str(count))
+#        savePredictsScore(trueY,func,clfName,did,amount,'TrueY' + str(count))
+        savePredictsScore([y_all_pred,trueY],func,clfName,did,amount,'Predictions' + str(count))
+        saveSingleDict([[bias_sq,var,error]],func,clfName,did,amount,'biasVarErr' + str(count))
+        saveSingleDict([timeClf],func,clfName,did,amount,'durationCLF' + str(count))
+        saveSingleDict([timePred],func,clfName,did,amount,'durationPred' + str(count))
+
+def compute_bias_variancePart(did,amount):
+    # Bootstraps
+    X,y = read_did(did)
+    X,y = reduce_dataset(X,y,amount)
+    X = np.array(X)
+    y = np.array(y)
+    n_repeat = 40
+    shuffle_split = ShuffleSplit(test_size=0.33, n_splits=n_repeat)
+    func = 'BiasVarianceSplited'
+    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
+    # Store sample predictions
+    for clfName in clfNames:
+        timeClf = []
+        timePred = []
+        trueY = []
+        clf = clfs(clfName)
+        y_all_pred = [[] for _ in range(len(y))]
+        score = []
+        # Train classifier on each bootstrap and score predictions
+        for i, (train_index, test_index) in enumerate(shuffle_split.split(X)):
+            # Train and predict
+            with stopwatch() as sw:
+                clf.fit(X[train_index], y[train_index])
+            timeClf.append(sw.duration)
+            with stopwatch() as sw:
+                y_pred = clf.predict(X[test_index])
+            timePred.append(sw.duration)
+    
+            # Store predictions
+            for j,index in enumerate(test_index):
+                y_all_pred[index].append(y_pred[j])
+            score.append(clf.score(X[test_index],y[test_index]))
+            trueY.append(y[test_index])
+        
+        # Compute bias, variance, error
+        bias_sq = sum([ (1 - x.count(y[i])/len(x))**2 * len(x)/n_repeat
+                    for i,x in enumerate(y_all_pred)])
+        
+        var = sum([((1 - ((x.count(0)/len(x))**2 + (x.count(1)/len(x))**2))/2) * len(x)/n_repeat
+                    for i,x in enumerate(y_all_pred)])
+#        var = sum([((1 - sum(x.count(j)/len(x)**2 for j in set(y)))/len(set(y))) * len(x)/n_repeat
+#                   for i,x in enumerate(y_all_pred)])
+        error = sum([ (1- x.count(y[i])/len(x)) * len(x)/n_repeat for i,x in enumerate(y_all_pred)])
+        count = checkForExistFile(func,clfName,did,amount)
+        saveSingleDict([score],func,clfName,did,amount,'scores' + str(count))
+#        savePredictsScore(trueY,func,clfName,did,amount,'TrueY' + str(count))
+        savePredictsScore([y_all_pred,trueY],func,clfName,did,amount,'Predictions' + str(count))
+        saveSingleDict([[bias_sq,var,error]],func,clfName,did,amount,'biasVarErr' + str(count))
+        saveSingleDict([timeClf],func,clfName,did,amount,'durationCLF' + str(count))
+        saveSingleDict([timePred],func,clfName,did,amount,'durationPred' + str(count))
