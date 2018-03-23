@@ -10,6 +10,7 @@ from copy import deepcopy
 from random import shuffle
 import numpy as np
 from LocalDatasets import readDict
+from sklearn.preprocessing import StandardScaler
 
 def add_noise(X,y,adj,local):
     assert len(X) == len(y), "There should be equal feature set as targets"
@@ -491,3 +492,100 @@ def add_noise_featuresN(X,cat,amount,n):
 
 def durationPair(list1,start):
     return list1[start] + list1[start+1]
+
+def PreSteps(clfName):
+    
+    if (clfName == 'KNeighborsClassifier'):
+        cats = [False]
+        steps = [StandardScaler()]
+    elif (clfName == '1NeighborsClassifier'):
+        cats = [False]
+        steps = [StandardScaler()]  
+    
+    elif (clfName[:4] == 'SVC-'):
+        cats = [False]
+        steps = [StandardScaler()]
+    
+    return steps,cats
+
+def preProcess(X_train,train_X,X_test,test_X,cat,clfName):
+    steps,cats = PreSteps(clfName)
+    XC_train,XN_train,XC_test,XN_test = splitCat(X_train,X_test,cat)
+    for i,step in enumerate(steps):
+        if cats[i]:
+            step.fit(XC_train)
+            XC_train = step.transform(XC_train)
+            XC_test = step.transform(XC_test)
+        else:
+            step.fit(XN_train)
+            XN_train = step.transform(XN_train)
+            XN_test = step.transform(XN_test)
+    steps,cats = PreSteps(clfName)
+    X_train,X_test = combine(list(XC_train),list(XN_train),list(XC_test),list(XN_test),cat)
+    cat = balance(cat,X_train)
+    train_XC,train_XN,test_XC,test_XN = splitCat(train_X,test_X,cat)
+    for i,step in enumerate(steps):
+        if cats[i]:
+            step.fit(train_XC)
+            train_XC = step.transform(train_XC)
+            test_XC = step.transform(test_XC)
+        else:
+            step.fit(train_XN)
+            train_XN = step.transform(train_XN)
+            test_XN = step.transform(test_XN)
+    train_X,test_X = combine(list(train_XC),list(train_XN),list(test_XC),list(test_XN),cat)
+    
+    return X_train,train_X,X_test,test_X
+
+
+def splitCat(X_train,X_test,cat):
+    Xt_train = list(map(list, zip(*X_train)))
+    Xt_test = list(map(list, zip(*X_test)))
+    XtC_train = []
+    XtN_train = []
+    XtC_test = []
+    XtN_test = []
+    for i,boole in enumerate(cat):
+        if boole:
+            XtC_train.append(Xt_train[i])
+            XtC_test.append(Xt_test[i])
+        else:
+            XtN_train.append(Xt_train[i])
+            XtN_test.append(Xt_test[i])
+    XN_train = list(map(list, zip(*XtN_train)))
+    XN_test = list(map(list, zip(*XtN_test)))
+    XC_train = list(map(list, zip(*XtC_train)))
+    XC_test = list(map(list, zip(*XtC_test)))
+    return XC_train,XN_train,XC_test,XN_test
+
+def balance(cat,X):
+    if not len(cat) == len(X[0]):        
+        lenC = len(cat)
+        for i in range(lenC,len(X[0])):
+            if round(X[0][i]) == X[0][i]:
+                cat.append(True)
+            else:
+                cat.append(False)
+    return cat
+
+def combine(XC_train,XN_train,XC_test,XN_test,cat):
+    XtN_train = list(map(list, zip(*XN_train)))
+    XtN_test = list(map(list, zip(*XN_test)))
+    XtC_train = list(map(list, zip(*XC_train)))
+    XtC_test = list(map(list, zip(*XC_test)))
+    Xt_train2 = []
+    Xt_test2 = []
+    for i,ca in enumerate(cat):
+        if ca:
+            Xt_train2.append(XtC_train.pop(0))
+            Xt_test2.append(XtC_test.pop(0))
+        else:
+            Xt_train2.append(XtN_train.pop(0))
+            Xt_test2.append(XtN_test.pop(0))
+    X_train2 = list(map(list, zip(*Xt_train2)))
+    X_test2 = list(map(list, zip(*Xt_test2)))
+    return X_train2,X_test2
+
+
+            
+                

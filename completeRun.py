@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
-from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset,remove_features2,create_features,add_noise_features3
+from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset,remove_features2,create_features,add_noise_features3,preProcess
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -57,7 +57,8 @@ def featureClf(did,cv,amount,typ):
     if typ == 3:
         func = 'cvScoreFeatures5Duration'
 #    func = 'TestcvScoreFeatures4'
-    clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
+    clfNames = ['RandomForestClassifier', 'SGDClassifier', 'AdaBoost','GaussianNB', 'BernoulliNB','GradientBoost','KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
+
 #    clfNames = ['GradientBoost']
     clf = []
     scorings = []
@@ -96,7 +97,7 @@ def featureClf(did,cv,amount,typ):
             y_train = y[0:len(y)//cv*i]
             y_train.extend(y[len(y)//cv*(i+1):len(y)])
             y_test = y[len(y)//cv*i:len(y)//cv*(i+1)]
-        train_X = add_type(X_train,cat,amount,typ)
+        train_X = add_type(X_train,cat,amount,typ)        
         test_X = add_type(X_test,cat,amount,typ)
         j = 0
         for clfName in clfNames:
@@ -135,7 +136,104 @@ def featureClf(did,cv,amount,typ):
             savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
             saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
         j = j + 1
+ 
+
+def featureClfPre(did,cv,amount,typ):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    if typ == 0:
+        func = 'cvScoreFeatures1Pre'
+    elif typ == 1:
+        func = 'cvScoreFeatures3Pre'
+    elif typ == 2:
+        func = 'cvScoreFeatures4FixedPre'
+        # previous version of add_noise_features2
+    elif typ == 3:
+        func = 'cvScoreFeatures5Pre2'
+    elif typ == 4:
+        func = 'cvScoreFeatures6Pre'
+    elif typ == 5:
+        func = 'removedFeaturesPre'
+    elif typ == 6:
+        func = 'OnlyNoisyFeaturesPre'
+    elif typ == 7:
+        func = 'cvScoreFeatures7Pre'
+    elif typ == 8:
+        func = 'ReversedFeatureAdditionPre'
+    if typ == 2:
+        func = 'cvScoreFeatures4DurationPre'
+    if typ == 3:
+        func = 'cvScoreFeatures5DurationPre'
+#    func = 'TestcvScoreFeatures4'
+    clfNames = ['RandomForestClassifier', 'SGDClassifier', 'AdaBoost','GaussianNB', 'BernoulliNB','GradientBoost','KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
+    clfNames = ['KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
+#    clfNames = ['GradientBoost']
+    clf = []
+    scorings = []
+    score = []
+    predict = []
+    guessed = []
+    predicts = []
+    time = []
+    for clfName in clfNames:
+        clf.append(clfs(clfName))
+        scorings.append([[],[]])
+        score.append([[],[]])
+        predict.append([[],[]])
+        guessed.append([[],[]])
+        predicts.append([[],[],[]])
+        time.append([0,0,0,0])
             
+    X,y = shuffle_set(X,y)
+    sc = 2
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        train_X = add_type(X_train,cat,amount,typ)        
+        test_X = add_type(X_test,cat,amount,typ)
+        j = 0
+        for clfName in clfNames:
+            cv_clf = clfs(clfName)
+            cv_clf2 = clfs(clfName)
+            if pre(clfName):
+                X_train,train_X,X_test,test_X = preProcess(X_train,train_X,X_test,test_X,cat,clfName)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predict[j][0] = cv_clf.predict(X_test)
+            time[j][1] = time[j][1] + sw.duration
+            for k in range(0,sc):
+                score[j][k] = 0
+            with stopwatch() as sw:    
+                _ = cv_clf2.fit(train_X,y_train)
+            time[j][2] = time[j][2] + sw.duration
+            with stopwatch() as sw:
+                predict[j][1] = cv_clf2.predict(test_X)
+            time[j][3] = time[j][3] + sw.duration            
+            for k in range(0,sc):
+                guessed[j][k].append(distr_guessed(predict[j][k]))        
+                        
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
+            for k in range(0,sc):
+                predicts[j][k].append(predict[j][k])
+            predicts[j][sc].append(y_test)
+            j = j + 1
+            if pre(clfName):
+                X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+                train_X = add_type(X_train,cat,amount,typ)        
+                test_X = add_type(X_test,cat,amount,typ)
+        
+    j = 0
+    for clfName in clfNames:            
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveSingleDict(guessed[j],func,clfName,did,amount,'SummaryGuesses' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+        j = j + 1
+           
 def clfs(clfName):
     if (clfName == 'RandomForestClassifier'):
         clf = RandomForestClassifier()
@@ -1338,12 +1436,14 @@ def compute_bias_varianceOpt(did,amount):
 def compute_bias_variancePart(did,amount):
     # Bootstraps
     X,y = read_did(did)
+    X = add_identifiers(X)        
     X,y = reduce_dataset(X,y,amount)
+    X,iden = split_identifiers(X)    
     X = np.array(X)
     y = np.array(y)
     n_repeat = 40
     shuffle_split = ShuffleSplit(test_size=0.33, n_splits=n_repeat)
-    func = 'BiasVarianceSplited'
+    func = 'BiasVarianceSplitedV2'
     clfNames = ['RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf','GaussianNB', 'BernoulliNB','GradientBoost']
     # Store sample predictions
     for clfName in clfNames:
@@ -1385,3 +1485,27 @@ def compute_bias_variancePart(did,amount):
         saveSingleDict([[bias_sq,var,error]],func,clfName,did,amount,'biasVarErr' + str(count))
         saveSingleDict([timeClf],func,clfName,did,amount,'durationCLF' + str(count))
         saveSingleDict([timePred],func,clfName,did,amount,'durationPred' + str(count))
+        saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
+
+def pre(clfName):
+    if (clfName == 'RandomForestClassifier'):
+        pre = False
+    elif (clfName == 'KNeighborsClassifier'):
+        pre = True
+    elif (clfName == '1NeighborsClassifier'):
+        pre = True  
+    elif (clfName == 'SGDClassifier'):
+        pre = False
+    elif (clfName == 'AdaBoost'):
+        pre = False
+    elif (clfName[:4] == 'SVC-'):
+        pre = True
+    elif (clfName == 'GaussianNB'):
+        pre = False
+    elif (clfName == 'BernoulliNB'):
+        pre = False
+    elif (clfName == 'MultinomialNB'):
+        pre = False
+    elif (clfName == 'GradientBoost'):
+        pre = False
+    return pre
