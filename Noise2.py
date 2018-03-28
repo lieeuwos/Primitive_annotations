@@ -11,6 +11,7 @@ from random import shuffle
 import numpy as np
 from LocalDatasets import readDict
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import OneHotEncoder
 
 def add_noise(X,y,adj,local):
     assert len(X) == len(y), "There should be equal feature set as targets"
@@ -496,15 +497,15 @@ def durationPair(list1,start):
 def PreSteps(clfName):
     
     if (clfName == 'KNeighborsClassifier'):
-        cats = [False]
-        steps = [StandardScaler()]
+        cats = [True,'both']
+        steps = [OneHotEncoder(sparse = False, handle_unknown='ignore'),StandardScaler()]
     elif (clfName == '1NeighborsClassifier'):
-        cats = [False]
-        steps = [StandardScaler()]  
+        cats = [True,'both']
+        steps = [OneHotEncoder(sparse = False, handle_unknown='ignore'),StandardScaler()]  
     
     elif (clfName[:4] == 'SVC-'):
-        cats = [False]
-        steps = [StandardScaler()]
+        cats = [True,'both']
+        steps = [OneHotEncoder(sparse = False, handle_unknown='ignore'),StandardScaler()]
     
     return steps,cats
 
@@ -512,33 +513,21 @@ def preProcess(X_train,train_X,X_test,test_X,cat,clfName):
     steps,cats = PreSteps(clfName)
     XC_train,XN_train,XC_test,XN_test = splitCat(X_train,X_test,cat)
     for i,step in enumerate(steps):
-        if cats[i]:
-            step.fit(XC_train)
-            XC_train = step.transform(XC_train)
-            XC_test = step.transform(XC_test)
-        else:
-            step.fit(XN_train)
-            XN_train = step.transform(XN_train)
-            XN_test = step.transform(XN_test)
+        XC_train,XC_test,XN_train,XN_test = process(cats[i],XC_train,XC_test,XN_train,XN_test,step)        
     steps,cats = PreSteps(clfName)
-    X_train,X_test = combine(list(XC_train),list(XN_train),list(XC_test),list(XN_test),cat)
-    cat = balance(cat,X_train)
+    X_train,X_test = combine(list(XC_train),list(XN_train),list(XC_test),list(XN_test))
+    cat = balance(cat,train_X)
     train_XC,train_XN,test_XC,test_XN = splitCat(train_X,test_X,cat)
     for i,step in enumerate(steps):
-        if cats[i]:
-            step.fit(train_XC)
-            train_XC = step.transform(train_XC)
-            test_XC = step.transform(test_XC)
-        else:
-            step.fit(train_XN)
-            train_XN = step.transform(train_XN)
-            test_XN = step.transform(test_XN)
-    train_X,test_X = combine(list(train_XC),list(train_XN),list(test_XC),list(test_XN),cat)
+        train_XC,test_XC,train_XN,test_XN = process(cats[i],train_XC,test_XC,train_XN,test_XN,step)
+        
+    train_X,test_X = combine(list(train_XC),list(train_XN),list(test_XC),list(test_XN))
     
     return X_train,train_X,X_test,test_X
 
 
 def splitCat(X_train,X_test,cat):
+    assert len(X_train[0]) == len(cat), "There should be equal categories as sample features"
     Xt_train = list(map(list, zip(*X_train)))
     Xt_test = list(map(list, zip(*X_test)))
     XtC_train = []
@@ -568,24 +557,56 @@ def balance(cat,X):
                 cat.append(False)
     return cat
 
-def combine(XC_train,XN_train,XC_test,XN_test,cat):
+def combine(XC_train,XN_train,XC_test,XN_test):
     XtN_train = list(map(list, zip(*XN_train)))
     XtN_test = list(map(list, zip(*XN_test)))
     XtC_train = list(map(list, zip(*XC_train)))
     XtC_test = list(map(list, zip(*XC_test)))
     Xt_train2 = []
     Xt_test2 = []
-    for i,ca in enumerate(cat):
-        if ca:
-            Xt_train2.append(XtC_train.pop(0))
-            Xt_test2.append(XtC_test.pop(0))
-        else:
-            Xt_train2.append(XtN_train.pop(0))
-            Xt_test2.append(XtN_test.pop(0))
+    while len(XtN_train) > 0  and  len(XtN_test) > 0:        
+        Xt_train2.append(XtN_train.pop(0))
+        Xt_test2.append(XtN_test.pop(0))
+    while len(XtC_test) > 0 and  len(XtC_train) > 0:
+        Xt_train2.append(XtC_train.pop(0))
+        Xt_test2.append(XtC_test.pop(0))
     X_train2 = list(map(list, zip(*Xt_train2)))
     X_test2 = list(map(list, zip(*Xt_test2)))
     return X_train2,X_test2
 
+def process(processOverType,XC_train,XC_test,XN_train,XN_test,step):
+    if processOverType == 'both':
+        if len(XC_train) > 0:
+            step.fit(XC_train)
+            XC_train = step.transform(XC_train)
+            XC_test = step.transform(XC_test)
+        if len(XN_train) > 0:
+            step.fit(XN_train)
+            XN_train = step.transform(XN_train)
+            XN_test = step.transform(XN_test)
+    elif processOverType == True:
+        if len(XC_train) > 0:
+            step.fit(XC_train)
+            XC_train = step.transform(XC_train)
+            XC_test = step.transform(XC_test)
+    else:
+        if len(XN_train) > 0:
+            step.fit(XN_train)
+            XN_train = step.transform(XN_train)
+            XN_test = step.transform(XN_test)
+    return XC_train,XC_test,XN_train,XN_test
+
+
+class OneHotEncoderSelf(object):
+    def __init__(self):
+        OneHotEncoder()
+        
+    def fit(X):
+        return OneHotEncoder.fit(X)
+    def transform(X):
+        transformed = OneHotEncoder.transform(X)
+        return transformed.toarray()
+    
 
             
                 

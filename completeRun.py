@@ -149,7 +149,7 @@ def featureClfPre(did,cv,amount,typ):
         func = 'cvScoreFeatures4FixedPre'
         # previous version of add_noise_features2
     elif typ == 3:
-        func = 'cvScoreFeatures5Pre2'
+        func = 'cvScoreFeatures5Pre'
     elif typ == 4:
         func = 'cvScoreFeatures6Pre'
     elif typ == 5:
@@ -194,7 +194,9 @@ def featureClfPre(did,cv,amount,typ):
         for clfName in clfNames:
             cv_clf = clfs(clfName)
             cv_clf2 = clfs(clfName)
+            
             if pre(clfName):
+                cat = read_did_cat(did)
                 X_train,train_X,X_test,test_X = preProcess(X_train,train_X,X_test,test_X,cat,clfName)
             with stopwatch() as sw:
                 _ = cv_clf.fit(X_train,y_train)
