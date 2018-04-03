@@ -23,6 +23,7 @@
 \usepackage{eurosym}
 \usepackage[utf8]{inputenx}
 \usepackage{program}
+\usepackage{bookmark}
 
 \newcommand{\desda}{\Leftrightarrow}
 \newcommand{\rr}{\mathbb{R}}
@@ -58,7 +59,7 @@ numbers=left,                    % where to put the line-numbers; possible value
 \definecolor{mygreen}{rgb}{0,0.6,0} %groene kleur voor comments in code
 \usepackage{caption}
 \DeclareCaptionFont{white}{\color{white}}
-\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+%\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
 %\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 
 \usepackage{fancyhdr} %Footers en Headers
@@ -87,7 +88,7 @@ numbers=left,                    % where to put the line-numbers; possible value
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
 
-\center % Center everything on the page
+\centering % Center everything on the page
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -145,14 +146,30 @@ To improve existing automated picking of a machine learning algorithm
 This report is the result of my graduation project which completes my Business Information Systems study at Eindhoven University of Technology.
 The project was performed internally at the University in the Data mining department.
 In this project we investigated annotations of primitives, more specifically primitives in the scikit-learn library.
-In the problem description we will briefly explain more about primitives and the annotations.
+In the section \ref{Intr-Prob} we will briefly explain more about primitives and the annotations.
 To elaborate on this we will outline the research questions and thesis structure
  
 
-\subsection{problem description}
+\subsection{problem description}\label{Intr-Prob}
+Machine learning is a growing field that can help process the increase of available data\cite{Big-data}\cite{ML-trends}. 
+Python is a langauge which holds premade machine learning algorithms in libaries like scikit-learn\cite{scikit-learn}.
+In recent years python is also increasing in so called market share for machine learning\cite{python-pop}.
+To help machine learners using the scikit-learn library made a model to indicate what algorithm to use for what problem. 
+In this model (\ref{fig:FlowChartML}) you can see that depending on size of the data and early results different algorithms are recommened. 
+
+\begin{figure}[h] %use t for top of page instead of h for here
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/FlowChartML.png}
+	\caption{FlowChartML}
+	\label{fig:FlowChartML}
+\end{figure}
 %explain the need for automation and then the boost of information, I try to give.
 
 \subsection{research question}
+% the proposed annotations
+We base our research question on the work of Joaquin to give properties to algorithms. More specifially we look more closely to the resilience properties. 
 
 \subsection{thesis structure}
 
@@ -210,6 +227,7 @@ the remainder of this thesis.
 \newpage 
 
 \section{Experimental Results} \label{Chapter4}
+
 \subsubsection{Main method}
 
 
@@ -236,5 +254,17 @@ the remainder of this thesis.
 
 \newpage
 \section{Conclusion} \label{Chapter6}
+
+\section{References}
+\begingroup
+\begin{thebibliography}{9}
+\bibitem{Data-science} The Popularity of Data Science Software, Robert A. Muenchen, r4stats.com, (2017)
+\bibitem{python-pop} Most Popular Programming Languages For Machine Learning And Data Science,Adarsh Verma, fossbytes.com, (2016)
+\bibitem{ML-trends} 
+Machine learning: Trends, perspectives, and prospects, M. I. Jordan, T. M. Mitchell, Science Volume 349 issue 6245 pages 255-260, (2015)
+\bibitem{Big-data} Storage predictions: Will the explosion of data in 2017 be repeated in 2018?, Nick Ismail, www.information-age.com/, (2017)
      
+\end{thebibliography}
+\endgroup
+
 \end{document}
