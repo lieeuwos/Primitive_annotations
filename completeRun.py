@@ -167,6 +167,7 @@ def featureClfPre(did,cv,amount,typ):
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier', 'SGDClassifier', 'AdaBoost','GaussianNB', 'BernoulliNB','GradientBoost','KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
     clfNames = ['KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
+    clfNames = ['SGDClassifier']
 #    clfNames = ['GradientBoost']
     clf = []
     scorings = []
@@ -1497,7 +1498,7 @@ def pre(clfName):
     elif (clfName == '1NeighborsClassifier'):
         pre = True  
     elif (clfName == 'SGDClassifier'):
-        pre = False
+        pre = True
     elif (clfName == 'AdaBoost'):
         pre = False
     elif (clfName[:4] == 'SVC-'):

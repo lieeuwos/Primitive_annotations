@@ -495,7 +495,9 @@ def durationPair(list1,start):
     return list1[start] + list1[start+1]
 
 def PreSteps(clfName):
-    
+    if (clfName == 'SGDClassifier'):
+        cats = [True,'both']
+        steps = [OneHotEncoder(sparse = False, handle_unknown='ignore'),StandardScaler()]
     if (clfName == 'KNeighborsClassifier'):
         cats = [True,'both']
         steps = [OneHotEncoder(sparse = False, handle_unknown='ignore'),StandardScaler()]
@@ -510,7 +512,13 @@ def PreSteps(clfName):
     return steps,cats
 
 def preProcess(X_train,train_X,X_test,test_X,cat,clfName):
+    
     steps,cats = PreSteps(clfName)
+    try:
+        len(steps)
+    except NameError:
+        print('no preprocessing steps found')
+        
     XC_train,XN_train,XC_test,XN_test = splitCat(X_train,X_test,cat)
     for i,step in enumerate(steps):
         XC_train,XC_test,XN_train,XN_test = process(cats[i],XC_train,XC_test,XN_train,XN_test,step)        
