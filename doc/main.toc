@@ -16,8 +16,25 @@
 \contentsline {subsubsection}{\numberline {2.1.8}GradientBoostingClassifier}{5}{subsubsection.2.1.8}
 \contentsline {subsection}{\numberline {2.2}Terminology}{5}{subsection.2.2}
 \contentsline {section}{\numberline {3}Experimental setup}{6}{section.3}
-\contentsline {subsection}{\numberline {3.1}Motivation}{6}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Description}{7}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.1}Cross validation}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Bootstrapping}{6}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Datasets}{6}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Bias-variance datasets}{6}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Categorical datasets}{6}{subsubsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.3}Numerical datasets}{6}{subsubsection.3.3.3}
+\contentsline {subsection}{\numberline {3.4}Collected data}{6}{subsection.3.4}
+\contentsline {subsubsection}{\numberline {3.4.1}Duration}{6}{subsubsection.3.4.1}
+\contentsline {subsubsection}{\numberline {3.4.2}Predictions}{6}{subsubsection.3.4.2}
+\contentsline {subsubsection}{\numberline {3.4.3}scores}{6}{subsubsection.3.4.3}
+\contentsline {subsubsection}{\numberline {3.4.4}SummaryGuesses}{6}{subsubsection.3.4.4}
+\contentsline {subsubsection}{\numberline {3.4.5}BiasVar}{7}{subsubsection.3.4.5}
+\contentsline {subsubsection}{\numberline {3.4.6}Identifier}{7}{subsubsection.3.4.6}
+\contentsline {subsection}{\numberline {3.5}Experiments}{7}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}Scalability}{7}{subsubsection.3.5.1}
+\contentsline {subsubsection}{\numberline {3.5.2}Duplicate features}{7}{subsubsection.3.5.2}
+\contentsline {subsubsection}{\numberline {3.5.3}Random Features}{7}{subsubsection.3.5.3}
+\contentsline {paragraph}{\numberline {3.5.3.1}categorical features}{7}{paragraph.3.5.3.1}
+\contentsline {paragraph}{\numberline {3.5.3.2}numerical features}{7}{paragraph.3.5.3.2}
 \contentsline {section}{\numberline {4}Experimental Results}{8}{section.4}
 \contentsline {section}{\numberline {5}Discussion}{8}{section.5}
 \contentsline {section}{\numberline {6}Conclusion}{9}{section.6}

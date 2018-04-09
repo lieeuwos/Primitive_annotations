@@ -39,6 +39,7 @@
 \newcommand{\convdis}{\overset{d}{\longrightarrow}}
 
 
+
 \newcommand{\onaf}{\perp\!\!\!\perp}
 \newcommand\red[1]{{\color{red}#1}} %kleurt text rood
 
@@ -80,6 +81,8 @@ numbers=left,                    % where to put the line-numbers; possible value
 
 \setcounter{secnumdepth}{4}% hoever de secties doornummeren
 \setcounter{tocdepth}{3} %hoever de inhoudsopgave doornummert
+
+
 %\setcounter{lofdepth}{2} %hoever de list of figures doornummert
 %\setcounter{lotdepth}{2} % hoever de list of tables doornummert
 \begin{document}
@@ -220,12 +223,12 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 
 \newpage
 \section{Experimental setup} \label{Chapter3}
-For different parts of the research different datasets are chosen. There is overlap between the datasets but the chosen datasets can have a large impact on shown results. Most results are shown as an average result of the datasets
+For different parts of the research different datasets are chosen. There is overlap between these datasets but the chosen datasets can have a large impact on shown results. Most results are shown as an average result of the datasets involved.
 \subsection{Cross validation} \label{cross-val}
 To easily test a single dataset once we use cross validation as it does this k times to get k splits of equal size. We can observe k classifications, to gain insight in duration time. We pick k=10 
 
 \subsection{Bootstrapping} \label{motivation}
-For the bias variance calculation it is import to gain multiple predictions for the same value and with bootstrapping this can be easily achieved. The downside however can be an increased bias and reduced variance.
+For the bias variance calculation it is import to gain multiple predictions for the same instance and with bootstrapping this can be easily achieved. The downside however can be an increased bias and reduced variance.
 
 \subsection{Datasets} \label{description}
 Depending on the property we are going to study we need different datasets or can make assumption. Classification features are not an optimal input for a nearest neigbor classifier as the distant between converted numbers does not tell much about the relation between the features. Multiple target classes datasets are inconvient for the bias-variance calculation, so we focus on 2 class target datasets, which there are plenty enough on openml. 
@@ -234,11 +237,39 @@ Depending on the property we are going to study we need different datasets or ca
 
 \subsubsection{Categorical datasets}
 
-\subsubsection{Nuemrical datasets}
+\subsubsection{Numerical datasets}
 
+\subsection{Collected data}
+For each experiment data is saved to give insight to what the results are. Depending on the experiment different data is important or stored. 
+\subsubsection{Duration}
+For each classification instance and for each prediction the time is added to indicate how the classification took. 
 
+\subsubsection{Predictions}\label{pred}
+For each predictions the outputted target value. Multiple files indicate multiple predictions. One of the files is also the true prediction of the inputted test set. 
 
+\subsubsection{scores}
+Gives the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
 
+\subsubsection{SummaryGuesses}
+SummaryGuesses give a quick overview of the obtained results. It stores in python dictonaries the total amount of predictions for each class. The results is that you can easily observe if a classifier has picked a class excusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
+
+\subsubsection{BiasVar}
+When bootstrapping is done a bias and variance error is calculated together with the total error value. These are stored for easy lookup to the bias and variance error part of a classifier.
+
+\subsubsection{Identifier}
+The data input is shuffled as the saved datasets are sorted by class. The identifier can be used to match prediction results to a specific feature. This way of saving is used to reduce space needed to save potential useful information. Odd behavior on small datasets can be explained by an off balanced dataset for training. This cut of the data can be realistic but may affect averaged result significantly. 
+
+\subsection{Experiments}
+Experiments are done grouped by classifier with some initial settings. Experiments are defined as functions in python with input values indicating the way the experiment is done and on which dataset.
+\subsubsection{Scalability}
+Scalability experiments can be split up in instance based or features based. 
+
+\subsubsection{Duplicate features}
+
+\subsubsection{Random Features}
+\paragraph{categorical features}
+
+\paragraph{numerical features}
 
 \newpage 
 
