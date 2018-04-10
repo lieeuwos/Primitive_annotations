@@ -508,6 +508,9 @@ def PreSteps(clfName):
     elif (clfName[:4] == 'SVC-'):
         cats = [True,'both']
         steps = [OneHotEncoder(sparse = False, handle_unknown='ignore'),StandardScaler()]
+    elif (clfName == 'MLPClassifier'):        
+        cats = [True,'both']
+        steps = [OneHotEncoder(sparse = False, handle_unknown='ignore'),StandardScaler()]
     
     return steps,cats
 

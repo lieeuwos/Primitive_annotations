@@ -20,6 +20,7 @@ from random import random
 from scipy.stats import expon
 import numpy as np
 from sklearn.model_selection import ShuffleSplit
+from sklearn.neural_network import MLPClassifier
 #import psutil
 
 
@@ -168,6 +169,7 @@ def featureClfPre(did,cv,amount,typ):
     clfNames = ['RandomForestClassifier', 'SGDClassifier', 'AdaBoost','GaussianNB', 'BernoulliNB','GradientBoost','KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
     clfNames = ['KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
     clfNames = ['SGDClassifier']
+    clfNames = ['MLPClassifier']
 #    clfNames = ['GradientBoost']
     clf = []
     scorings = []
@@ -260,6 +262,8 @@ def clfs(clfName):
         clf = MultinomialNB()
     elif (clfName == 'GradientBoost'):
         clf = GradientBoostingClassifier()
+    elif(clfName == 'MLPClassifier'):
+        clf = MLPClassifier()
     return clf
 
 def add_type(X,cat,amount,typ):
@@ -463,8 +467,8 @@ def cv_feature(did,cv,amount):
     cat = read_did_cat(did)
     func = 'cvFeatureCAT2'
 #    func = 'TestcvScoreFeatures4'
-    clfNames = ['GradientBoost']
-#    'RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB'
+    clfNames = ['GradientBoost','RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB']
+#    
     clf = []
     scorings = []
     score = []
@@ -1511,4 +1515,77 @@ def pre(clfName):
         pre = False
     elif (clfName == 'GradientBoost'):
         pre = False
+    elif (clfName == 'MLPClassifier'):
+        pre = True
     return pre
+
+
+def cv_featurePre(did,cv,amount):
+    X,y = read_did(did)
+    cat = read_did_cat(did)
+    func = 'cvNoisePreProcess'
+#    func = 'TestcvScoreFeatures4'
+    clfNames = ['GradientBoost','RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB']
+#    
+    clf = []
+    scorings = []
+    score = []
+    predict = []
+    guessed = []
+    predicts = []
+    time = []
+    for clfName in clfNames:
+        clf.append(clfs(clfName))
+        scorings.append([[],[]])
+        score.append([[],[]])
+        predict.append([[],[]])
+        guessed.append([[],[]])
+        predicts.append([[],[],[]])
+        time.append([0,0,0])
+            
+    X = add_identifiers(X)        
+    X,y = shuffle_set(X,y)
+    X,iden = split_identifiers(X)
+    sc = 2
+    for i in range(0,cv):        
+        X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)
+        test_X = noise_set2(X_test,cat,amount)
+        for j,clfName in enumerate(clfNames):
+            if pre(clfName):
+                cat = read_did_cat(did)
+                train_X = [[]]
+                X_train,train_X,X_test,test_X = preProcess(X_train,X_train,X_test,test_X,cat,clfName)
+            cv_clf = clfs(clfName)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predict[j][0] = cv_clf.predict(X_test)
+            time[j][1] = time[j][1] + sw.duration
+            with stopwatch() as sw:
+                predict[j][1] = cv_clf.predict(test_X)
+            time[j][2] = time[j][2] + sw.duration
+            for k in range(0,sc):
+                score[j][k] = 0                        
+            for k in range(0,sc):
+                guessed[j][k].append(distr_guessed(predict[j][k]))      
+                        
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
+            for k in range(0,sc):
+                predicts[j][k].append(predict[j][k])
+            predicts[j][sc].append(y_test)
+            if pre(clfName):
+                X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)        
+                test_X = noise_set2(X_test,cat,amount)
+        
+    j = 0
+    for clfName in clfNames:            
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveSingleDict(guessed[j],func,clfName,did,amount,'SummaryGuesses' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+            saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
+        j = j + 1
