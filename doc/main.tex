@@ -166,8 +166,8 @@ In figure \ref{fig:FlowChartML} you can see that depending on size of the data a
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/FlowChartML.png}
-	\caption{FlowChartML}
-	\label{fig:FlowChart scikit-learn for any dataset which machine learning algortihm to choose}
+	\caption{FlowChartML scikit-learn for any dataset which machine learning algortihm to choose}
+	\label{fig:FlowChart}
 \end{figure}
 %explain the need for automation and then the boost of information, I try to give.
 
@@ -262,9 +262,12 @@ The data input is shuffled as the saved datasets are sorted by class. The identi
 \subsection{Experiments}
 Experiments are done grouped by classifier with some initial settings. Experiments are defined as functions in python with input values indicating the way the experiment is done and on which dataset.
 \subsubsection{Scalability}
-Scalability experiments can be split up in instance based or features based. 
+Scalability experiments can be split up in instance based or features based. To meausure the effect of features we take datasets with lots of features and remove features in steps to find the impact of these lost features. There is a disadvantage with this strategy as some classifiers calculate values like feature importance which depend on a somewhat complete dataset of features. The removed features are randomly chosen and can be defining features for the accuracy of the dataset. 
+Another option  to measure scalability is to measure the impact of number of instances. For most classifiers each instance is considered during training and we measure an average calculation for each feature. 
+%We compare the found scalability against the perceived running time upper or lower bounds. 
 
 \subsubsection{Duplicate features}
+To conduct two
 
 \subsubsection{Random Features}
 \paragraph{categorical features}
@@ -278,6 +281,43 @@ Scalability experiments can be split up in instance based or features based.
 
 
 \section{Discussion} \label{Chapter5}
+
+
+\subsection{MetaFeatures}
+Meta features like mean mutual information or entropy for categorical features are calculated for our enhanced dataset with duplicate feature and random features. The result is that they do little to change these values and so do not indicate reduced information even tough commonly the results deterioate when these features are added. However if we take the adjusted mean mutual information we can see a more clearer distinction between the permutations of the datasets. With those values the noisy dataset can be more recognized as being worse than before. The normalized  is combination of both which has all three kinds in some case the best or the worsed.
+
+The calculation of the normalized:
+$sqrt(H(labels_true) * H(labels_pred))$
+
+
+the calculation for two cluster for adjusted mean mutual information:
+$AMI(U, V) = [MI(U, V) - E(MI(U, V))] / [max(H(U), H(V)) - E(MI(U, V))]$
+
+
+The default mutual information is:
+$MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V_j\mid}{N} $log $\dfrac{N\mid U_i \cap V_j\mid}{\mid U_i\mid \mid V_j\mid}$
+% Misschien een tabel maken en verschil laten zien
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MeanMutualInformation.png}
+		\caption{Mean Mutual Information for mututations of datasets}
+		\label{fig:MMI}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/adjustedMeanMutualInformation.png}
+		\caption{adjusted Mean Mutual Information for mututations of datasets}
+		\label{fig:AMMI}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/normalizedMeanMutualInformation.png}
+		\caption{normalized Mean Mutual Information for mututations of datasets}
+		\label{fig:NMMI}
+	\end{subfigure}
+	\caption{Check-out times}\label{fig:MMIs}
+\end{figure}
+
 
 \newpage
 \section{Conclusion} \label{Chapter6}
