@@ -1589,3 +1589,101 @@ def cv_featurePre(did,cv,amount):
             saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
             saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
         j = j + 1
+ 
+# only typ == 5 or typ --       
+def featureClfAdj(did,cv,amount,typ):
+    assert typ == 3 or typ == 5
+    X,y = read_did(did)
+    cat = read_did_cat(did)   
+    func = 'FeatureManipulation'
+    if amount > len(X[0]):
+        add = True
+        amount = amount - len(X[0])
+    else:
+        add = False
+        amount = len(X[0]) - amount
+#    func = 'TestcvScoreFeatures4'
+    clfNames = ['RandomForestClassifier', 'SGDClassifier', 'AdaBoost','GaussianNB', 'BernoulliNB','GradientBoost','KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
+
+#    clfNames = ['GradientBoost']
+    clf = []
+    scorings = []
+    score = []
+    predict = []
+    guessed = []
+    predicts = []
+    time = []
+    for clfName in clfNames:
+        clf.append(clfs(clfName))
+        scorings.append([[],[]])
+        score.append([[],[]])
+        predict.append([[],[]])
+        guessed.append([[],[]])
+        predicts.append([[],[],[]])
+        time.append([0,0,0,0])
+            
+    X,y = shuffle_set(X,y)
+    sc = 2
+    for i in range(0,cv):        
+        if i == 0 or i== 9:
+            if i== 0 :
+                X_train = X[0:len(X)-len(X)//cv]
+                X_test = X[len(X)-len(X)//cv:len(X)]
+                y_train = y[0:len(y)-len(y)//cv]
+                y_test = y[len(y)-len(y)//cv:len(y)]
+            else:
+                X_train = X[len(X)//cv:len(X)]
+                X_test = X[0:len(X)//cv]
+                y_train = y[len(y)//cv:len(y)]
+                y_test = y[0:len(y)//cv]
+        else:
+            X_train = X[0:len(X)//cv*i]
+            X_train.extend(X[len(X)//cv*(i+1):len(X)])
+            X_test = X[len(X)//cv*i:len(X)//cv*(i+1)]
+            y_train = y[0:len(y)//cv*i]
+            y_train.extend(y[len(y)//cv*(i+1):len(y)])
+            y_test = y[len(y)//cv*i:len(y)//cv*(i+1)]        
+        train_X = add_type(X_train,cat,amount,typ)        
+        test_X = add_type(X_test,cat,amount,typ)        
+            
+        j = 0
+        for clfName in clfNames:
+            cv_clf = clfs(clfName)
+            cv_clf2 = clfs(clfName)
+            with stopwatch() as sw:
+                _ = cv_clf.fit(X_train,y_train)
+            time[j][0] = time[j][0] + sw.duration
+            with stopwatch() as sw:
+                predict[j][0] = cv_clf.predict(X_test)
+            time[j][1] = time[j][1] + sw.duration
+            for k in range(0,sc):
+                score[j][k] = 0
+            with stopwatch() as sw:    
+                _ = cv_clf2.fit(train_X,y_train)
+            time[j][2] = time[j][2] + sw.duration
+            with stopwatch() as sw:
+                predict[j][1] = cv_clf2.predict(test_X)
+            time[j][3] = time[j][3] + sw.duration            
+            for k in range(0,sc):
+                guessed[j][k].append(distr_guessed(predict[j][k]))        
+                        
+            for k in range(0,sc):
+                scorings[j][k].append(accuracy_score(y_test,predict[j][k]))
+            for k in range(0,sc):
+                predicts[j][k].append(predict[j][k])
+            predicts[j][sc].append(y_test)
+            j = j + 1
+        
+    j = 0
+    if add:
+        amount = amount + len(X[0])
+    else:
+        amount = len(X[0]) - amount
+    for clfName in clfNames:            
+        count = checkForExistFile(func,clfName,did,amount)
+        if count >= 0:
+            saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
+            saveSingleDict(guessed[j],func,clfName,did,amount,'SummaryGuesses' + str(count))
+            savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
+            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+        j = j + 1
