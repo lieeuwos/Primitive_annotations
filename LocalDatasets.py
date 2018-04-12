@@ -12,8 +12,8 @@ import ast
 from sklearn.metrics import accuracy_score,precision_score
 from sklearn.metrics import recall_score,zero_one_loss,cohen_kappa_score
 
-pathL = 
-dropbox = 
+pathL = 'C:\\Users\\S127788\\Documents\\GitHub\\Assignment2\\'
+dropbox = 'D:\\stack\\afstudeer\\results\\'  
 
 def download_save_sets(list):
     for i in list:
