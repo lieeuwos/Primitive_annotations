@@ -212,7 +212,7 @@ RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. Duri
 AdaBoost is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu also solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost algorithm with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
 
 \subsubsection{SDGClassifier}
-SDGClassifier is an incremental function to stochastic approximate the gradient descent of the input \cite{SGDClass}. It will iteratively minimize or maximize a set of differentiable functions, the input must fit these differentiable functions and this makes than an optimal input is with a mean of zero.  This makes the classifier sensitive to raw data as it performs optimally with sparse features. The iterative steps needed are bound by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minima or maxima. The learning rate is used to update the model in each iteration.
+SDGClassifier is an incremental function to stochastic approximate the gradient descent of the input \cite{SGDClass}. It will iteratively minimize or maximize a set of differentiable functions, the input must fit these differentiable functions and this makes than an optimal input is with a mean of zero.  This makes the classifier sensitive to raw data as it performs optimally with sparse features. The iterative steps needed are bound by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration.
 
 \subsubsection{GradientBoostingClassifier}
 GradientBoost is an ensemble classifier that builds from weaker classifiers \cite{GradientBoost}. Like AdaboostClassifier it builds an additive model in a forward stage-wise fashion.  The weak classifiers used in the scikit-learn implementation are decision trees.  %TODO add\cite{Greedy-GBC}
@@ -231,12 +231,12 @@ To easily test a single dataset once we use cross validation as it does this k t
 For the bias variance calculation it is import to gain multiple predictions for the same instance and with bootstrapping this can be easily achieved. The downside however can be an increased bias and reduced variance.
 
 \subsection{Datasets} \label{description}
-Depending on the property we are going to study we need different datasets or can make assumption. Classification features are not an optimal input for a nearest neigbor classifier as the distant between converted numbers does not tell much about the relation between the features. Multiple target classes datasets are inconvient for the bias-variance calculation, so we focus on 2 class target datasets, which there are plenty enough on openml. 
+Depending on the property we are going to study we need different datasets or can make assumption. Classification features are not an optimal input for a nearest neighbor classifier as the distant between converted numbers does not tell much about the relation between the features. Multiple target classes datasets are inconvenient for the bias-variance calculation, so we focus on 2 class target datasets, which there are plenty enough on openml. 
 
 \subsubsection{Bias-variance datasets}
-
+An important part of a dataset to be viable for bias variance analysis is it having 2 classes as target due to calculation we use to find the bias and variance error. The bias and variance error is in this way like recall or precision error.  %give picture of instance versus features
 \subsubsection{Categorical datasets}
-
+Categorical datasets hold only 
 \subsubsection{Numerical datasets}
 
 \subsection{Collected data}
@@ -251,7 +251,7 @@ For each predictions the outputted target value. Multiple files indicate multipl
 Gives the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
 
 \subsubsection{SummaryGuesses}
-SummaryGuesses give a quick overview of the obtained results. It stores in python dictonaries the total amount of predictions for each class. The results is that you can easily observe if a classifier has picked a class excusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
+SummaryGuesses give a quick overview of the obtained results. It stores in python dictonaries the total amount of predictions for each class. The results is that you can easily observe if a classifier has picked a class exclusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
 
 \subsubsection{BiasVar}
 When bootstrapping is done a bias and variance error is calculated together with the total error value. These are stored for easy lookup to the bias and variance error part of a classifier.
@@ -260,17 +260,17 @@ When bootstrapping is done a bias and variance error is calculated together with
 The data input is shuffled as the saved datasets are sorted by class. The identifier can be used to match prediction results to a specific feature. This way of saving is used to reduce space needed to save potential useful information. Odd behavior on small datasets can be explained by an off balanced dataset for training. This cut of the data can be realistic but may affect averaged result significantly. 
 
 \subsection{Experiments}
-Experiments are grouped by all mentoined classifier with some initial settings on the dataset and/or classifiers. Experiments are defined as functions in python with input values indicating the way the experiment is done and on which dataset.
+Experiments are grouped by all mentioned classifier with some initial settings on the dataset and/or classifiers. Experiments are defined as functions in python with input values indicating the way the experiment is done and on which dataset.
 \subsubsection{Scalability}
-Scalability experiments can be split up in instance based or features based. To meausure the effect of features we take datasets with lots of features and remove features in steps to find the impact of these lost features. There is a disadvantage with this strategy as some classifiers calculate values like feature importance which depend on a somewhat complete dataset of features. The removed features are randomly chosen and can be defining features for the accuracy of the dataset. 
+Scalability experiments can be split up in instance based or features based. To measure the effect of features we take datasets with lots of features and remove features in steps to find the impact of these lost features. There is a disadvantage with this strategy as some classifiers calculate values like feature importance which depend on a somewhat complete dataset of features. The removed features are randomly chosen and can be defining features for the accuracy of the dataset. 
 Another option  to measure scalability is to measure the impact of number of instances. For most classifiers each instance is considered during training and we measure an average calculation for each feature. 
 %We compare the found scalability against the perceived running time upper or lower bounds. 
 
 \subsubsection{Duplicate features}
-Duplicate features experiments have mutiple goals in mind. By adding existing feature we can measure scalability of datasets with some amount of features. These duplicate features can also be identified as adding little to the dataset or the same features can overrule existing important features. The accuracy on these modified dataset
+Duplicate features experiments have multiple goals in mind. By adding existing feature we can measure scalability of datasets with some amount of features. These duplicate features can also be identified as adding little to the dataset or the same features can overrule existing important features. The accuracy on these modified dataset
 can teach us about the impact of features on accuracy and how classifiers handle these irrelevant features. The method to add these duplicate features is by randomly picking and adding. 
 \subsubsection{Random Features}
-Random features experiments have similair goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with randomish features. These random features can deceivingly have information as there is much variability. By measuring the accuracy we can observe what the impact is for different classifiers. There are two sorts of random features we add; Numerical and categorical featueres. We add either the categorical or numerical depending on the distribution of the dataset. The odds of either a categorical or numerical feature being added is the distribution of the intial dataset. %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
+Random features experiments have similar goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with randomish features. These random features can deceivingly have information as there is much variability. By measuring the accuracy we can observe what the impact is for different classifiers. There are two sorts of random features we add; Numerical and categorical features. We add either the categorical or numerical depending on the distribution of the dataset. The odds of either a categorical or numerical feature being added is the distribution of the initial dataset. %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
  
 \paragraph{categorical features}
 The categorical random feature is a uniform value between 0 and k. The value of k can influence how classifier perceive this random feature.
@@ -286,7 +286,7 @@ The numerical random feature is a uniform random value between 0 and 1. This fea
 
 
 \subsection{MetaFeatures}
-Meta features like mean mutual information or entropy for categorical features are calculated for our enhanced dataset with duplicate feature and random features. The result is that they do little to change these values and so do not indicate reduced information even tough commonly the results deterioate when these features are added. However if we take the adjusted mean mutual information we can see a more clearer distinction between the permutations of the datasets. With those values the noisy dataset can be more recognized as being worse than before. The normalized  is combination of both which has all three kinds in some case the best or the worsed.
+Meta features like mean mutual information or entropy for categorical features are calculated for our enhanced dataset with duplicate feature and random features. The result is that they do little to change these values and so do not indicate reduced information even tough commonly the results deteriorate when these features are added. However if we take the adjusted mean mutual information we can see a more clearer distinction between the permutations of the datasets. With those values the noisy dataset can be more recognized as being worse than before. The normalized  is combination of both which has all three kinds in some case the best or the worsed.
 
 The calculation of the normalized:
 $sqrt(H(labels_true) * H(labels_pred))$
