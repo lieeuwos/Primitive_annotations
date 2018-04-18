@@ -241,6 +241,11 @@ Categorical datasets hold only
 
 \subsection{Collected data}
 For each experiment data is saved to give insight to what the results are. Depending on the experiment different data is important or stored. 
+\begin{itemize}
+	\item \item predictive accuracy
+	\item duration
+	\item control
+\end{itemize}
 \subsubsection{Duration}
 For each classification instance and for each prediction the time is added to indicate how the classification took. 
 
@@ -284,6 +289,13 @@ The numerical random feature is a uniform random value between 0 and 1. This fea
 
 \section{Discussion} \label{Chapter5}
 
+\subsection{Resilience to noise}
+
+
+
+\subsubsection{different approach}
+Instead of measuring the influence of standard deviation, we tried to add standard values to all features, the problem with that is features have different deviation and some classifiers prefer a zero mean. The results were similair to injection std but more abrupt. Just changing(moving/word) all features for some datasets mend a drop in accuracy but the continuation of upping the number mend little to change accuracy further.
+
 
 \subsection{MetaFeatures}
 Meta features like mean mutual information or entropy for categorical features are calculated for our enhanced dataset with duplicate feature and random features. The result is that they do little to change these values and so do not indicate reduced information even tough commonly the results deteriorate when these features are added. However if we take the adjusted mean mutual information we can see a more clearer distinction between the permutations of the datasets. With those values the noisy dataset can be more recognized as being worse than before. The normalized  is combination of both which has all three kinds in some case the best or the worsed.
@@ -323,6 +335,25 @@ $MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V
 
 \newpage
 \section{Conclusion} \label{Chapter6}
+\subsection{replication of previous work}
+
+\subsection{New discoveries}
+
+
+
+
+\subsection{Future work}
+\subsubsection{More computation}
+with more computation time we can further solidify the results or see a different approach
+
+Use datasets outside of openml like keggle%cite
+to illistrate that openml is not the factor, openml can be focused on a certain subgroup more than another 
+
+splitting datasets for finer results. By focusing on a certain dataset type you can find why that dataset type is robust, think about sparse/dense feature rich, feature less. A combination.
+
+
+
+
 
 \section{References}
 \begingroup
@@ -355,5 +386,9 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
      
 \end{thebibliography}
 \endgroup
+
+\section{Appendix}
+\subsection{datasets per figure}
+%insert tables
 
 \end{document}

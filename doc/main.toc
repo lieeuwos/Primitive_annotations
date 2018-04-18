@@ -25,18 +25,26 @@
 \contentsline {subsection}{\numberline {3.4}Collected data}{6}{subsection.3.4}
 \contentsline {subsubsection}{\numberline {3.4.1}Duration}{6}{subsubsection.3.4.1}
 \contentsline {subsubsection}{\numberline {3.4.2}Predictions}{6}{subsubsection.3.4.2}
-\contentsline {subsubsection}{\numberline {3.4.3}scores}{6}{subsubsection.3.4.3}
-\contentsline {subsubsection}{\numberline {3.4.4}SummaryGuesses}{6}{subsubsection.3.4.4}
+\contentsline {subsubsection}{\numberline {3.4.3}scores}{7}{subsubsection.3.4.3}
+\contentsline {subsubsection}{\numberline {3.4.4}SummaryGuesses}{7}{subsubsection.3.4.4}
 \contentsline {subsubsection}{\numberline {3.4.5}BiasVar}{7}{subsubsection.3.4.5}
 \contentsline {subsubsection}{\numberline {3.4.6}Identifier}{7}{subsubsection.3.4.6}
 \contentsline {subsection}{\numberline {3.5}Experiments}{7}{subsection.3.5}
 \contentsline {subsubsection}{\numberline {3.5.1}Scalability}{7}{subsubsection.3.5.1}
 \contentsline {subsubsection}{\numberline {3.5.2}Duplicate features}{7}{subsubsection.3.5.2}
 \contentsline {subsubsection}{\numberline {3.5.3}Random Features}{7}{subsubsection.3.5.3}
-\contentsline {paragraph}{\numberline {3.5.3.1}categorical features}{7}{paragraph.3.5.3.1}
-\contentsline {paragraph}{\numberline {3.5.3.2}numerical features}{7}{paragraph.3.5.3.2}
-\contentsline {section}{\numberline {4}Experimental Results}{8}{section.4}
-\contentsline {section}{\numberline {5}Discussion}{8}{section.5}
-\contentsline {subsection}{\numberline {5.1}MetaFeatures}{8}{subsection.5.1}
-\contentsline {section}{\numberline {6}Conclusion}{10}{section.6}
-\contentsline {section}{\numberline {7}References}{10}{section.7}
+\contentsline {paragraph}{\numberline {3.5.3.1}categorical features}{8}{paragraph.3.5.3.1}
+\contentsline {paragraph}{\numberline {3.5.3.2}numerical features}{8}{paragraph.3.5.3.2}
+\contentsline {section}{\numberline {4}Experimental Results}{9}{section.4}
+\contentsline {section}{\numberline {5}Discussion}{9}{section.5}
+\contentsline {subsection}{\numberline {5.1}Resilience to noise}{9}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}different approach}{9}{subsubsection.5.1.1}
+\contentsline {subsection}{\numberline {5.2}MetaFeatures}{9}{subsection.5.2}
+\contentsline {section}{\numberline {6}Conclusion}{11}{section.6}
+\contentsline {subsection}{\numberline {6.1}replication of previous work}{11}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}New discoveries}{11}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Future work}{11}{subsection.6.3}
+\contentsline {subsubsection}{\numberline {6.3.1}More computation}{11}{subsubsection.6.3.1}
+\contentsline {section}{\numberline {7}References}{11}{section.7}
+\contentsline {section}{\numberline {8}Appendix}{12}{section.8}
+\contentsline {subsection}{\numberline {8.1}datasets per figure}{12}{subsection.8.1}
