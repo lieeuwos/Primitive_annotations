@@ -1,50 +1,55 @@
 \select@language {english}
-\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
-\contentsline {subsection}{\numberline {1.1}problem description}{3}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}research question}{3}{subsection.1.2}
-\contentsline {subsection}{\numberline {1.3}thesis structure}{3}{subsection.1.3}
-\contentsline {subsection}{\numberline {1.4}Outline}{3}{subsection.1.4}
-\contentsline {section}{\numberline {2}Preliminaries}{4}{section.2}
-\contentsline {subsection}{\numberline {2.1}Sklearn/scikit-learn library}{4}{subsection.2.1}
-\contentsline {subsubsection}{\numberline {2.1.1}KNeighborsClassifier}{4}{subsubsection.2.1.1}
-\contentsline {subsubsection}{\numberline {2.1.2}GaussianNB}{4}{subsubsection.2.1.2}
-\contentsline {subsubsection}{\numberline {2.1.3}BernoulliNB}{4}{subsubsection.2.1.3}
-\contentsline {subsubsection}{\numberline {2.1.4}SVC-rbf}{4}{subsubsection.2.1.4}
-\contentsline {subsubsection}{\numberline {2.1.5}RandomForestClassifier}{5}{subsubsection.2.1.5}
-\contentsline {subsubsection}{\numberline {2.1.6}AdaBoost}{5}{subsubsection.2.1.6}
-\contentsline {subsubsection}{\numberline {2.1.7}SDGClassifier}{5}{subsubsection.2.1.7}
-\contentsline {subsubsection}{\numberline {2.1.8}GradientBoostingClassifier}{5}{subsubsection.2.1.8}
-\contentsline {subsection}{\numberline {2.2}Terminology}{5}{subsection.2.2}
-\contentsline {section}{\numberline {3}Experimental setup}{6}{section.3}
-\contentsline {subsection}{\numberline {3.1}Cross validation}{6}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Bootstrapping}{6}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Datasets}{6}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Bias-variance datasets}{6}{subsubsection.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.2}Categorical datasets}{6}{subsubsection.3.3.2}
-\contentsline {subsubsection}{\numberline {3.3.3}Numerical datasets}{6}{subsubsection.3.3.3}
-\contentsline {subsection}{\numberline {3.4}Collected data}{6}{subsection.3.4}
-\contentsline {subsubsection}{\numberline {3.4.1}Duration}{6}{subsubsection.3.4.1}
-\contentsline {subsubsection}{\numberline {3.4.2}Predictions}{6}{subsubsection.3.4.2}
-\contentsline {subsubsection}{\numberline {3.4.3}scores}{7}{subsubsection.3.4.3}
-\contentsline {subsubsection}{\numberline {3.4.4}SummaryGuesses}{7}{subsubsection.3.4.4}
-\contentsline {subsubsection}{\numberline {3.4.5}BiasVar}{7}{subsubsection.3.4.5}
-\contentsline {subsubsection}{\numberline {3.4.6}Identifier}{7}{subsubsection.3.4.6}
-\contentsline {subsection}{\numberline {3.5}Experiments}{7}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}Scalability}{7}{subsubsection.3.5.1}
-\contentsline {subsubsection}{\numberline {3.5.2}Duplicate features}{7}{subsubsection.3.5.2}
-\contentsline {subsubsection}{\numberline {3.5.3}Random Features}{7}{subsubsection.3.5.3}
-\contentsline {paragraph}{\numberline {3.5.3.1}categorical features}{8}{paragraph.3.5.3.1}
-\contentsline {paragraph}{\numberline {3.5.3.2}numerical features}{8}{paragraph.3.5.3.2}
-\contentsline {section}{\numberline {4}Experimental Results}{9}{section.4}
-\contentsline {section}{\numberline {5}Discussion}{9}{section.5}
-\contentsline {subsection}{\numberline {5.1}Resilience to noise}{9}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}different approach}{9}{subsubsection.5.1.1}
-\contentsline {subsection}{\numberline {5.2}MetaFeatures}{9}{subsection.5.2}
-\contentsline {section}{\numberline {6}Conclusion}{11}{section.6}
-\contentsline {subsection}{\numberline {6.1}replication of previous work}{11}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}New discoveries}{11}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Future work}{11}{subsection.6.3}
-\contentsline {subsubsection}{\numberline {6.3.1}More computation}{11}{subsubsection.6.3.1}
-\contentsline {section}{\numberline {7}References}{11}{section.7}
-\contentsline {section}{\numberline {8}Appendix}{12}{section.8}
-\contentsline {subsection}{\numberline {8.1}datasets per figure}{12}{subsection.8.1}
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}
+\contentsline {subsection}{\numberline {1.1}problem description}{4}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}research question}{4}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}thesis structure}{4}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Outline}{4}{subsection.1.4}
+\contentsline {section}{\numberline {2}Preliminaries}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Sklearn/scikit-learn library}{5}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}KNeighborsClassifier}{5}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}GaussianNB}{5}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}BernoulliNB}{5}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}SVC-rbf}{5}{subsubsection.2.1.4}
+\contentsline {subsubsection}{\numberline {2.1.5}RandomForestClassifier}{6}{subsubsection.2.1.5}
+\contentsline {subsubsection}{\numberline {2.1.6}AdaBoost}{6}{subsubsection.2.1.6}
+\contentsline {subsubsection}{\numberline {2.1.7}SDGClassifier}{6}{subsubsection.2.1.7}
+\contentsline {subsubsection}{\numberline {2.1.8}GradientBoostingClassifier}{6}{subsubsection.2.1.8}
+\contentsline {section}{\numberline {3}Definitions and abbreviations}{7}{section.3}
+\contentsline {subsection}{\numberline {3.1}Definitions}{7}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Abbreviations}{7}{subsection.3.2}
+\contentsline {section}{\numberline {4}Experimental setup}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Cross validation}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Bootstrapping}{8}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Datasets}{8}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Bias-variance datasets}{8}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}Categorical datasets}{8}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.3}Numerical datasets}{8}{subsubsection.4.3.3}
+\contentsline {subsection}{\numberline {4.4}Collected data}{8}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Duration}{8}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Predictions}{8}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}scores}{9}{subsubsection.4.4.3}
+\contentsline {subsubsection}{\numberline {4.4.4}SummaryGuesses}{9}{subsubsection.4.4.4}
+\contentsline {subsubsection}{\numberline {4.4.5}BiasVar}{9}{subsubsection.4.4.5}
+\contentsline {subsubsection}{\numberline {4.4.6}Identifier}{9}{subsubsection.4.4.6}
+\contentsline {subsection}{\numberline {4.5}Experiments}{9}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.5.1}Scalability}{9}{subsubsection.4.5.1}
+\contentsline {subsubsection}{\numberline {4.5.2}Duplicate features}{9}{subsubsection.4.5.2}
+\contentsline {subsubsection}{\numberline {4.5.3}Random Features}{9}{subsubsection.4.5.3}
+\contentsline {paragraph}{\numberline {4.5.3.1}categorical features}{10}{paragraph.4.5.3.1}
+\contentsline {paragraph}{\numberline {4.5.3.2}numerical features}{10}{paragraph.4.5.3.2}
+\contentsline {section}{\numberline {5}Experimental Results}{11}{section.5}
+\contentsline {subsection}{\numberline {5.1}Scalability}{11}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}features}{11}{subsubsection.5.1.1}
+\contentsline {paragraph}{\numberline {5.1.1.1}Categorical features}{11}{paragraph.5.1.1.1}
+\contentsline {section}{\numberline {6}Discussion}{11}{section.6}
+\contentsline {subsection}{\numberline {6.1}Resilience to noise}{11}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}different approach}{11}{subsubsection.6.1.1}
+\contentsline {subsection}{\numberline {6.2}MetaFeatures}{11}{subsection.6.2}
+\contentsline {section}{\numberline {7}Conclusion}{13}{section.7}
+\contentsline {subsection}{\numberline {7.1}replication of previous work}{13}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}New discoveries}{13}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Future work}{13}{subsection.7.3}
+\contentsline {subsubsection}{\numberline {7.3.1}More computation}{13}{subsubsection.7.3.1}
+\contentsline {section}{\numberline {8}References}{13}{section.8}
+\contentsline {section}{\numberline {9}Appendix}{14}{section.9}
+\contentsline {subsection}{\numberline {9.1}datasets per figure}{14}{subsection.9.1}

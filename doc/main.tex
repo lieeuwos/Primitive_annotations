@@ -176,10 +176,17 @@ In figure \ref{fig:FlowChartML} you can see that depending on size of the data a
 We base our research question on the work of Joaquin to give properties to algorithms\cite{Joaquin-phd}. More specifically we look more closely to the resilience properties. 
 Earlier research has been done on scalability and resilience to irrelevant variables\cite{Resil-1}
 
-\subsection{thesis structure}
+\begin{itemize}
+	\item scalability: runtime is measured with either a varying sample size or varying feature space 
+\end{itemize}
+The question for scalability is how varying sample size and feature space influences the runtime. Is there a measure to match this. 
+
+
+%\subsection{thesis structure}
+
 
 \subsection{Outline}
-
+In the first chapter the research question is introduced. In the second chapter background information is discussed relevant for the research. In the third chapter the setup of the experiments is outlined with the input and output of executed experiments. The fourth chapter shows the results of the experiments
 \newpage
 
 
@@ -219,7 +226,69 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 
 
 
-\subsection{Terminology}
+\subsection{Definitions and abbreviations}
+\subsubsection{Definitions}
+
+\begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
+	
+	algorithm & The process with a specified in and output that solves a problem\\ [1ex]
+	
+	
+	annotations & Adjectives of something like a machine learning algorithms, examples can be robust or biased\\ [1ex]
+	
+	categorical & property of the features distribution and content of the feature in this case meaning seperate distinc classes, which have no numerical meaning, a unique number for each distinguished class\\ [1ex]
+	
+	class	 & categorical featueres consist of at least 2 classes\\ [1ex]
+	
+	dataset manipulation & like the word suggested is the manipulation of dataset like injecting std deviation or inserting random categories. Adding or removing; of  features or instances to the dataset also counts as it also influence duration and/or accuracy. \\ [1ex]
+	
+	dense matrix & most values in a matrix are different and fluctuate with each row or collumn.(non-zero)\\ [1ex]
+	
+	features & part of a whole, Consider a flower it can be the color, size, amount of branches, amount of leaves, age. Features describe someone or something in this context it describes something so you can make a prediction of the Target.\\ [1ex]
+	
+	fit & To fit the data, synonym with inputting the training data for preparing the algorithm for prediction\\ [1ex]
+	
+	Github & an online platfrom to host data. It uses git commands and is mostly used with programming project to organize a common project which each member can locally alter and centeralizly share updates or modifications. \\ [1ex]	
+	
+	machine learning algorithm & An algorithm that will will learn something and may adopt to the input to better fit the learned instance. To goal of learning can be mostly to predict a Target value, this can be part of an initial input.\\ [1ex]	
+	
+	numerical & exact values, more uniquely than a category.\\ [1ex]	
+	
+	profiling & To sketch information of something in a category, so you can relate it to other things in the same category\\ [1ex]	
+	
+	sample & the size of the to be predicted target set. So all distinct features once matched with a target feature\\ [1ex]
+	
+	scalability & is the capability of a system to handle growing amount of work. \\[1ex]
+	
+	sparse matrix & a matrix with lots of zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
+	
+	target & In a classificication the value or classes that needs to be predicted, where it mostly about a single feature with at least 2 classes. This can be a feature of something \\ [+1ex]
+	
+	weight & The influence or power of a value, function or object. It can be expressed as a fraction of 1 to inidicate its factor from other weights.	\\ [1ex]
+	
+	
+	
+	
+	
+	
+	algorithm & \\ [1ex]	
+	\end{tabular}
+
+\subsubsection{Abbreviations}
+\begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
+	
+	adaBoost & adaptive boosting algorithm \\
+	
+	biasVar & bias and variance \\
+	
+	SDG & Stochastic gradient descent \\
+	
+	std & standard deviation\\
+	
+	TU/e & Eindhoven University of Technology \\
+	
+	
+\end{tabular}
 
 \newpage
 \section{Experimental setup} \label{Chapter3}
@@ -242,8 +311,8 @@ Categorical datasets hold only
 \subsection{Collected data}
 For each experiment data is saved to give insight to what the results are. Depending on the experiment different data is important or stored. 
 \begin{itemize}
-	\item \item predictive accuracy
-	\item duration
+	\item predictive accuracy for measuring the predictive accuracy we store the default sklearn scoring calculation
+	\item duration instances for the time needed to calculate 
 	\item control
 \end{itemize}
 \subsubsection{Duration}
@@ -273,15 +342,21 @@ Another option  to measure scalability is to measure the impact of number of ins
 
 \subsubsection{Duplicate features}
 Duplicate features experiments have multiple goals in mind. By adding existing feature we can measure scalability of datasets with some amount of features. These duplicate features can also be identified as adding little to the dataset or the same features can overrule existing important features. The accuracy on these modified dataset
-can teach us about the impact of features on accuracy and how classifiers handle these irrelevant features. The method to add these duplicate features is by randomly picking and adding. 
+can teach us about the impact of features on accuracy and how classifiers handle these irrelevant features. The method to add these duplicate features is by randomly picking and adding. This can result in features being multiple times in the manipulated  dataset even though it is only twice the orignal dataset size.
 \subsubsection{Random Features}
 Random features experiments have similar goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with randomish features. These random features can deceivingly have information as there is much variability. By measuring the accuracy we can observe what the impact is for different classifiers. There are two sorts of random features we add; Numerical and categorical features. We add either the categorical or numerical depending on the distribution of the dataset. The odds of either a categorical or numerical feature being added is the distribution of the initial dataset. %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
  
 \paragraph{categorical features}
-The categorical random feature is a uniform value between 0 and k. The value of k can influence how classifier perceive this random feature.
+The categorical random feature is a uniform value between 0 and k. The value of k can influence how a classifier perceive this random feature. For all the instances in the set a uniform random number between 0 and 1 is multiplied by k and then rounded. 
 \paragraph{numerical features}
 The numerical random feature is a uniform random value between 0 and 1. This feature has in this case all unique values.
 \newpage 
+
+\subsubsection{Noisy data}
+\paragraph{categorical features}
+ replacing with categorical distribution. 
+\paragraph{numerical features}
+adding standard deviaton
 
 \section{Experimental Results} \label{Chapter4}
 
