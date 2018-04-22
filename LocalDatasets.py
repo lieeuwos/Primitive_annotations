@@ -317,3 +317,60 @@ def clfFronts(clfName):
     elif (clfName == 'GradientBoost'):
         front = 'GradientBoostClassifier('
     return front
+
+def doneFracs(func,clfName,amountList):
+    list_of_files = []
+    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+        for filename in filenames:
+            if filename.endswith('cat.csv'): 
+                list_of_files.append(int(filename[:-7]))
+    listAdd = []
+    for did in list_of_files:
+        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            if list1Inlist2(dirnames,amountList):
+                listAdd.append(did)
+    return list(set(listAdd))
+
+def DoneFeatureMan(func,clfName,amountList):
+    list_of_files = []
+    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+        for filename in filenames:
+            if filename.endswith('cat.csv'): 
+                list_of_files.append(int(filename[:-7]))
+    
+    listAdd = []
+    for did in list_of_files:
+        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        amountList2 = []
+        for amount in amountList:
+            amountList2.append(str(round(amount*(readDict(did)['NumberOfFeatures']-1))))
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            if list1Inlist2(dirnames,amountList2):
+                listAdd.append(did)
+    return list(set(listAdd))
+                
+def DoneExperiments(func,clfName):
+    list_of_files = []
+    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+        for filename in filenames:
+            if filename.endswith('cat.csv'): 
+                list_of_files.append(int(filename[:-7]))
+    dictAdd = []
+    for did in list_of_files:
+        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            if not existInDict(dictAdd,did):
+                dictAdd.append({did: dirnames})
+                
+def list1Inlist2(list2,list1):
+    for i in list1:
+        if not i in list2:
+            return False
+    return True
+
+def existInDict(dict1,element):
+    for i in dict1:
+        if element in i:
+            return True
+    return False
