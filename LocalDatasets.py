@@ -318,6 +318,12 @@ def clfFronts(clfName):
         front = 'GradientBoostClassifier('
     return front
 
+def doneFracsV2(func,clfName,amountList):
+    for i,amount in amountList:
+        amountList[i] = str(amount)
+    return doneFracs(func,clfName,amountList)
+
+#this is for the experiment saved as ratios of the input
 def doneFracs(func,clfName,amountList):
     list_of_files = []
     for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
@@ -332,6 +338,7 @@ def doneFracs(func,clfName,amountList):
                 listAdd.append(did)
     return list(set(listAdd))
 
+# this is for experiments saved as the features manipulated(added or removed)
 def DoneFeatureMan(func,clfName,amountList):
     list_of_files = []
     for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
