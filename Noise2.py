@@ -12,6 +12,7 @@ import numpy as np
 from LocalDatasets import readDict
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
 
 def add_noise(X,y,adj,local):
     assert len(X) == len(y), "There should be equal feature set as targets"
@@ -415,6 +416,31 @@ def remove_features(X,amount):
         X2.append(X[i][:len(X[i])-amount])
     return X2
 
+def remove_features_importance(X,y,amount):
+    assert amount < len(X[0])
+    XT = list(map(list, zip(*X)))
+    clf = RandomForestClassifier()    
+    clf.fit(X,y)
+    featsImp = clf.feature_importances_
+    toRemove = []
+    for i in range(amount):
+        index_min = min(range(len(featsImp)), key=featsImp.__getitem__)
+        toRemove.append(index_min)
+        featsImp[index_min] = 1.1
+    XT2 = []
+    for i,xtj in enumerate(XT):
+        if not i in toRemove:
+            XT2.append(xtj)
+    return list(map(list, zip(*XT2))),toRemove
+
+def remove_features_importance2(X,toRemove):
+    XT = list(map(list, zip(*X)))
+    XT2 = []
+    for i,xtj in enumerate(XT):
+        if not i in toRemove:
+            XT2.append(xtj)
+    return list(map(list, zip(*XT2)))
+
 def split(X,y,amount):
     X = X[:amount]
     y = y[:amount]
@@ -453,7 +479,7 @@ def remove_features2(X,amount):
     X2 = list(map(list, zip(*X)))
     for i in range(amount):
         if len(X2) == 1:
-            print("Error")
+            print("Error removing full dataset")
             return list(map(list, zip(*X2)))
         X2.pop()    
     return list(map(list, zip(*X2)))
