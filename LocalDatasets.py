@@ -369,6 +369,24 @@ def DoneExperiments(func,clfName):
         for (dirpath, dirnames, filenames) in os.walk(path):
             if not existInDict(dictAdd,did):
                 dictAdd.append({did: dirnames})
+    return dictAdd
+
+def DoneExperimentsFeatures(func,clfName):
+    list_of_files = []
+    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+        for filename in filenames:
+            if filename.endswith('cat.csv'): 
+                list_of_files.append(int(filename[:-7]))
+    dictAdd = []
+    for did in list_of_files:
+        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            if not existInDict(dictAdd,did):
+                dirnames2 = []
+                for k,dirN in enumerate(dirnames):
+                    dirnames2.append(round(100*int(dirN)/(readDict(did)['NumberOfFeatures']-1))/100)
+                dictAdd.append({did: dirnames2})
+    return dictAdd
                 
 def list1Inlist2(list2,list1):
     for i in list1:
