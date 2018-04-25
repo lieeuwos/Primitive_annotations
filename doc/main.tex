@@ -240,9 +240,13 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 	
 	class	 & categorical featueres consist of at least 2 classes\\ [1ex]
 	
+	datapoint & a datapoint is a single value of a feature. For example an instance has for all feature of a dataset a single datapoint.\\[1ex]
+	
 	dataset manipulation & like the word suggested is the manipulation of dataset like injecting std deviation or inserting random categories. Adding or removing; of  features or instances to the dataset also counts as it also influence duration and/or accuracy. \\ [1ex]
 	
 	dense matrix & most values in a matrix are different and fluctuate with each row or collumn.(non-zero)\\ [1ex]
+	
+	distribution & A distribution of a dataset is the probability distribution of that dataset. So considering the dataset what are the odss of picking a specific value. \\ [1ex]
 	
 	features & part of a whole, Consider a flower it can be the color, size, amount of branches, amount of leaves, age. Features describe someone or something in this context it describes something so you can make a prediction of the Target.\\ [1ex]
 	
@@ -252,9 +256,11 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 	
 	machine learning algorithm & An algorithm that will will learn something and may adopt to the input to better fit the learned instance. To goal of learning can be mostly to predict a Target value, this can be part of an initial input.\\ [1ex]	
 	
-	numerical & exact values, more uniquely than a category.\\ [1ex]	
+	numerical & exact values, more uniquely than a category. For example a temperature value or time value. Such a value can be subtracted or divided \\ [1ex]	
 	
-	profiling & To sketch information of something in a category, so you can relate it to other things in the same category\\ [1ex]	
+	profiling & To sketch information of something in a category, so you can relate it to other things in the same category\\ [1ex]
+	
+	robustness & \\ The ability of an algorithm to cope with changes in features. An algorithm is more robust if it deteriorates less than another.[1ex]	
 	
 	sample & the size of the to be predicted target set. So all distinct features once matched with a target feature\\ [1ex]
 	
@@ -305,9 +311,9 @@ Depending on the property we are going to study we need different datasets or ca
 \subsubsection{Bias-variance datasets}
 An important part of a dataset to be viable for bias variance analysis is it having 2 classes as target due to calculation we use to find the bias and variance error. The bias and variance error is in this way like recall or precision error.  %give picture of instance versus features
 \subsubsection{Categorical datasets}
-Categorical datasets hold only 
+Categorical datasets hold only features with categorical values
 \subsubsection{Numerical datasets}
-
+Numerical datasets hold only features with numerical values
 \subsection{Collected data}
 For each experiment data is saved to give insight to what the results are. Depending on the experiment different data is important or stored. 
 \begin{itemize}
@@ -346,18 +352,33 @@ can teach us about the impact of features on accuracy and how classifiers handle
 \subsubsection{Random Features}
 Random features experiments have similar goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with randomish features. These random features can deceivingly have information as there is much variability. By measuring the accuracy we can observe what the impact is for different classifiers. There are two sorts of random features we add; Numerical and categorical features. We add either the categorical or numerical depending on the distribution of the dataset. The odds of either a categorical or numerical feature being added is the distribution of the initial dataset. %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
  
-\paragraph{categorical features}
+\paragraph{categorical random features \newline}
 The categorical random feature is a uniform value between 0 and k. The value of k can influence how a classifier perceive this random feature. For all the instances in the set a uniform random number between 0 and 1 is multiplied by k and then rounded. 
-\paragraph{numerical features}
+\paragraph{numerical random features \newline}
 The numerical random feature is a uniform random value between 0 and 1. This feature has in this case all unique values.
-\newpage 
+
 
 \subsubsection{Noisy data}
-\paragraph{categorical features}
- replacing with categorical distribution. 
-\paragraph{numerical features}
-adding standard deviaton
+Datasets can get more noisy over time. During training of a machine learning algorithm the dataset is clean and over time new data can change. By measuring the robustness of the algorithms on more noisy datasets 
+\paragraph{categorical features \newline}
+To explain the implementation of our noisy data for a categorical feature we present this snippet of pseudo code. THe input is the dataset X and the amount of noise. The amount can be converted to a percentage of features being flipped by this formula $()1-1/(amount+0.5))*100$. The distribution$_X$ is derived from the dataset X as the probability distribution of all categorical classes in a feature. The random.choice function uses this probability function to pick a value in the range of the feature. The default random function picks a uniform random value between 0 and 1.  \\
+Initiliaze distribution$_X$ for all features in dataset X\\
+\textbf{for} numerical feature k in dataset X\\
+.\hspace{1cm} \textbf{for} datapoint x in feature k\\
+.\hspace{2cm} \textbf{if} random()*amount $>$ 0.5 \\	
+.\hspace{3cm} x = random.choice(distribution$_X$ feature k) 
+\\
 
+\paragraph{numerical features \newline}
+The input is the dataset X and the amount of noise. The amount is multiplied by the standard deviation to give the maximum deviation of the feature. The calculation for the std$_X$ is done beforehand to control the deviation for all datapoints in the feature set. The random function is like mentioned before producing a uniform random value between 0 and 1.\\
+Calculate std$_X$ for all features in dataset X\\
+\textbf{for} numerical feature k in dataset X\\
+.\hspace{1cm} \textbf{for} datapoint x in feature k\\
+.\hspace{2cm} \textbf{if} random() $>$ 0.5 \\	
+.\hspace{3cm} x = x + random() *amount*(std$_X$ for feature k)\\
+.\hspace{2cm} \textbf{else}  \\	
+.\hspace{3cm} x = x - random() *amount*(std$_X$ for feature k) 
+\\
 \section{Experimental Results} \label{Chapter4}
 
 
@@ -368,6 +389,14 @@ All results with a duration axis.
 An 
 \paragraph{Categorical features}
 the averaged results 
+
+\subsubsection{Instances}
+
+\subsection{Redundant features}
+We consider here both random and duplcite features as they are both redundant.
+
+
+\subsection{Noisy data}
 
 
 \section{Discussion} \label{Chapter5}
