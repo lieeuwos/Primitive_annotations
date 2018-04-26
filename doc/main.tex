@@ -383,15 +383,112 @@ Calculate std$_X$ for all features in dataset X\\
 
 
 \subsection{Scalability}
-All results with a duration axis. 
+All results with a duration axis. The duration axis is in seconds and shows a 10 fold cross validiation. This means that the duration encompasses 10 times fitting over 90\% of the data and 10 times predicting 10\% of the data.
 
 \subsubsection{features}
-An 
+
 \paragraph{Categorical features}
-the averaged results 
+the averaged results are shown in figure \ref{fig:FeatAddCat}
+\begin{figure}[h] %use t for top of page instead of h for here
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatAddCat.png}
+	\caption{Features added straight line represent duplicate features and dotted line are random categorical features between 0 and 2}
+	\label{fig:FeatAddCat}
+\end{figure}
 
+\newpage
+\paragraph{Numerical features}
+in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCatSlope}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatAddNonCat.png}
+	\caption{Features added straight line represent duplicate features and dotted line are random numerical features}
+	\label{fig:FeatAddNonCat}
+\end{figure}
+
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatAddNonCatSlope.png}
+	\caption{Features added straight line represent duplicate features and dotted line are random numerical features}
+	\label{fig:FeatAddNonCatSlope}
+\end{figure}
+\newpage
+\paragraph{combined}
+in figures \ref{fig:FeatMan} and \ref{fig:FeatManLog} adding and removing features is shown.
+in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatManSlope}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatMan.png}
+	\caption{features randomly removed and feature randomly duplicated}
+	\label{fig:FeatMan}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatManLog.png}
+	\caption{features randomly removed and feature randomly duplicated}
+	\label{fig:FeatManLog}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatManSlope.png}
+	\caption{features randomly removed and feature randomly duplicated}
+	\label{fig:FeatManSlope}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatManSlope1.png}
+	\caption{features randomly removed and feature randomly duplicated}
+	\label{fig:FeatManSlope1}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatManSlope1Log.png}
+	\caption{features randomly removed and feature randomly duplicated}
+	\label{fig:FeatManSlope1Log}
+\end{figure}
+
+
+\newpage
 \subsubsection{Instances}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/Instances.png}
+	\caption{splitting a dataset in parts}
+	\label{fig:Instances}
+\end{figure}
 
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/InstancesPrediction.png}
+	\caption{features randomly removed and feature randomly duplicated}
+	\label{fig:InstancesPred}
+\end{figure}
+\newpage
 \subsection{Redundant features}
 We consider here both random and duplcite features as they are both redundant.
 
