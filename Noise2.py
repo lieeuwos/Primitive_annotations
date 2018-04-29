@@ -483,17 +483,6 @@ def remove_features2(X,amount):
             return list(map(list, zip(*X2)))
         X2.pop()    
     return list(map(list, zip(*X2)))
-
-
-def remove_features2Cat(X,amount,cat):
-    X2 = list(map(list, zip(*X)))
-    for i in range(amount):
-        if len(X2) == 1:
-            print("Error removing full dataset")
-            return list(map(list, zip(*X2)))
-        X2.pop()
-        cat.pop()
-    return list(map(list, zip(*X2))),cat
     
 def create_features(y):
     X = []
@@ -575,8 +564,7 @@ def preProcess(X_train,train_X,X_test,test_X,cat,clfName):
 
 
 def splitCat(X_train,X_test,cat):
-    assert len(X_train[0]) == len(cat), "There should be equal categories as sample features in train"
-    assert len(X_test[0]) == len(cat), "There should be equal categories as sample features in test"
+    assert len(X_train[0]) == len(cat), "There should be equal categories as sample features"
     Xt_train = list(map(list, zip(*X_train)))
     Xt_test = list(map(list, zip(*X_test)))
     XtC_train = []
@@ -585,8 +573,6 @@ def splitCat(X_train,X_test,cat):
     XtN_test = []
     for i,boole in enumerate(cat):
         if boole:
-            if i >= len(Xt_test):
-                print('wut')
             XtC_train.append(Xt_train[i])
             XtC_test.append(Xt_test[i])
         else:
@@ -599,18 +585,13 @@ def splitCat(X_train,X_test,cat):
     return XC_train,XN_train,XC_test,XN_test
 
 def balance(cat,X):
-    if len(cat) < len(X[0]):        
+    if not len(cat) == len(X[0]):        
         lenC = len(cat)
         for i in range(lenC,len(X[0])):
             if round(X[0][i]) == X[0][i]:
                 cat.append(True)
             else:
                 cat.append(False)
-    elif len(cat) > len(X[0]):
-        lenC = len(cat)
-        for i in range(len(X[0]),lenC):
-            cat.pop()
-    
     return cat
 
 def combine(XC_train,XN_train,XC_test,XN_test):
@@ -662,25 +643,6 @@ class OneHotEncoderSelf(object):
     def transform(X):
         transformed = OneHotEncoder.transform(X)
         return transformed.toarray()
-
-def preProcessV2(X_train,train_X,X_test,test_X,cat,catM,clfName):    
-    steps,cats = PreSteps(clfName)
-    try:
-        len(steps)
-    except NameError:
-        print('no preprocessing steps found')        
-    XC_train,XN_train,XC_test,XN_test = splitCat(X_train,X_test,cat)
-    for i,step in enumerate(steps):
-        XC_train,XC_test,XN_train,XN_test = process(cats[i],XC_train,XC_test,XN_train,XN_test,step)        
-    steps,cats = PreSteps(clfName)
-    X_train,X_test = combine(list(XC_train),list(XN_train),list(XC_test),list(XN_test))
-    train_XC,train_XN,test_XC,test_XN = splitCat(train_X,test_X,catM)
-    for i,step in enumerate(steps):
-        train_XC,test_XC,train_XN,test_XN = process(cats[i],train_XC,test_XC,train_XN,test_XN,step)
-        
-    train_X,test_X = combine(list(train_XC),list(train_XN),list(test_XC),list(test_XN))
-    
-    return X_train,train_X,X_test,test_X
     
 
             
