@@ -551,7 +551,7 @@ def PreSteps(clfName):
     
     return steps,cats
 
-def preProcess(X_train,train_X,X_test,test_X,cat,clfName):
+def preProcess(X_train,train_X,X_test,test_XIn,cat,clfName):
     
     steps,cats = PreSteps(clfName)
     try:
@@ -565,7 +565,7 @@ def preProcess(X_train,train_X,X_test,test_X,cat,clfName):
     steps,cats = PreSteps(clfName)
     X_train,X_test = combine(list(XC_train),list(XN_train),list(XC_test),list(XN_test))
     cat = balance(cat,train_X)
-    train_XC,train_XN,test_XC,test_XN = splitCat(train_X,test_X,cat)
+    train_XC,train_XN,test_XC,test_XN = splitCat(train_X,test_XIn,cat)
     for i,step in enumerate(steps):
         train_XC,test_XC,train_XN,test_XN = process(cats[i],train_XC,test_XC,train_XN,test_XN,step)
         
@@ -574,24 +574,25 @@ def preProcess(X_train,train_X,X_test,test_X,cat,clfName):
     return X_train,train_X,X_test,test_X
 
 
-def splitCat(X_train,X_test,cat):
-    assert len(X_train[0]) == len(cat), "There should be equal categories as sample features in train"
-    assert len(X_test[0]) == len(cat), "There should be equal categories as sample features in test"
-    Xt_train = list(map(list, zip(*X_train)))
-    Xt_test = list(map(list, zip(*X_test)))
+def splitCat(X_train2,X_test2,cat):
+    assert len(X_train2[0]) == len(cat), "There should be equal categories as sample features in train"
+    assert len(X_train2[0]) == len(X_test2[0]), "splits should be equal length"
+    assert len(X_test2[0]) == len(cat), "There should be equal categories as sample features in test"
+    Xt_train2 = list(map(list, zip(*X_train2)))
+    Xt_test2 = list(map(list, zip(*X_test2)))
     XtC_train = []
     XtN_train = []
     XtC_test = []
     XtN_test = []
     for i,boole in enumerate(cat):
         if boole:
-            if i >= len(Xt_test):
+            if i >= len(Xt_test2):
                 print('wut')
-            XtC_train.append(Xt_train[i])
-            XtC_test.append(Xt_test[i])
+            XtC_train.append(Xt_train2[i])
+            XtC_test.append(Xt_test2[i])
         else:
-            XtN_train.append(Xt_train[i])
-            XtN_test.append(Xt_test[i])
+            XtN_train.append(Xt_train2[i])
+            XtN_test.append(Xt_test2[i])
     XN_train = list(map(list, zip(*XtN_train)))
     XN_test = list(map(list, zip(*XtN_test)))
     XC_train = list(map(list, zip(*XtC_train)))
@@ -599,19 +600,20 @@ def splitCat(X_train,X_test,cat):
     return XC_train,XN_train,XC_test,XN_test
 
 def balance(cat,X):
+    catCopy = copy(cat)
     if len(cat) < len(X[0]):        
         lenC = len(cat)
         for i in range(lenC,len(X[0])):
             if round(X[0][i]) == X[0][i]:
-                cat.append(True)
+                catCopy.append(True)
             else:
-                cat.append(False)
+                catCopy.append(False)
     elif len(cat) > len(X[0]):
         lenC = len(cat)
         for i in range(len(X[0]),lenC):
-            cat.pop()
+            catCopy.pop()
     
-    return cat
+    return catCopy
 
 def combine(XC_train,XN_train,XC_test,XN_test):
     XtN_train = list(map(list, zip(*XN_train)))

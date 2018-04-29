@@ -1755,7 +1755,7 @@ def featureClfAdjPre(did,cv,amount,typ):
         for clfName in clfNames:
             if pre(clfName):
                 cat = read_did_cat(did)
-                X_train,train_X,X_test,test_X = preProcess(X_train,X_train,X_test,test_X,cat,clfName)
+                X_train,train_X,X_test,test_X = preProcess(X_train,train_X,X_test,test_X,cat,clfName)
             cv_clf = clfs(clfName)
             cv_clf2 = clfs(clfName)
             with stopwatch() as sw:
