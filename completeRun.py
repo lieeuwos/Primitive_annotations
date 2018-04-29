@@ -14,7 +14,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
 from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset,remove_features2,create_features,add_noise_features3,preProcess,remove_features_importance,remove_features_importance2
-from Noise2 import remove_features2Cat
+from Noise2 import remove_features2Cat,add_copy_featuresCat,add_noise_features2Cat,preProcessV2
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -303,35 +303,12 @@ def add_type2(X,y,amount,typ):
         return remove_features_importance(X,y,amount)
 
 def add_typePre(X,cat,amount,typ):
-    if typ == 0:
-        return remove_features(X,amount)
-    elif typ == 1:
-        return add_noise_features(X,amount)
-    elif typ == 2:
-        return add_noise_features2(X,cat,amount)
+    if typ == 2:
+        return add_noise_features2Cat(X,cat,amount)
     elif typ == 3:
-        return add_copy_features(X,amount)
-    elif typ == 4:
-        return add_copy(X,amount)
+        return add_copy_featuresCat(X,cat,amount)
     elif typ == 5:
-        return remove_features2Cat(X,amount)
-    elif typ == 6:
-        X2 = []
-        for i in range(len(X)):
-            X2.append([])
-        return add_noise_features2(X2,cat,amount)
-    elif typ == 7:
-        X2 = []
-        for i in range(len(X)):
-            X2.append([])
-        return add_noise_features3(X2,cat,amount)
-    elif typ == 8:
-        for i,val in enumerate(cat):
-            if val:
-                cat[i] = False
-            else:
-                cat[i] = True
-        return add_noise_features2(X,cat,amount)
+        return remove_features2Cat(X,cat,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)
@@ -1748,14 +1725,15 @@ def featureClfAdjPre(did,cv,amount,typ):
     sc = 2
     for i in range(0,cv):        
         X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)       
-        train_X = add_type(X_train,cat,amount,typ)        
-        test_X = add_type(X_test,cat,amount,typ)        
-            
+        train_X,cat2 = add_typePre(X_train,cat,amount,typ)        
+        test_X,cat3 = add_typePre(X_test,cat,amount,typ)        
+        if not cat2 == cat3:
+            print('inconsisent')
         j = 0
         for clfName in clfNames:
             if pre(clfName):
                 cat = read_did_cat(did)
-                X_train,train_X,X_test,test_X = preProcess(X_train,train_X,X_test,test_X,cat,clfName)
+                X_train,train_X,X_test,test_X = preProcessV2(X_train,train_X,X_test,test_X,cat,cat2,clfName)
             cv_clf = clfs(clfName)
             cv_clf2 = clfs(clfName)
             with stopwatch() as sw:

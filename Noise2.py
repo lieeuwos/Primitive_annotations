@@ -134,6 +134,21 @@ def add_copy_features(X,amount):
             i.append(Xt[feature[j]][x])
     return temp
 
+def add_copy_featuresCat(X,cat,amount):
+    cat2 = copy(cat)
+    temp = deepcopy(X)
+    Xt = list(map(list, zip(*X)))
+    feature = []
+    for i in range(amount):        
+        feature.append(random.choice(range(len(Xt))))
+    for x,i in enumerate(temp):
+        for j in range(0,amount):
+            i.append(Xt[feature[j]][x])
+    for i in feature:
+        cat2.append(cat[i])
+    return temp,cat2
+
+
 def add_copy(X,amount):
     temp = deepcopy(X)
     Xt = list(map(list, zip(*X)))
@@ -159,6 +174,23 @@ def add_noise_features2(X,cat,amount):
                 i.append(random.random())
         cats = cat_needed(X,cat,amount)
     return temp
+
+def add_noise_features2Cat(X,cat,amount):
+#    assert amount >= 1, "features should be added"
+    assert type(amount) == int , "amount should be integer"
+    temp = deepcopy(X)
+    cats = cat_needed(X,cat,amount)               
+    for i in temp:
+        for j in range(0,amount):
+            if cats > 0:
+                i.append(int(100*random.random()))
+                cats = cats - 1
+            else:
+                i.append(random.random())
+        cats = cat_needed(X,cat,amount)
+    return temp,balance(cat,X)
+
+
 
 def add_noise_features3(X,cat,amount):
 #    assert amount >= 1, "features should be added"
@@ -485,15 +517,16 @@ def remove_features2(X,amount):
     return list(map(list, zip(*X2)))
 
 
-def remove_features2Cat(X,amount,cat):
+def remove_features2Cat(X,cat,amount):
+    cat2 = copy(cat)
     X2 = list(map(list, zip(*X)))
     for i in range(amount):
         if len(X2) == 1:
             print("Error removing full dataset")
             return list(map(list, zip(*X2)))
         X2.pop()
-        cat.pop()
-    return list(map(list, zip(*X2))),cat
+        cat2.pop()
+    return list(map(list, zip(*X2))),cat2
     
 def create_features(y):
     X = []
