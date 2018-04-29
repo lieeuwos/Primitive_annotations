@@ -41,20 +41,22 @@
 \contentsline {paragraph}{\numberline {3.5.4.2}numerical features \newline }{12}{paragraph.3.5.4.2}
 \contentsline {section}{\numberline {4}Experimental Results}{12}{section.4}
 \contentsline {subsection}{\numberline {4.1}Scalability}{12}{subsection.4.1}
-\contentsline {subsubsection}{\numberline {4.1.1}features}{12}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.1}features}{13}{subsubsection.4.1.1}
 \contentsline {paragraph}{\numberline {4.1.1.1}Categorical features}{13}{paragraph.4.1.1.1}
-\contentsline {subsubsection}{\numberline {4.1.2}Instances}{13}{subsubsection.4.1.2}
-\contentsline {subsection}{\numberline {4.2}Redundant features}{13}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Noisy data}{13}{subsection.4.3}
-\contentsline {section}{\numberline {5}Discussion}{13}{section.5}
-\contentsline {subsection}{\numberline {5.1}Resilience to noise}{13}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}different approach}{13}{subsubsection.5.1.1}
-\contentsline {subsection}{\numberline {5.2}MetaFeatures}{13}{subsection.5.2}
-\contentsline {section}{\numberline {6}Conclusion}{15}{section.6}
-\contentsline {subsection}{\numberline {6.1}replication of previous work}{15}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}New discoveries}{15}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Future work}{15}{subsection.6.3}
-\contentsline {subsubsection}{\numberline {6.3.1}More computation}{15}{subsubsection.6.3.1}
-\contentsline {section}{\numberline {7}References}{15}{section.7}
-\contentsline {section}{\numberline {8}Appendix}{16}{section.8}
-\contentsline {subsection}{\numberline {8.1}datasets per figure}{16}{subsection.8.1}
+\contentsline {paragraph}{\numberline {4.1.1.2}Numerical features}{14}{paragraph.4.1.1.2}
+\contentsline {paragraph}{\numberline {4.1.1.3}combined}{15}{paragraph.4.1.1.3}
+\contentsline {subsubsection}{\numberline {4.1.2}Instances}{16}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}Redundant features}{17}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Noisy data}{17}{subsection.4.3}
+\contentsline {section}{\numberline {5}Discussion}{21}{section.5}
+\contentsline {subsection}{\numberline {5.1}Resilience to noise}{21}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}different approach}{21}{subsubsection.5.1.1}
+\contentsline {subsection}{\numberline {5.2}MetaFeatures}{21}{subsection.5.2}
+\contentsline {section}{\numberline {6}Conclusion}{23}{section.6}
+\contentsline {subsection}{\numberline {6.1}replication of previous work}{23}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}New discoveries}{23}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Future work}{23}{subsection.6.3}
+\contentsline {subsubsection}{\numberline {6.3.1}More computation}{23}{subsubsection.6.3.1}
+\contentsline {section}{\numberline {7}References}{23}{section.7}
+\contentsline {section}{\numberline {8}Appendix}{24}{section.8}
+\contentsline {subsection}{\numberline {8.1}datasets per figure}{24}{subsection.8.1}
