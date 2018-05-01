@@ -200,7 +200,7 @@ All resources are open source and hosted on Github.
 %subsubsections for algorithms?
 
 \subsubsection{KNeighborsClassifier}
-In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors algorithm(k-NN). K-NN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing in a tree for example. The k-NN uses as it names tells the nearest neighbors for calculation. The inputted feature set is traversed to find the nearest points and depending on the parameter k, an amount of k points is searched for. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but will not the influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality—find source---
+In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors algorithm(k-NN). K-NN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing in a tree for example. The k-NN uses as it names tells the nearest neighbors for calculation. The inputted feature set is traversed to find the nearest points and depending on the parameter k, an amount of k points is searched for. Depending on the class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but will not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality—find source---
 
 
 \subsubsection{GaussianNB}
@@ -530,6 +530,16 @@ Datasets in these experiments get increasingly more random by injecting the feat
 
 \subsection{Bias variance}
 
+
+\subsection{Ontology}
+To present the results from all the experiments, this ranks the different algorithms on different aspects discussed.
+The result will be a ranking of algorithms on different scales. The scales are:
+\begin{itemize}
+	\item training and prediction duration
+	\item robustness to noise
+	\item preprocessing needed
+	\item initial prediction accuracy
+\end{itemize} 
 
 \section{Discussion} \label{Chapter5}
 

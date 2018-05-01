@@ -301,6 +301,10 @@ def add_type(X,cat,amount,typ):
 def add_type2(X,y,amount,typ):
     if typ == 0:
         return remove_features_importance(X,y,amount)
+    
+def add_type3(XList,y,amount,typ):
+    if typ == 0:
+        return remove_features_importance2(XList,y,amount)
 
 def add_typePre(X,cat,amount,typ):
     if typ == 2:
@@ -309,6 +313,14 @@ def add_typePre(X,cat,amount,typ):
         return add_copy_featuresCat(X,cat,amount)
     elif typ == 5:
         return remove_features2Cat(X,cat,amount)
+    
+def add_typePre2(XList,cat,amount,typ):
+    if typ == 2:
+        return add_noise_features2Cat2(XList,cat,amount)
+    elif typ == 3:
+        return add_copy_featuresCat2(XList,cat,amount)
+    elif typ == 5:
+        return remove_features2Cat2(XList,cat,amount)
     
 def cv_scores_noise(did,cv,amount,cvScore):
     X,y = read_did(did)

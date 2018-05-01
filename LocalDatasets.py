@@ -184,7 +184,7 @@ def read_features(func,clfName,amount,did):
 
 def read_did_preds(func,clfName,amount,did,name):
     list1 = []
-    for i in range(1,6):
+    for i in range(1,4):
         list1.append(read_did_pred(func,clfName,amount,did,name + str(i)))
     return list1
         
@@ -217,24 +217,44 @@ def checkForExistFile(func,clfName,amount,did):
             return i
     return 0
 
-def ScoresFromPredictions(func,clfName,amount,did,scoreM):
-    predictions = read_did_preds(func,clfName,amount,did,'Predictions')
+def ScoresFromPredictions(func,clfName,amount,did,scoreM,Ramount):
+    predictions = read_did_preds(func,clfName,amount,did,'Predictions' + str(Ramount))
     score = []
-    for i in range(0,4):
+    last = 2
+    for i in range(0,last):
         score.append([])
         for j in range(0,len(predictions[i])):
             if scoreM == 'accuracy':
-                score[i].append(accuracy_score(predictions[i][j],predictions[4][j]))
+                score[i].append(accuracy_score(predictions[i][j],predictions[last][j]))
             elif scoreM == 'precision' and readDict(did)['NumberOfClasses'] == 2:
-                score[i].append(precision_score(predictions[i][j],predictions[4][j]))
+                score[i].append(precision_score(predictions[i][j],predictions[last][j]))
             elif scoreM == 'recall' and readDict(did)['NumberOfClasses'] == 2:
-                score[i].append(recall_score(predictions[i][j],predictions[4][j])) 
+                score[i].append(recall_score(predictions[i][j],predictions[last][j])) 
             elif scoreM == 'zero_one_loss':
-                score[i].append(zero_one_loss(predictions[i][j],predictions[4][j]))
+                score[i].append(zero_one_loss(predictions[i][j],predictions[last][j]))
             elif scoreM == 'kappa':
-                score[i].append(cohen_kappa_score(predictions[i][j],predictions[4][j]))
+                score[i].append(cohen_kappa_score(predictions[i][j],predictions[last][j]))
         
     return score
+
+def ScoresFromPredictionsAvg(func,clfName,amount,did,scoreM):
+    Ramount = checkForExistFile(func,clfName,amount,did) 
+    i = 0
+    predictions = ScoresFromPredictions(func,clfName,amount,did,scoreM,i)
+    for i in range(1,Ramount):
+        pred1 = ScoresFromPredictions(func,clfName,amount,did,scoreM,i)
+        for i,item in enumerate(pred1):
+            for j in item:
+                predictions[i].append(j)
+    return predictions
+
+def ScoresAveraging(func,clfName,amount,did,scoreM):
+    predictions = ScoresFromPredictionsAvg(func,clfName,amount,did,scoreM)
+    avg = []
+    for i in predictions:
+        avg.append(sum(i)/len(i))
+    return avg
+        
 
 def readEstimator(func,clfName,amount,did):
     estimator = []

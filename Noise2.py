@@ -465,13 +465,42 @@ def remove_features_importance(X,y,amount):
             XT2.append(xtj)
     return list(map(list, zip(*XT2))),toRemove
 
-def remove_features_importance2(X,toRemove):
-    XT = list(map(list, zip(*X)))
+#def remove_features_importance2(X,toRemove):
+#    XT = list(map(list, zip(*X)))
+#    XT2 = []
+#    for i,xtj in enumerate(XT):
+#        if not i in toRemove:
+#            XT2.append(xtj)
+#    return list(map(list, zip(*XT2)))
+
+def remove_features_importance2(XList,y,amount):
+    assert amount < len(XList[0][0])
+    assert len(XList[0]) == len(y)
+    for i in XList:
+        assert len(i[0]) == len(XList[0][0])
+#    XT = list(map(list, zip(*XList[0])))
+    XTList = []
     XT2 = []
-    for i,xtj in enumerate(XT):
+    for i in XList:
+        XT2.append([])
+        XTList.append(list(map(list, zip(*i))))
+    clf = RandomForestClassifier()    
+    clf.fit(XList[0],y)
+    featsImp = clf.feature_importances_
+    toRemove = []
+    for i in range(amount):
+        index_min = min(range(len(featsImp)), key=featsImp.__getitem__)
+        toRemove.append(index_min)
+        featsImp[index_min] = 1.1
+    for i,xtj in enumerate(XTList[0]):
         if not i in toRemove:
-            XT2.append(xtj)
-    return list(map(list, zip(*XT2)))
+            for j,item in enumerate(XT2):
+                XT2[j].append(XTList[i])
+    XList2 = []
+    for i in XT2:
+        XList2.append(list(map(list, zip(*XT2))))
+        
+    return list(map(list, zip(*XT2))),toRemove
 
 def split(X,y,amount):
     X = X[:amount]
