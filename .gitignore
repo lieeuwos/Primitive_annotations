@@ -110,3 +110,6 @@ main.out
 main.log
 main.aux
 main.toc
+*.aux
+*.gz
+*.toc
