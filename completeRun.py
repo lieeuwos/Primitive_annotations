@@ -1693,7 +1693,7 @@ def featureClfAdjPre(did,cv,amount,typ):
     assert typ == 3 or typ == 5
     X,y = read_did(did)
     cat = read_did_cat(did)   
-    func = 'FeatureManipulationPre'
+    func = 'FeatureManipulationPreDuration'
     if amount > len(X[0]):
         add = True
         amount = amount - len(X[0])
@@ -1717,7 +1717,7 @@ def featureClfAdjPre(did,cv,amount,typ):
         predict.append([[],[]])
         guessed.append([[],[]])
         predicts.append([[],[],[]])
-        time.append([0,0,0,0])
+        time.append([0,0,0,0,0])
             
     X = add_identifiers(X)        
     X,y = shuffle_set(X,y)
@@ -1731,25 +1731,27 @@ def featureClfAdjPre(did,cv,amount,typ):
             print('inconsisent')
         j = 0
         for clfName in clfNames:
-            if pre(clfName):
-                cat = read_did_cat(did)
-                X_train,train_X,X_test,test_X = preProcessV2(X_train,train_X,X_test,test_X,cat,cat2,clfName)
+            with stopwatch() as sw:
+                if pre(clfName):
+                    cat = read_did_cat(did)
+                    X_train,train_X,X_test,test_X = preProcessV2(X_train,train_X,X_test,test_X,cat,cat2,clfName)
+            time[j][4].append(sw.duration)
             cv_clf = clfs(clfName)
             cv_clf2 = clfs(clfName)
             with stopwatch() as sw:
                 _ = cv_clf.fit(X_train,y_train)
-            time[j][0] = time[j][0] + sw.duration
+            time[j][0].append(sw.duration)
             with stopwatch() as sw:
                 predict[j][0] = cv_clf.predict(X_test)
-            time[j][1] = time[j][1] + sw.duration
+            time[j][1].append(sw.duration)
             for k in range(0,sc):
                 score[j][k] = 0
             with stopwatch() as sw:    
                 _ = cv_clf2.fit(train_X,y_train)
-            time[j][2] = time[j][2] + sw.duration
+            time[j][2].append(sw.duration)
             with stopwatch() as sw:
                 predict[j][1] = cv_clf2.predict(test_X)
-            time[j][3] = time[j][3] + sw.duration            
+            time[j][3].append(sw.duration)           
             for k in range(0,sc):
                 guessed[j][k].append(distr_guessed(predict[j][k]))        
                         
@@ -1775,7 +1777,7 @@ def featureClfAdjPre(did,cv,amount,typ):
             saveSingleDict(scorings[j],func,clfName,did,amount,'scores' + str(count))
             saveSingleDict(guessed[j],func,clfName,did,amount,'SummaryGuesses' + str(count))
             savePredictsScore(predicts[j],func,clfName,did,amount,'Predictions' + str(count))
-            saveSingleDict([time[j]],func,clfName,did,amount,'duration' + str(count))
+            saveSingleDict(time[j],func,clfName,did,amount,'duration' + str(count))
             saveSingleDict([iden],func,clfName,did,amount,'order' + str(count))
         j = j + 1
         
