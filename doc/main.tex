@@ -243,6 +243,8 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 	
 	datapoint & a datapoint is a single value of a feature. For example an instance has for all feature of a dataset a single datapoint.\\[1ex]
 	
+	dataset & a dataset are values in a matrix format, where each row represents a single Instance and each collum represent all the values of a feature.\\ [1ex]
+	
 	dataset manipulation & like the word suggested is the manipulation of dataset like injecting std deviation or inserting random categories. Adding or removing; of  features or instances to the dataset also counts as it also influence duration and/or accuracy. \\ [1ex]
 	
 	dense matrix & most values in a matrix are different and fluctuate with each row or collumn.(non-zero)\\ [1ex]
@@ -320,7 +322,7 @@ For each experiment data is saved to give insight to what the results are. Depen
 \begin{itemize}
 	\item predictive accuracy for measuring the predictive accuracy we store the default sklearn scoring calculation
 	\item duration instances for the time needed to calculate 
-	\item control
+	\item control data like predictions and real target values. Summarizing data of the predictions to make a faster observation. 
 \end{itemize}
 \subsubsection{Duration}
 For each classification instance and for each prediction the time is added to indicate how the classification took. 

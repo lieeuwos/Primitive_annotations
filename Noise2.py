@@ -448,6 +448,8 @@ def remove_features(X,amount):
         X2.append(X[i][:len(X[i])-amount])
     return X2
 
+# removes *amount* features in dataset X based on feature importance generated from a RandomForestClassifier
+# return dataset X with removed features and the position of the removed features
 def remove_features_importance(X,y,amount):
     assert amount < len(X[0])
     XT = list(map(list, zip(*X)))
@@ -465,14 +467,38 @@ def remove_features_importance(X,y,amount):
             XT2.append(xtj)
     return list(map(list, zip(*XT2))),toRemove
 
-#def remove_features_importance2(X,toRemove):
-#    XT = list(map(list, zip(*X)))
-#    XT2 = []
-#    for i,xtj in enumerate(XT):
-#        if not i in toRemove:
-#            XT2.append(xtj)
-#    return list(map(list, zip(*XT2)))
+# removes *amount* features in dataset X based on correlation
+    # return dataset X with removed features and the position of the removed features
+def remove_features_correlationMax(X,y,amount):
+    assert amount < len(X[0])
+    toRemove = []
+    XT = list(map(list, zip(*X)))
+    correlation = np.corrcoef(XT,rowvar = True)
+    for k in range(amount):        
+        allValues = []
+        for i in correlation:
+            for j in i:
+                allValues.append(abs(j))
+        num = max(range(len(allValues)), key=allValues.__getitem__)
+        row = int((num - (num % len(correlation[0])))/len(correlation[0]))
+        collumn = num % len(correlation[0])
+        if sum(correlation[row]) > sum(correlation[collumn]):
+            toRemove.append(row)            
+        else:
+            toRemove.append(collumn)
+        for j,item in enumerate(correlation):
+            correlation[j][toRemove[k]] = 0
+        for j,item in enumerate(correlation[toRemove[k]]):
+            correlation[toRemove[k]][j] = 0
+    XT2 = []   
+    for i,xtj in enumerate(XT):
+        if not i in toRemove:
+            XT2.append(xtj)   
+    
+    return list(map(list, zip(*XT2))),toRemove
 
+
+# removes features based on feature importance done on the first entry in dataset XList and target y
 def remove_features_importance2(XList,y,amount):
     assert amount < len(XList[0][0])
     assert len(XList[0]) == len(y)
@@ -502,16 +528,32 @@ def remove_features_importance2(XList,y,amount):
         
     return list(map(list, zip(*XT2))),toRemove
 
+
+# removes the features of dataset X based on the identifier in the list idens:
+# returns dataset X with the removed features
+def remove_featuresIdens(X,idens):
+    XT = list(map(list, zip(*X)))
+    XT2 = []
+    for i,item in enumerate(XT):
+        if not i in idens:
+            XT2.append(XT[i])
+    return list(map(list, zip(*XT2)))
+
+# reduces the size of the datasets X and y by amount 
+# returns datasets X and y reduced by size len(y)-amount
 def split(X,y,amount):
     X = X[:amount]
     y = y[:amount]
     return X,y
 
+# the order of the dataset X is appended to the dataset X
 def add_identifiers(X):
     for i,x in enumerate(X):
         X[i].append(i)
     return X
 
+# the last collumn of the dataset X is removed 
+# returns the dataset X with the last collumn removed
 def split_identifiers(X):
     iden = []
     for i,x in enumerate(X):

@@ -14,7 +14,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB,BernoulliNB,MultinomialNB
 from utils import stopwatch
 from Noise2 import shuffle_set,random_test_set4,random_test_set6,random_test_set7,random_test_set8,random_test_set9,random_test_set3,split,noise_set2,add_copy_features,add_identifiers,split_identifiers,add_copy,orderX,reduce_dataset,remove_features2,create_features,add_noise_features3,preProcess,remove_features_importance,remove_features_importance2
-from Noise2 import remove_features2Cat,add_copy_featuresCat,add_noise_features2Cat,preProcessV2
+from Noise2 import remove_features2Cat,add_copy_featuresCat,add_noise_features2Cat,preProcessV2,remove_features_correlationMax,remove_featuresIdens
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from random import random
@@ -301,6 +301,8 @@ def add_type(X,cat,amount,typ):
 def add_type2(X,y,amount,typ):
     if typ == 0:
         return remove_features_importance(X,y,amount)
+    if typ == 1:
+        return remove_features_correlationMax(X,y,amount)
     
 def add_type3(XList,y,amount,typ):
     if typ == 0:
@@ -1794,9 +1796,16 @@ def featureClfAdjPre(did,cv,amount,typ):
         j = j + 1
         
 def featureRemoving(did,cv,amount,typ):
-    assert typ == 0
-    X,y = read_did(did)  
+    assert typ == 0 or typ == 1, "non-existing typ"
     func = 'FeatureRemoveImportant'
+    if typ == 1:
+        func = 'FeatureRemoveCorrelation'
+    X,y = read_did(did) 
+    cat = read_did_cat(did)
+    if typ == 1 and True in cat:
+        print('does not compute' + func + str(did) + str(amount) + str(typ))
+        return
+    
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier', 'SGDClassifier', 'AdaBoost','GaussianNB', 'BernoulliNB','GradientBoost','KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
 
@@ -1825,7 +1834,7 @@ def featureRemoving(did,cv,amount,typ):
     for i in range(0,cv):        
         X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)       
         train_X,idens = add_type2(X_train,y_train,amount,typ)        
-        test_X = remove_features_importance2(X_test,idens)       
+        test_X = remove_featuresIdens(X_test,idens)       
         featuresRemoved.append(idens)  
         j = 0
         for clfName in clfNames:
