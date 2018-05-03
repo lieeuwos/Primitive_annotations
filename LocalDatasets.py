@@ -376,7 +376,8 @@ def DoneFeatureMan(func,clfName,amountList):
             if list1Inlist2(dirnames,amountList2):
                 listAdd.append(did)
     return list(set(listAdd))
-                
+
+# returns a dict of done experiments with amount as list per dataset_id               
 def DoneExperiments(func,clfName):
     list_of_files = []
     for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
@@ -391,6 +392,7 @@ def DoneExperiments(func,clfName):
                 dictAdd.append({did: dirnames})
     return dictAdd
 
+#returns a dictionary of done experiments with amount as fractions of the complete set
 def DoneExperimentsFeatures(func,clfName):
     list_of_files = []
     for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):

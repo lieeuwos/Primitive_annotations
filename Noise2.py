@@ -546,6 +546,17 @@ def split(X,y,amount):
     y = y[:amount]
     return X,y
 
+def extendD(X,y,amount):
+    if amount > 1.0:
+        extender = amount *len(X)
+    X2 = copy(X)
+    y2 = copy(y)
+    lenXy = len(X)
+    for i in range(extender):
+        X2.append(X[i%lenXy])
+        y2.append(y[i%lenXy])
+    return X2,y2
+
 # the order of the dataset X is appended to the dataset X
 def add_identifiers(X):
     for i,x in enumerate(X):
