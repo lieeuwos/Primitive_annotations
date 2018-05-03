@@ -157,8 +157,7 @@ To elaborate on this we will outline the research questions and thesis structure
 Machine learning is a growing field that can help process the increase of available data\cite{Big-data}\cite{ML-trends}. 
 Python is a language which holds premade machine learning algorithms in libraries like scikit-learn\cite{scikit-learn}.
 In recent years python is also increasing in so called market share for machine learning\cite{python-pop}.
-To help machine learners using the scikit-learn library made a model to indicate what algorithm to use for what problem. 
-In figure \ref{fig:FlowChartML} you can see that depending on size of the data and early results different algorithms are recommend.
+To help machine learners using the scikit-learn library a model was made to indicate what algorithm to use for what problem. In figure \ref{fig:FlowChartML} you can see that depending on size of the data and early results, different algorithms are recommend.
  
 
 \begin{figure}[h] %use t for top of page instead of h for here
@@ -244,7 +243,10 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 
 \begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
 	
+	
 	algorithm & The process with a specified in and output that solves a problem\\ [1ex]
+	
+	amount & a value that indicates the change of the feature set either in dimension or in value. For \\[1ex]
 	
 	
 	annotations & Adjectives of something like a machine learning algorithms, examples can be robust or biased\\ [1ex]
@@ -302,6 +304,8 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 	
 	biasVar & bias and variance \\
 	
+	did & dataset identifier \\
+	
 	SDG & Stochastic gradient descent \\
 	
 	std & standard deviation\\
@@ -352,12 +356,19 @@ SummaryGuesses give a quick overview of the obtained results. It stores in pytho
 When bootstrapping is done a bias and variance error is calculated together with the total error value. These are stored for easy lookup to the bias and variance error part of a classifier.
 
 \subsubsection{Identifier}
-The data input is shuffled as the saved datasets are sorted by class. The identifier can be used to match prediction results to a specific feature. This way of saving is used to reduce space needed to save potential useful information. Odd behavior on small datasets can be explained by an off balanced dataset for training. This cut of the data can be realistic but may affect averaged result significantly. 
+The data input is shuffled as the saved datasets are sorted by class. The identifier can be used to match prediction results to a specific instance in the dataset. This way of saving is used to reduce space needed to save potential useful information. Odd behavior on small datasets can be explained by an off balanced dataset for training. The split of the data can be realistic but may affect averaged result significantly. 
+
+\subsubsection{RemovedFeatures}
+In the case we use metafeatures like feature importance or correlation to remove features we save the removed features per fold of the cross validation. Comparing the removed features of each fold we can find if there are multiple irrelevant features or the features are likely to be randomly more important than another.
 
 \subsection{Experiments}
 Experiments are grouped by all mentioned classifier with some initial settings on the dataset and/or classifiers. Experiments are defined as functions in python with input values indicating the way the experiment is done and on which dataset.
 \subsubsection{Scalability}
 Scalability experiments can be split up in instance based or features based. To measure the effect of features we take datasets with lots of features and remove features in steps to find the impact of these lost features. There is a disadvantage with this strategy as some classifiers calculate values like feature importance which depend on a somewhat complete dataset of features. The removed features are randomly chosen and can be defining features for the accuracy of the dataset. 
+
+To combat this we also so feature removing based on feature importance of a RandomForestClassifier and on correlation between features. For feature importance we train a RandomForestClassifier to find the most important features. We then remove the least important features and remember the features we removed to also remove them in the test set. For correlation we find the feature the 2 most correlated features and then remove the feature that is most correlated to all features of the 2. Based on the amount we are going to remove we repeat the process to remove more.
+
+
 Another option  to measure scalability is to measure the impact of number of instances. For most classifiers each instance is considered during training and we measure an average calculation for each feature. The duration is measured over the whole dataset by doing a 10 fold cross validation.
 %We compare the found scalability against the perceived running time upper or lower bounds. 
 
@@ -496,7 +507,7 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/Instances.png}
-	\caption{splitting a dataset in parts}
+	\caption{The dataset is reduced to a split of the initial dataset and then cross validation is done on the reduced dataset. The lines are predictions}
 	\label{fig:Instances}
 \end{figure}
 
@@ -505,9 +516,13 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/InstancesPrediction.png}
-	\caption{features randomly removed and feature randomly duplicated}
+	\caption{the dataset is reduced to a fraction of the initial dataset. A prediction is made of the duration of classification and prediction per dataset, indicated by the dotted line }
 	\label{fig:InstancesPred}
 \end{figure}
+
+\paragraph{Prediction}
+For scalability it is easier to predict then for accuracy. The lines for the duration increase are on a log scale nearly linear. This makes for an easy fit with a linear line with log preprocessing. In \cite{fig:Instances} you can see that the averaged results of an instance scalability has a good fit. However if we try to predict on an individual bases per dataset the results are less promising \cite{fig:InstancesPred}. Here we tried fitting a KernelRidge with some additional meta features. The meta features include the number of instances,features,numeric features ,categorical featueres and number of classes. 
+
 \newpage
 \subsection{Redundant features}
 We consider here both random and duplcite features as they are both redundant.
@@ -558,6 +573,8 @@ The result will be a ranking of algorithms on different scales. The scales are:
 \end{itemize} 
 
 \section{Discussion} \label{Chapter5}
+
+
 
 \subsection{Resilience to noise}
 
@@ -654,6 +671,7 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \bibitem{BiasCalc} Bias plus variance decomposition for zero-one loss functions,R. Kohavi, D. Wolpert, Proceedings of the international conference on machine learning pages 275-283,(1996)
 \bibitem{RevClass} Supervised Machine Learning: A review of classification techniques, S.B. Kotsiantis, Informatica 31, (2007)
 \bibitem{ranking} Pairwise meta-rules for better meta-learning-based algorithm ranking, Quan Sun, Bernhard Pfahringer, Machine Learning Volume 93 Issue 1 pages 141-161,(2013)
+\bibitem{Sklearn-Bench} Scikit-learn: Machine Learning in python, F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion et al. Journal of Machine Learning Research 12, (2011)
 
 
  
