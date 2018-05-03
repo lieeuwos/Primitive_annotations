@@ -178,9 +178,21 @@ Earlier research has been done on scalability and resilience to irrelevant varia
 
 \begin{itemize}
 	\item scalability: runtime is measured with either a varying sample size or varying feature space 
-	\item robustness
+	\item robustness: robustness against irrelevant or redudant features
+	\item robustness: robustness against noisy features
 \end{itemize}
+
+\begin{itemize}
+	\item What is the impact on runtime of the amount of features for classification machine learning algorithms?
+	\item What is the impact on runtime of the amount of instances for classification machine learning algorithms?
+	\item What is the impact on accuracy of irrelevant or redundant features for classification machine learning algorithms?
+	\item What is the impact on accuracy of noisy features for classification machine learning algorithms?
+	\item What is the percentage of Bias-error or variance-error for classification machine learning algorithms?
+\end{itemize}
+
 The question for scalability is how varying sample size and feature space influences the runtime. Is there a measure to match this. 
+
+We rank the algorithms on their performance(predictive accuracy) on all datasets to find a ranking like done by Quan Sun and Bernhard Phahringer\cite{ranking}.
 
 
 %\subsection{thesis structure}
@@ -536,6 +548,7 @@ Datasets in these experiments get increasingly more random by injecting the feat
 
 \subsection{Ontology}
 To present the results from all the experiments, this ranks the different algorithms on different aspects discussed.
+These rankings can be compared to results from a review from 2007 of classification techniques \cite{RevClass}
 The result will be a ranking of algorithms on different scales. The scales are:
 \begin{itemize}
 	\item training and prediction duration
@@ -639,6 +652,8 @@ Proceedings of the 4th European Conference on Principles of data mining and know
 Previous bias-variance research has shown a trend of larger dataset increasing the bias component but still fluctuating with  less than 10000 instances.
 \bibitem{Bias-var} Experiment databases, J. Vanschoren, H. Blockeel, B. Pfahringer, G. Holmes, Machine Learning Volume 82 issue 2 pages 127-158, (2012)
 \bibitem{BiasCalc} Bias plus variance decomposition for zero-one loss functions,R. Kohavi, D. Wolpert, Proceedings of the international conference on machine learning pages 275-283,(1996)
+\bibitem{RevClass} Supervised Machine Learning: A review of classification techniques, S.B. Kotsiantis, Informatica 31, (2007)
+\bibitem{ranking} Pairwise meta-rules for better meta-learning-based algorithm ranking, Quan Sun, Bernhard Pfahringer, Machine Learning Volume 93 Issue 1 pages 141-161,(2013)
 
 
  
