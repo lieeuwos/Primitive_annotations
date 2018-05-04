@@ -13,6 +13,7 @@ from LocalDatasets import readDict
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import adjusted_mutual_info_score
 
 def add_noise(X,y,adj,local):
     assert len(X) == len(y), "There should be equal feature set as targets"
@@ -456,6 +457,24 @@ def remove_features_importance(X,y,amount):
     clf = RandomForestClassifier()    
     clf.fit(X,y)
     featsImp = clf.feature_importances_
+    toRemove = []
+    for i in range(amount):
+        index_min = min(range(len(featsImp)), key=featsImp.__getitem__)
+        toRemove.append(index_min)
+        featsImp[index_min] = 1.1
+    XT2 = []
+    for i,xtj in enumerate(XT):
+        if not i in toRemove:
+            XT2.append(xtj)
+    return list(map(list, zip(*XT2))),toRemove
+
+
+def remove_features_MutualInformation(X,y,cat,amount):
+    assert amount < len(X[0])
+    XT = list(map(list, zip(*X)))
+    clf = RandomForestClassifier()    
+    clf.fit(X,y)
+    featsImp = [adjusted_mutual_info_score(np.array(y), column[0]) for column in np.array(X)[:, np.where(cat)].T]
     toRemove = []
     for i in range(amount):
         index_min = min(range(len(featsImp)), key=featsImp.__getitem__)

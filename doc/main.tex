@@ -119,7 +119,7 @@ numbers=left,                    % where to put the line-numbers; possible value
 % Alles onder elkaar
 
 L.D. Stooker, 0819041 \\ [1cm]
-
+Supervisor: Joaquin Vanschoren \\
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
@@ -136,7 +136,7 @@ L.D. Stooker, 0819041 \\ [1cm]
 \end{titlepage}
 
 \begin{abstract}
-To improve existing automated picking of a machine learning algorithm
+To improve machine learning selection based on robustness and scalability in the scikit-learn library. By researching the python library which is gaining popularity we give a few insights into the qualitive properties of these machine learning algoritms. For accuracy GradientBoostingClassifier is a solid pick which outperforms with default settings on nearly all cases. A runner up on accuracy is RandomForestClassifier an easier and quicker solution. For noisy data KNeighborsClassifier is most robust and Naive Bayes algorithms are least robust. For the more unpredictable cases of noisy data in a categorical setting Gaussian Naive Bayes is however a more robust solution.
 
 \end{abstract}
 
@@ -157,7 +157,7 @@ To elaborate on this we will outline the research questions and thesis structure
 Machine learning is a growing field that can help process the increase of available data\cite{Big-data}\cite{ML-trends}. 
 Python is a language which holds premade machine learning algorithms in libraries like scikit-learn\cite{scikit-learn}.
 In recent years python is also increasing in so called market share for machine learning\cite{python-pop}.
-To help machine learners using the scikit-learn library a model was made to indicate what algorithm to use for what problem. In figure \ref{fig:FlowChartML} you can see that depending on size of the data and early results, different algorithms are recommend.
+To help people choose machine learners in the scikit-learn library a model was made to indicate what algorithm to use for what problem. In figure \ref{fig:FlowChartML} you can see that depending on size of the data and early results, different algorithms are recommend. This gives a quick overview of available algorithms and when to pick which. This figure however is outdated as new algorithms are added to the library over time. Such a model is based on the concept of no free lunch which explains that there cannot be one algorithm to solve all optimization problems\cite{No-Free-Lunch}.  
  
 
 \begin{figure}[h] %use t for top of page instead of h for here
@@ -175,11 +175,11 @@ To help machine learners using the scikit-learn library a model was made to indi
 We base our research question on the work of Joaquin to give properties to algorithms\cite{Joaquin-phd}. More specifically we look more closely to the resilience properties and the bias-variance profile. 
 Earlier research has been done on scalability and resilience to irrelevant variables\cite{Resil-1}
 
-\begin{itemize}
-	\item scalability: runtime is measured with either a varying sample size or varying feature space 
-	\item robustness: robustness against irrelevant or redudant features
-	\item robustness: robustness against noisy features
-\end{itemize}
+%\begin{itemize}
+%	\item scalability: runtime is measured with either a varying sample size or varying feature space 
+%	\item robustness: robustness against irrelevant or redudant features
+%	\item robustness: robustness against noisy features
+%\end{itemize}
 
 \begin{itemize}
 	\item What is the impact on runtime of the amount of features for classification machine learning algorithms?
@@ -191,14 +191,14 @@ Earlier research has been done on scalability and resilience to irrelevant varia
 
 The question for scalability is how varying sample size and feature space influences the runtime. Is there a measure to match this. 
 
-We rank the algorithms on their performance(predictive accuracy) on all datasets to find a ranking like done by Quan Sun and Bernhard Phahringer\cite{ranking}.
+We rank the algorithms on their performance(predictive accuracy), robustness and scalability to find a ranking like done by Quan Sun and Bernhard Phahringer\cite{ranking}.
 
 
 %\subsection{thesis structure}
 
 
 \subsection{Outline}
-In the first chapter the research question is introduced. In the second chapter background information is discussed relevant for the research. In the third chapter the setup of the experiments is outlined with the input and output of executed experiments. The fourth chapter shows the results of the experiments
+In the first chapter the research question is introduced. In the second chapter background information is discussed relevant for the research. In the third chapter the setup of the experiments is outlined with the input and output of executed experiments. The fourth chapter shows the results of the experiments. The fifth chapter is a conclusion and discussion of the obtained results. This chapter also explains an outlook on future work and different roads taken. In chapter six the references are outlined. The last chapter is the appendix with some additional information which help with reproducing and validating the results. 
 \newpage
 
 
@@ -208,7 +208,7 @@ some background knowledge and definitions which are required for a good understa
 the remainder of this thesis.
 \subsection{Sklearn/scikit-learn library}
 The scikit-learn library is based in Python and is made to make machine learning in python accessible and organized. 
-All resources are open source and hosted on Github. 
+All resources are open source and hosted on Github. Before scikit-learn there were already other libaries hosting machine learning algorithsm in python but scikit-learn was the first to make a standard guideline which makes the algorithm easier to interchange. By having default functions for fitting and predicting.
 %subsubsections for algorithms?
 
 \subsubsection{KNeighborsClassifier}
@@ -267,7 +267,7 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 	
 	features & part of a whole, Consider a flower it can be the color, size, amount of branches, amount of leaves, age. Features describe someone or something in this context it describes something so you can make a prediction of the Target.\\ [1ex]
 	
-	fit & To fit the data, synonym with inputting the training data for preparing the algorithm for prediction\\ [1ex]
+	fit & To fit the data, synonym with inputting the training data, preparing the algorithm for prediction\\ [1ex]
 	
 	Github & an online platfrom to host data. It uses git commands and is mostly used with programming project to organize a common project which each member can locally alter and centeralizly share updates or modifications. \\ [1ex]	
 	
@@ -572,9 +572,16 @@ The result will be a ranking of algorithms on different scales. The scales are:
 	\item initial prediction accuracy
 \end{itemize} 
 
-\section{Discussion} \label{Chapter5}
+
+%\section{Discussion} \label{Chapter5}
 
 
+
+
+
+
+\newpage
+\section{Conclusion} \label{Chapter5}
 
 \subsection{Resilience to noise}
 
@@ -616,12 +623,24 @@ $MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V
 		\caption{normalized Mean Mutual Information for mututations of datasets}
 		\label{fig:NMMI}
 	\end{subfigure}
-	\caption{Check-out times}\label{fig:MMIs}
+	\caption{Mutual information difference between measure}\label{fig:MMIs}
 \end{figure}
 
 
-\newpage
-\section{Conclusion} \label{Chapter6}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MutualInformationDecay.png}
+		\caption{adjusted Mean Mutual Information for added random features.}
+		\label{fig:AMMIdecay}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MutualInformationDecay-paper.png}
+		\caption{average Mutual Information as a measure of relevance}
+		\label{fig:AMMIpaper}
+	\end{subfigure}
+	\caption{Check-out times}\label{fig:MMIs}
+\end{figure}
 \subsection{replication of previous work}
 
 \subsection{New discoveries}
@@ -672,6 +691,7 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \bibitem{RevClass} Supervised Machine Learning: A review of classification techniques, S.B. Kotsiantis, Informatica 31, (2007)
 \bibitem{ranking} Pairwise meta-rules for better meta-learning-based algorithm ranking, Quan Sun, Bernhard Pfahringer, Machine Learning Volume 93 Issue 1 pages 141-161,(2013)
 \bibitem{Sklearn-Bench} Scikit-learn: Machine Learning in python, F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion et al. Journal of Machine Learning Research 12, (2011)
+\bibitem{No-Free-Lunch} No free lunch theorems for optimization, D.H. Wolpert, W.G. Macready, IEEE Transactions on Evolutionary Computation Volume 1 Issue 1, (1997)
 
 
  
