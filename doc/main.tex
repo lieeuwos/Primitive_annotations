@@ -239,6 +239,7 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 
 
 \subsection{Definitions and abbreviations}
+In this section definitions and abbreviations are explained and set in context. Common synonyms are mentioned to avoid some confusion in text
 \subsubsection{Definitions}
 
 \begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
@@ -259,13 +260,13 @@ GradientBoost is an ensemble classifier that builds from weaker classifiers \cit
 	
 	dataset & a dataset are values in a matrix format, where each row represents a single Instance and each collum represent all the values of a feature.\\ [1ex]
 	
-	dataset manipulation & like the word suggested is the manipulation of dataset like injecting std deviation or inserting random categories. Adding or removing; of  features or instances to the dataset also counts as it also influence duration and/or accuracy. \\ [1ex]
+	dataset manipulation & like the word suggested is the manipulation of a dataset like injecting std deviation or inserting random categories. Adding or removing; of  features or instances to the dataset also counts as it also influences the structure of a dataset. \\ [1ex]
 	
 	dense matrix & most values in a matrix are different and fluctuate with each row or collumn.(non-zero)\\ [1ex]
 	
 	distribution & A distribution of a dataset is the probability distribution of that dataset. So considering the dataset what are the odss of picking a specific value. \\ [1ex]
 	
-	features & part of a whole, Consider a flower it can be the color, size, amount of branches, amount of leaves, age. Features describe someone or something in this context it describes something so you can make a prediction of the Target.\\ [1ex]
+	features & part of a whole, Consider a flower it has a color, size, amount of branches, amount of leaves and age. Features describe someone or something in this context it describes something, in this context it is the input to a machine learning for predicting a target , a synonym is variable.\\ [1ex]
 	
 	fit & To fit the data, synonym with inputting the training data, preparing the algorithm for prediction\\ [1ex]
 	
@@ -409,6 +410,9 @@ Calculate std$_X$ for all features in dataset X\\
 
 \subsubsection{Bias Variance}
 To measure the bias and variance error factor we use the calculation of Kohavi and Wolpert\cite{BiasCalc}. This is the same measure used in the work of Joaquin et al.\cite{Bias-var}. This experiment is made to reproduce that experiment with the scicikit-learn library. The input for the bias and variance calculation is done by doing 40 bootstraps. 
+
+\subsubsection{PreProcessing}
+Preprocessing is a neccesary job for most machine learning algorithms as they are dependent on the input structure to classify. For example KNeighborsClassifier is dependent on distance between instances, if we look at categorical data the distance between instances is not always relevant. That is why experiments with specifically categorical datasets are repeated with some preprocessing for at least KNeighborsClassifier, SGDClassifier and SVC-rbf. For these algorithms a translation of categorical features seems to be neccesary\cite{KNN-Sym}
  
 \section{Experimental Results} \label{Chapter4}
 
@@ -417,9 +421,11 @@ To measure the bias and variance error factor we use the calculation of Kohavi a
 All results with a duration axis. The duration axis is in seconds and shows a 10 fold cross validiation. This means that the duration encompasses 10 times fitting over 90\% of the data and 10 times predicting 10\% of the data.
 
 \subsubsection{features}
+Due to the robustness experiments a lot of results change the composition of a dataset in the feature dimension. In this subsection all results changing the composition of a dataset are included with a duration y axis. 
+
 
 \paragraph{Categorical features}
-the averaged results are shown in figure \ref{fig:FeatAddCat}
+The results are obtained from datasets with only categorical features and the averaged results are shown in figure \ref{fig:FeatAddCat}.
 \begin{figure}[h] %use t for top of page instead of h for here
 	\centering
 	\includegraphics[
@@ -428,7 +434,15 @@ the averaged results are shown in figure \ref{fig:FeatAddCat}
 	\caption{Features added straight line represent duplicate features and dotted line are random categorical features between 0 and 2}
 	\label{fig:FeatAddCat}
 \end{figure}
-
+\\
+\textbf{RandomForestClassifier} \\
+\textbf{KNeighborsClassifier} \\
+\textbf{SGDClassifier} \\
+\textbf{AdaBoost} \\
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} \\
+\textbf{BernoulliNB} \\
+\textbf{GradientBoostingClassifier} \\
 \newpage
 \paragraph{Numerical features}
 in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCatSlope}
@@ -450,6 +464,15 @@ in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCat
 	\caption{Features added straight line represent duplicate features and dotted line are random numerical features}
 	\label{fig:FeatAddNonCatSlope}
 \end{figure}
+\\
+\textbf{RandomForestClassifier} \\
+\textbf{KNeighborsClassifier} \\
+\textbf{SGDClassifier} \\
+\textbf{AdaBoost} \\
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} \\
+\textbf{BernoulliNB} \\
+\textbf{GradientBoostingClassifier} \\
 \newpage
 \paragraph{combined}
 in figures \ref{fig:FeatMan} and \ref{fig:FeatManLog} adding and removing features is shown.
@@ -520,6 +543,16 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\label{fig:InstancesPred}
 \end{figure}
 
+\\
+\textbf{RandomForestClassifier} \\
+\textbf{KNeighborsClassifier} \\
+\textbf{SGDClassifier} \\
+\textbf{AdaBoost} \\
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} \\
+\textbf{BernoulliNB} \\
+\textbf{GradientBoostingClassifier} \\
+
 \paragraph{Prediction}
 For scalability it is easier to predict then for accuracy. The lines for the duration increase are on a log scale nearly linear. This makes for an easy fit with a linear line with log preprocessing. In \cite{fig:Instances} you can see that the averaged results of an instance scalability has a good fit. However if we try to predict on an individual bases per dataset the results are less promising \cite{fig:InstancesPred}. Here we tried fitting a KernelRidge with some additional meta features. The meta features include the number of instances,features,numeric features ,categorical featueres and number of classes. 
 
@@ -554,9 +587,17 @@ Datasets in these experiments get increasingly more random by injecting the feat
 	width=0.65\textwidth
 	]{images/NoisyFeatures/predNonCatFeatPre.png}
 	\caption{adding or removing uniformly random std to numerical features and preprocessing for some algorithms.}
-	\label{fig:predNonCatFeat}
+	\label{fig:predNonCatFeatPre}
 \end{figure}
-
+\\
+\textbf{RandomForestClassifier} \\
+\textbf{KNeighborsClassifier} \\
+\textbf{SGDClassifier} \\
+\textbf{AdaBoost} \\
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} \\
+\textbf{BernoulliNB} \\
+\textbf{GradientBoostingClassifier} \\
 
 \subsection{Bias variance}
 
@@ -639,8 +680,11 @@ $MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V
 		\caption{average Mutual Information as a measure of relevance}
 		\label{fig:AMMIpaper}
 	\end{subfigure}
-	\caption{Check-out times}\label{fig:MMIs}
+	\caption{Mutual information decline between previous work and this work}\label{fig:MMIs}
+	\label{paper-thesis}
 \end{figure}
+
+In figure \ref{paper-thesis} the experiment setup of Hilario and the expriment setup of this thesis are shown\cite{Resil-1}. For Hilario it was to show that with the added random features the mutual information decreases an indicator that the added features could not improve the accuracy. In the experiment of this thesis the added features also show a decrease in mutual information but the scale is 10 times smaller. This indicates that the datasets used are less valueable in contrast to the ones used by Hilario. The change of x-scale compared to previous experiments is to able to compare it more to the work of Hilario.
 \subsection{replication of previous work}
 
 \subsection{New discoveries}
@@ -692,6 +736,8 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \bibitem{ranking} Pairwise meta-rules for better meta-learning-based algorithm ranking, Quan Sun, Bernhard Pfahringer, Machine Learning Volume 93 Issue 1 pages 141-161,(2013)
 \bibitem{Sklearn-Bench} Scikit-learn: Machine Learning in python, F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion et al. Journal of Machine Learning Research 12, (2011)
 \bibitem{No-Free-Lunch} No free lunch theorems for optimization, D.H. Wolpert, W.G. Macready, IEEE Transactions on Evolutionary Computation Volume 1 Issue 1, (1997)
+\bibitem{KNN-Sym} A Weighted Nearest Neighbor Algorithm for Learning with symbolic features, S. Cost, S. Salzberg, Machine Learning Volume 10, number 1 pages 57-78, (1993)
+\bibitem{SVM-sym} A practical guide to support vector classification, Chih-wei Hsu, Chich-Chung Chang, Chich-Jen Lin, 101. 1396-1400, (2003)
 
 
  

@@ -662,6 +662,21 @@ def add_noise_featuresN(X,cat,amount,n):
         cats = cat_needed(X,cat,amount)
     return temp
 
+def add_noise_featuresN2(X,cat,amount,n):
+#    assert amount >= 1, "features should be added"
+    assert type(amount) == int , "amount should be integer"
+    temp = deepcopy(X)
+    cats = cat_needed(X,cat,amount)               
+    for i in temp:
+        for j in range(0,amount):
+            if cats > 0:
+                i.append(int(n*random.random()))
+                cats = cats - 1
+            else:
+                i.append(n*random.random())
+        cats = cat_needed(X,cat,amount)
+    return temp
+
 def durationPair(list1,start):
     return list1[start] + list1[start+1]
 
