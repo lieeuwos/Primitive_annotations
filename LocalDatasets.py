@@ -168,8 +168,19 @@ def read_duration(func,clfName,amount,did):
     for i in range(0,Ramount):
         temp = read_did_pred(func,clfName,amount,did,name + str(i))[0]
         for j in range(0,len(temp)):
-            duration.append(0)
+            if i == 0:
+                duration.append(0)
             duration[j] = duration[j] + temp[j]/Ramount
+    return duration
+
+def read_durationMax(func,clfName,amount,did):
+    duration = [] # amount of scores in the set
+    name = 'duration'
+    Ramount = checkForExistFile(func,clfName,amount,did)
+    temp = read_did_pred(func,clfName,amount,did,name + str(Ramount-1))[0]
+    for j in range(0,len(temp)):
+        duration.append(0)
+        duration[j] = duration[j] + temp[j]/Ramount
     return duration
 
 def read_features(func,clfName,amount,did):

@@ -284,6 +284,8 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	scalability & is the capability of a system to handle growing amount of work. \\[1ex]
 	
+	slope & a slope value is the value to go from one point to another as a vector. For example from point (1,1) to point (2,3) there is a slope of 1/2.\\[1ex]
+	
 	sparse matrix & a matrix with lots of zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
 	
 	target & In a classificication the value or classes that needs to be predicted, where it mostly about a single feature with at least 2 classes. This can be a feature of something \\ [+1ex]
@@ -412,8 +414,7 @@ Calculate std$_X$ for all features in dataset X\\
 To measure the bias and variance error factor we use the calculation of Kohavi and Wolpert\cite{BiasCalc}. This is the same measure used in the work of Joaquin et al.\cite{Bias-var}. This experiment is made to reproduce that experiment with the scicikit-learn library. The input for the bias and variance calculation is done by doing 40 bootstraps. 
 
 \subsubsection{PreProcessing}
-Preprocessing is a neccesary job for most machine learning algorithms as they are dependent on the input structure to classify. For example KNeighborsClassifier is dependent on distance between instances, if we look at categorical data the distance between instances is not always relevant. That is why experiments with specifically categorical datasets are repeated with some preprocessing for at least KNeighborsClassifier, SGDClassifier and SVC-rbf. For these algorithms a translation of categorical features seems to be neccesary\cite{KNN-Sym}
- 
+Preprocessing is a neccesary job for most machine learning algorithms as they are dependent on the input structure to classify. For example KNeighborsClassifier is dependent on distance between instances, if we look at categorical data the distance between instances is not always relevant. That is why experiments with specifically categorical datasets are repeated with some preprocessing for at least KNeighborsClassifier, SGDClassifier and SVC-rbf. For these algorithms a translation of categorical features seems to be neccesary \cite{KNN-Sym}\cite{SVM-sym}. The proposed preprocessing steps are OneHotEncoder and Standardscaler in that order. OneHotEncoder translates the categorical features in features corresponding to the amount of classes. Each feature is then a boolean value of being the class or not. The StandardScaler removes the mean and scales on the standard deviation. Storing the mean and std of the training set to use it to transform the test set balances the dataset accordingly. 
 \section{Experimental Results} \label{Chapter4}
 
 
@@ -445,7 +446,7 @@ The results are obtained from datasets with only categorical features and the av
 \textbf{GradientBoostingClassifier} \\
 \newpage
 \paragraph{Numerical features}
-in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCatSlope}
+in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCatSlope}.
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
@@ -464,7 +465,6 @@ in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCat
 	\caption{Features added straight line represent duplicate features and dotted line are random numerical features}
 	\label{fig:FeatAddNonCatSlope}
 \end{figure}
-\\
 \textbf{RandomForestClassifier} \\
 \textbf{KNeighborsClassifier} \\
 \textbf{SGDClassifier} \\
@@ -543,7 +543,6 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\label{fig:InstancesPred}
 \end{figure}
 
-\\
 \textbf{RandomForestClassifier} \\
 \textbf{KNeighborsClassifier} \\
 \textbf{SGDClassifier} \\
@@ -589,7 +588,7 @@ Datasets in these experiments get increasingly more random by injecting the feat
 	\caption{adding or removing uniformly random std to numerical features and preprocessing for some algorithms.}
 	\label{fig:predNonCatFeatPre}
 \end{figure}
-\\
+
 \textbf{RandomForestClassifier} \\
 \textbf{KNeighborsClassifier} \\
 \textbf{SGDClassifier} \\
@@ -598,6 +597,16 @@ Datasets in these experiments get increasingly more random by injecting the feat
 \textbf{GaussianNB} \\
 \textbf{BernoulliNB} \\
 \textbf{GradientBoostingClassifier} \\
+
+Here again the randomForestClassifier falls the hardest. Which can be explained by the overwritten features now having no relation with the previous feature value. This means that previous important features can be irrelevant. The KNeighborsClassifier get a smaller impact as they are more dependent on multiple features and will drop down more gradually. SVC-rbf has better starting results than with numerical datasets but also falls harder with the changes, as can be contritubed to the dependency on all features at the same time with weights.(not like k neighbor classifier which spread the outcome uniformly over all features by default.) BernoulliNB shows promosing results with a less steep decling and greatest performance on the worst set(more than 60\% flipped categories).
+
+General analysis
+near the 80\% mark a small increase can be noticed with every classifier this can be explained by the sheer randomness of the features at that point, The results combining together around 0.5, can be explained by the Majority class guessing giving around 0.44 accuracy, which is likely considering the dataset is already 80\% noise.
+
+Here similair results are observed as with increased features but the drops are mostly greater, Except for GaussianNB. Here RandomForestClassifier drops significantly as seems obvious as the features can fall outside the pre calculated estimators. #TODO edit gradientboostingclassifier## The KneighborClassifier have a slow descent which can be explained as the featuers slowly getting out of range of their 'neighbor' features. The 1 neighbor and 5 neighbors have similair results and the single neighbor classifier is greater impacted by the std difference. The drop of performance of Gaussian can be attributed to the features getting out of range of the calculated variance The sudden drop in performance of Bernoulli is of the boolean convertion of features which seems to highly impact it. We can consider it to be close to things like a hash function as a small difference means a whole different value. Both ensembles(SGD and Adaboost) have a smilair slope to the KNeighborsClassifier. This can be explained by mediocre initial results accuracy and with the combining of models the difference can be less impactful.
+
+General analysis
+The performance of the algorithms not converting to random guessing can be explained by the datasets for example not having a normal distribution. Additionally Medical datasets can have a large variance falling outside of the range of multiple standard deviations.
 
 \subsection{Bias variance}
 
