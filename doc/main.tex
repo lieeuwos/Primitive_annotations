@@ -211,27 +211,28 @@ The scikit-learn library is based in Python and is made to make machine learning
 All resources are open source and hosted on Github. Before scikit-learn there were already other libaries hosting machine learning algorithsm in python but scikit-learn was the first to make a standard guideline which makes the algorithm easier to interchange. By having default functions for fitting and predicting.
 %subsubsections for algorithms?
 
-\subsubsection{KNeighborsClassifier}
-In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors algorithm(k-NN). K-NN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing in a tree for example. The k-NN uses as it names tells the nearest neighbors for calculation. The inputted feature set is traversed to find the nearest points and depending on the parameter k, an amount of k points is searched for. Depending on the class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but will not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality—find source---
-
-
-\subsubsection{GaussianNB}
-GaussianNB is a naïve Bayes classifier implementation assuming the feature set is gaussian distributed \cite{Bayes}. For fitting the data, a partial fit function is used based on the work of Chan, Golub and LeVeque \cite{Sam-var}. This calculates the assumed means and variances of a gaussian distribution of the inputted feature set. Based on this distribution the prediction is made by filling in the maximum likelihood. The limited calculation needed for classification and prediction makes this one of the fastest algorithms. The only parameter of this classifier specifies the prior probabilities of the classes, which will when specified not be adjusted to the given input. 
-
-\subsubsection{BernoulliNB}
-BernoulliNB is a naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This setting can be disabled or reduced by a threshold for the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability. 
-
-\subsubsection{SVC-rbf}
-SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension, since the standard support vector machine splits the spaces with linearly lines computation grows too large for a large feature space \cite{SVN}. The fit time is already quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will represent them in a dimension space mapped so there is a clear separation between the two categories. With the radial basis function this is with the distant from the points indicated by a separation area. Classifying a point is finding in which class area this point falls. For a multiclass problem this is done in pairs of two for all categories and then the most voted class is picked \cite{Multi-pair-coup}.%TODO ---hyperparameters--
 
 \subsubsection{RandomForestClassifier}
 RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data and averages the results for the result. These sub-samples are chosen randomly so the results can vary between runs on the same input. A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. 
 
-\subsubsection{AdaBoost}
-AdaBoost is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu also solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost algorithm with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
+
+\subsubsection{KNeighborsClassifier}
+In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors algorithm(k-NN). K-NN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing in a tree for example. The k-NN uses as it names tells the nearest neighbors for calculation. The inputted feature set is traversed to find the nearest points and depending on the parameter k, an amount of k points is searched for. Depending on the class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but will not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality—find source---
 
 \subsubsection{SDGClassifier}
 SDGClassifier is an incremental function to stochastic approximate the gradient descent of the input \cite{SGDClass}. It will iteratively minimize or maximize a set of differentiable functions, the input must fit these differentiable functions and this makes than an optimal input is with a mean of zero.  This makes the classifier sensitive to raw data as it performs optimally with sparse features. The iterative steps needed are bound by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration.
+
+\subsubsection{AdaBoost}
+AdaBoost is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu also solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost algorithm with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
+
+\subsubsection{SVC-rbf}
+SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension, since the standard support vector machine splits the spaces with linearly lines computation grows too large for a large feature space \cite{SVN}. The fit time is already quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will represent them in a dimension space mapped so there is a clear separation between the two categories. With the radial basis function this is with the distant from the points indicated by a separation area. Classifying a point is finding in which class area this point falls. For a multiclass problem this is done in pairs of two for all categories and then the most voted class is picked \cite{Multi-pair-coup}.%TODO ---hyperparameters--
+
+\subsubsection{GaussianNB}
+GaussianNB is a naïve Bayes classifier implementation with the  assumption that the feature set is gaussian distributed \cite{Bayes}. For fitting the data, a partial fit function is used based on the work of Chan, Golub and LeVeque \cite{Sam-var}. This calculates the assumed means and variances of a gaussian distribution of the inputted feature set. Based on this distribution the prediction is made by filling in the maximum likelihood. The limited calculation needed for classification and prediction makes this one of the fastest algorithms. The only parameter of this classifier specifies the prior probabilities of the classes, which will when specified not be adjusted to the given input. 
+
+\subsubsection{BernoulliNB}
+BernoulliNB is a naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This setting can be disabled or reduced by a threshold for the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability.
 
 \subsubsection{GradientBoostingClassifier}
 GradientBoost is an ensemble classifier that builds from weaker classifiers \cite{GradientBoost}. Like AdaboostClassifier it builds an additive model in a forward stage-wise fashion.  The weak classifiers used in the scikit-learn implementation are decision trees.  %TODO add\cite{Greedy-GBC}
@@ -559,9 +560,37 @@ For scalability it is easier to predict then for accuracy. The lines for the dur
 \subsection{Redundant features}
 We consider here both random and duplcite features as they are both redundant.
 
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/RedudantFeature/predAddCatFeatureV2.png}
+	\caption{predictive accuracy for categorical datasets with added redundant features}
+	\label{fig:predCatAddFeat}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/RedudantFeature/predAddNonCatFeature.png}
+	\caption{predictive accuracy for numerical datasets with added redundant features}
+	\label{fig:predNonCatAddFeat}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/RedudantFeature/predAddNonCatFeature.png}
+	\caption{predictive accuracy for numerical datasets with added redundant features}
+	\label{fig:predNonCatAddFeat}
+\end{figure}
+
+
 
 \subsection{Noisy data}
-Datasets in these experiments get increasingly more random by injecting the features with noise.
+Datasets in these experiments get increasingly more random by injecting the features with noise. In figures \ref{fig:predCatFeat}, \ref{fig:predNonCatFeat} and \ref{fig:predNonCatFeatPre} the accuracy against the noise are displayed. The noise consists of either flipping categories for categorical data or adding a random amount of standard deviation.
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
@@ -589,24 +618,22 @@ Datasets in these experiments get increasingly more random by injecting the feat
 	\label{fig:predNonCatFeatPre}
 \end{figure}
 
-\textbf{RandomForestClassifier} \\
-\textbf{KNeighborsClassifier} \\
-\textbf{SGDClassifier} \\
-\textbf{AdaBoost} \\
-\textbf{SVC-rbf} \\
-\textbf{GaussianNB} \\
-\textbf{BernoulliNB} \\
-\textbf{GradientBoostingClassifier} \\
+\textbf{RandomForestClassifier}: The accuracy of RandomForestClassifier is one of the best without optimization or cleaning the data. The decline in predictive accuracy is however far greater. This is because of the nature of a decision tree. The decision tree has numerical boundaries or categorical boundaries made on the original data set  to set apart the target classes. By adding the noise or flipping the categories these boundaries are blurred and the RandomForestClassifier has a higher chance to choose a different class, if in the original case it was straightforward. This makes the RandomForestClassifier not that robust against noisy data.  \\
 
-Here again the randomForestClassifier falls the hardest. Which can be explained by the overwritten features now having no relation with the previous feature value. This means that previous important features can be irrelevant. The KNeighborsClassifier get a smaller impact as they are more dependent on multiple features and will drop down more gradually. SVC-rbf has better starting results than with numerical datasets but also falls harder with the changes, as can be contritubed to the dependency on all features at the same time with weights.(not like k neighbor classifier which spread the outcome uniformly over all features by default.) BernoulliNB shows promosing results with a less steep decling and greatest performance on the worst set(more than 60\% flipped categories).
+\textbf{KNeighborsClassifier}: KNeighborsClassifier has a decent initial predictive accuracy and it is only slightly increased by the preprocessing. The downward trend of the influence of the noise is one of the least decending. The default 5 neighbors or 1 neighbor also has only a slight influence on accuracy. For the numerical datasets the initial accuracy on the clean dataset is equal and only after the added noise a clear difference is noticable which does not expand that much after 1 std.\\
 
-General analysis
-near the 80\% mark a small increase can be noticed with every classifier this can be explained by the sheer randomness of the features at that point, The results combining together around 0.5, can be explained by the Majority class guessing giving around 0.44 accuracy, which is likely considering the dataset is already 80\% noise.
+\textbf{SGDClassifier}: SGDClassifier is not performing that well initially on either categorical or numerical datasets. The average accuracy on a clean dataset is one of the lowest of the 8 algorithms. In Robustness the SGDClassifier scores better. With the clean dataset the decline is only below KNeighborsClassifier and SVC. With the preprocessing however it beats the SVC in robustness and has a greatly improved initial accuracy. \\
 
-Here similair results are observed as with increased features but the drops are mostly greater, Except for GaussianNB. Here RandomForestClassifier drops significantly as seems obvious as the features can fall outside the pre calculated estimators. #TODO edit gradientboostingclassifier## The KneighborClassifier have a slow descent which can be explained as the featuers slowly getting out of range of their 'neighbor' features. The 1 neighbor and 5 neighbors have similair results and the single neighbor classifier is greater impacted by the std difference. The drop of performance of Gaussian can be attributed to the features getting out of range of the calculated variance The sudden drop in performance of Bernoulli is of the boolean convertion of features which seems to highly impact it. We can consider it to be close to things like a hash function as a small difference means a whole different value. Both ensembles(SGD and Adaboost) have a smilair slope to the KNeighborsClassifier. This can be explained by mediocre initial results accuracy and with the combining of models the difference can be less impactful.
+\textbf{AdaBoost}: AdaBoost does not perform that well on the datasets without preprocessing. The algorithm optimizes on edge cases and without the noisy instances in the training set it has a hard time optimizing on things it has not seen yet. The decline in accuracy is in this case not that bad and on par with SGDClassifier. Considering that AdaBoost is not optimized and that the datasets are not all particularlly relevant for AdaBoost the performance is too be expected.\\
 
-General analysis
-The performance of the algorithms not converting to random guessing can be explained by the datasets for example not having a normal distribution. Additionally Medical datasets can have a large variance falling outside of the range of multiple standard deviations.
+\textbf{SVC-rbf} SVC-rbf has great predictive accuracy on the categorical dataset but not so much with the numerical dataset. The robustness of SVC-rbf with the numerical dataset is pretty strong as it ends up as one of the best algorithms. This does not translate well with more cleaned data. With the preprocessing steps SVC-rbf has a high predictive accuracy but the decline is far greater. This can be attributed to a sort of overfitting on the initial clean data as the difference in decline is easily noticable between the two results. \\
+
+\textbf{GaussianNB}: GaussianNB has the worst performance on the categorical datasets and a decent performance on the numerical datasets. The robustness is however pretty bad as there is a large initial drop when adding the noise for the numerical datasets. The decline there after is also very high which indicate a lack of robustness. This is largely due to the nature of the GaussianNB. It assumes a normal distribution with a mean and variance but a slight shift in the numbers changes a lot in the distribution of the datasets. In figure \ref{fig:predNoisyFeaturesGNB} the big drop can be noticed for a few datasets. A different trend can also be noticed of increased accuracy, those results are on unbalanced datasets. \\
+
+\textbf{BernoulliNB} BernoulliNB has one of the worst predictive accuracy on both categorical and numerical datasets. The robustness is also really  bad on the numerical datasets. The accuracy has a large drop when a little bit of noise is added and only a decrease equal to the drop for the remainging added noise. For the categorical dataset a better robustness can be observed as it beats all others from the point that the datasets are 60$\%$ noise. This can be explained by the conversion of the algorithm of the input. For categorical data this means that it depends on multiple features for its prediction. For numerical features it means that a slight change in data from the training to the prediction means the transformation does not work anymore. For some of the numerical datasets there are still only a few unique values and those are used like the categorical features. This explains the large drop for the numerical datasets.  \\
+
+\textbf{GradientBoostingClassifier} GradientBoostingClassifier has one of the best predictive accuracy on both sorts of datasets. Performing near equal to RandomForestClassifier. In robustness it loses to RandomForestClassifier on numerical datasets and there is only a slight increase over the results on categorical datasets. The results of GradientBoostingClassifier copy those of RandomForestClassifier as they both use Decision trees for their ensembles. The lack of robustness on numerical datasets can be regarded as overfitting compared to the RandomForestClassifier. The GBC uses more time to fit the classifiers for an additive model rather than pure random voting.\\
+
 
 \subsection{Bias variance}
 
@@ -631,7 +658,7 @@ The result will be a ranking of algorithms on different scales. The scales are:
 
 
 \newpage
-\section{Conclusion} \label{Chapter5}
+\section{Conclusion and discussion} \label{Chapter5}
 
 \subsection{Resilience to noise}
 
@@ -693,7 +720,7 @@ $MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V
 	\label{paper-thesis}
 \end{figure}
 
-In figure \ref{paper-thesis} the experiment setup of Hilario and the expriment setup of this thesis are shown\cite{Resil-1}. For Hilario it was to show that with the added random features the mutual information decreases an indicator that the added features could not improve the accuracy. In the experiment of this thesis the added features also show a decrease in mutual information but the scale is 10 times smaller. This indicates that the datasets used are less valueable in contrast to the ones used by Hilario. The change of x-scale compared to previous experiments is to able to compare it more to the work of Hilario.
+In figure \ref{paper-thesis} the experiment setup of Hilario and the expriment setup of this thesis are shown\cite{Resil-1}. For Hilario it was to show that with the added random features the mutual information decreases an indicator that the added features could not improve the accuracy. In the experiment of this thesis the added features also show a decrease in mutual information but the mean mutual information scale is 10 times smaller. This indicates that the datasets used are less valueable in contrast to the ones used by Hilario. The change of x-scale compared to previous experiments is to able to compare it more to the work of Hilario.
 \subsection{replication of previous work}
 
 \subsection{New discoveries}
@@ -756,6 +783,16 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 
 \section{Appendix}
 \subsection{datasets per figure}
+
+\subsection{Results per dataset per classifier}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesGNB.png}
+	\caption{adding or removing uniformly random std to numerical features for GaussianNB.}
+	\label{fig:predNoisyFeaturesGNB}
+\end{figure}
 %insert tables
 
 \end{document}
