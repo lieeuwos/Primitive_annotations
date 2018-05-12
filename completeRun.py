@@ -298,11 +298,13 @@ def add_type(X,cat,amount,typ):
                 cat[i] = True
         return add_noise_features2(X,cat,amount)
     
-def add_type2(X,y,amount,typ):
+def add_type2(X,y,cat,amount,typ):
     if typ == 0:
         return remove_features_importance(X,y,amount)
     if typ == 1:
         return remove_features_correlationMax(X,y,amount)
+    if typ == 2:
+        return remove_features_MutualInformation(X,y,cat,amount)
     
 def add_type3(XList,y,amount,typ):
     if typ == 0:
@@ -1863,6 +1865,8 @@ def featureRemoving(did,cv,amount,typ):
     func = 'FeatureRemoveImportant'
     if typ == 1:
         func = 'FeatureRemoveCorrelation'
+    if typ == 2:
+        func = 'FeatureRemoveMinMutualInformation'
     X,y = read_did(did) 
     cat = read_did_cat(did)
     if typ == 1 and True in cat:
@@ -1896,7 +1900,7 @@ def featureRemoving(did,cv,amount,typ):
     sc = 2
     for i in range(0,cv):        
         X_train,y_train,X_test,y_test = cv_noise_splits(X,y,i,cv)       
-        train_X,idens = add_type2(X_train,y_train,amount,typ)        
+        train_X,idens = add_type2(X_train,y_train,cat,amount,typ)        
         test_X = remove_featuresIdens(X_test,idens)       
         featuresRemoved.append(idens)  
         j = 0

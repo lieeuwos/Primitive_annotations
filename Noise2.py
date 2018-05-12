@@ -135,6 +135,18 @@ def add_copy_features(X,amount):
             i.append(Xt[feature[j]][x])
     return temp
 
+
+def insert_copy_features(X,amount):
+    temp = deepcopy(X)
+    Xt = list(map(list, zip(*X)))
+    feature = []
+    for i in range(amount):
+        feature.append(random.choice(range(len(Xt))))
+    for x,i in enumerate(temp):
+        for j in range(0,amount):
+            i.insert(0,Xt[feature[j]][x])
+    return temp
+
 def add_copy_featuresCat(X,cat,amount):
     cat2 = copy(cat)
     temp = deepcopy(X)
