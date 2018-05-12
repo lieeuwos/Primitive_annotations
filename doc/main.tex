@@ -72,7 +72,7 @@ numbers=left,                    % where to put the line-numbers; possible value
 \fancyfoot[R]{\thepage}
 \renewcommand{\footrulewidth}{0.4pt}
 
-\fancyhead[L]{\large{\emph{Advanced simulation}}} %Naam van project
+\fancyhead[L]{\large{\emph{Primitive Annotations}}} %Naam van project
 \fancyhead[C]{}
 \renewcommand{\headrulewidth}{0pt} %thickness of the decorative lines on the header
 
@@ -213,14 +213,14 @@ All resources are open source and hosted on Github. Before scikit-learn there we
 
 
 \subsubsection{RandomForestClassifier}
-RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data and averages the results for the result. These sub-samples are chosen randomly so the results can vary between runs on the same input. A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. 
+RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data and averages the results for the result. These sub-samples are chosen randomly so the results can vary between runs on the same input. A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. As RandomForestClassifier is made up of trees you can use the ordering of the trees, more specifically the top most layer of the tree to find feature importance. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the tree in a random forest this gives an average result of important features in a trained dataset.
 
 
 \subsubsection{KNeighborsClassifier}
 In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors algorithm(k-NN). K-NN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing in a tree for example. The k-NN uses as it names tells the nearest neighbors for calculation. The inputted feature set is traversed to find the nearest points and depending on the parameter k, an amount of k points is searched for. Depending on the class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but will not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality—find source---
 
 \subsubsection{SDGClassifier}
-SDGClassifier is an incremental function to stochastic approximate the gradient descent of the input \cite{SGDClass}. It will iteratively minimize or maximize a set of differentiable functions, the input must fit these differentiable functions and this makes than an optimal input is with a mean of zero.  This makes the classifier sensitive to raw data as it performs optimally with sparse features. The iterative steps needed are bound by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration.
+SDGClassifier is an incremental function to stochastic approximate the gradient descent of the input \cite{SGDClass}. It will iteratively minimize or maximize a set of differentiable functions, the input must fit these differentiable functions. This input consists of features with a mean of zero.  This makes the classifier sensitive to raw dense data as it performs optimally with sparse features. The iterative steps needed are bound by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration.
 
 \subsubsection{AdaBoost}
 AdaBoost is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu also solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost algorithm with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
@@ -279,7 +279,7 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	profiling & To sketch information of something in a category, so you can relate it to other things in the same category\\ [1ex]
 	
-	robustness & \\ The ability of an algorithm to cope with changes in features. An algorithm is more robust if it deteriorates less than another.[1ex]	
+	robustness &  The ability of an algorithm to cope with changes in features. An algorithm is more robust if it deteriorates less than another. \\ [1ex]	
 	
 	sample & the size of the to be predicted target set. So all distinct features once matched with a target feature\\ [1ex]
 	
@@ -289,7 +289,13 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	sparse matrix & a matrix with lots of zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
 	
+\end{tabular}
+\newpage
+\begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
+	
 	target & In a classificication the value or classes that needs to be predicted, where it mostly about a single feature with at least 2 classes. This can be a feature of something \\ [+1ex]
+	
+	
 	
 	weight & The influence or power of a value, function or object. It can be expressed as a fraction of 1 to inidicate its factor from other weights.	\\ [1ex]
 	
@@ -322,21 +328,113 @@ In this section definitions and abbreviations are explained and set in context. 
 \newpage
 \section{Experimental setup} \label{Chapter3}
 For different parts of the research different datasets are chosen. There is overlap between these datasets but the chosen datasets can have a large impact on shown results. Most results are shown as an average result of the datasets involved.
-\subsection{Cross validation} \label{cross-val}
-To easily test a single dataset once we use cross validation as it does this k times to get k splits of equal size. We can observe k classifications, to gain insight in duration time. We pick k=10 
 
-\subsection{Bootstrapping} \label{motivation}
-For the bias variance calculation it is import to gain multiple predictions for the same instance and with bootstrapping this can be easily achieved. The downside however can be an increased bias and reduced variance.
+\subsection{MetaFeatures}
+
+\subsubsection{Mean Mutual Information}
+Meta features like mean mutual information or entropy for categorical features are calculated for our enhanced dataset with duplicate feature and random features. The result is that they do little to change these values and so do not indicate reduced information even tough commonly the results deteriorate when these features are added, seen in figure \ref{fig:MMI}. However if we take the adjusted mean mutual information we can see a more clearer distinction between the permutations of the datasets, figure \ref{fig:AMMI}. With those values the noisy dataset can be more recognized as being worse than before. The normalized seen in figure \ref{fig:NMMI}  is a combination of both which shows depending on the dataset a different ranking of all three datasets.
+
+The calculation of the normalized:
+$sqrt(H(labels_true) * H(labels_pred))$
+
+
+the calculation for two cluster for adjusted mean mutual information:
+$AMI(U, V) = [MI(U, V) - E(MI(U, V))] / [max(H(U), H(V)) - E(MI(U, V))]$
+
+
+The default mutual information is:
+$MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V_j\mid}{N} $log $\dfrac{N\mid U_i \cap V_j\mid}{\mid U_i\mid \mid V_j\mid}$
+% Misschien een tabel maken en verschil laten zien
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MeanMutualInformation.png}
+		\caption{Mean Mutual Information for mututations of datasets}
+		\label{fig:MMI}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/adjustedMeanMutualInformation.png}
+		\caption{adjusted Mean Mutual Information for mututations of datasets}
+		\label{fig:AMMI}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/normalizedMeanMutualInformation.png}
+		\caption{normalized Mean Mutual Information for mututations of datasets}
+		\label{fig:NMMI}
+	\end{subfigure}
+	\caption{Mutual information difference between measure}\label{fig:MMIs}
+\end{figure}
+
+\subsubsection{Feature Importance}\label{chapter312}
+Feature importance calculated with a RandomForestClassifer gives an indication what features are important for the ensembled decision trees. In figures \ref{fig:FIC100}, \ref{fig:FIC3}, \ref{fig:FIN100}, \ref{fig:FIN3}, the feature importance of the added random features are shown. This makes it clear that RandomForestClassifier does not recognize these features as unimportant. There is a difference in the perceived importance of random categorical and numerical features. Even more so the distribution of random categorical features. The slope of random categorical with k=3, features importance is also steeper as it more than doubles and for numerical features it only nearly doubles. This is however not true for random categorical features with k= 100 which has an equal absolute increase but starts higher. This can be explained as more perceived variance in k=100 which might indicate better probability of differentiating between the target classes. The lack of increase can be attributed to the cap on the importance at 100$\%$. The original features might give some better results in predicting but the added features still consists of some percentage of the total amount of features. Random Forest Classifier has a limit on the amount of features considered for each split which is capped at a percentage of the total set. This is partly the reason that these random features can be considered as important in the split together with their variance. The variance gives perceived information as you look at a subset of instances the high variability shows that for some target class this feature value is this number and for the other classes the odds of different values for that feature is high. 
+\\
+
+In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates can be seen. This shows that the order of features is important as the duplicate features have less importance than their percentage of the dataset. It also means that they are not recognized as redundant for predicting. The difference between the feature importance for numerical and categorical is also shown. This is partly discussed earlier as the variance in the features and feature order. This has only a small effect 
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MetaFeatures/FeatureImportanceCat.png}
+		\caption{Feature importance for random categorical features with k = 3.}
+		\label{fig:FIC3}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MetaFeatures/FeatureImportanceNum.png}
+		\caption{Feature importance for random categorical features with k = 100.}
+		\label{fig:FIC100}
+	\end{subfigure}
+	\caption{Feature importance of random categorical features. The k value has an impact on the perceived importance of the features.}\label{fig:FIC}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MetaFeatures/FeatureImportanceNum1.png}
+		\caption{Feature importance for random numerical features with the default uniform spread between 0 and 1.}
+		\label{fig:FIN3}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MetaFeatures/FeatureImportanceNum100.png}
+		\caption{Feature importance for random numerical features which are multiplied by a 100.}
+		\label{fig:FIN100}
+	\end{subfigure}
+	\caption{Feature importance of random numerical features. The average mean does not influence the importance of random numerical features}\label{fig:FIN}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MetaFeatures/FeatureImportanceNum.png}
+		\caption{Feature importance for duplicate features for numerical datasets}
+		\label{fig:FIDN}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/MetaFeatures/FeatureImportanceCat.png}
+		\caption{Feature importance for duplicate featueres for categorical datasets.}
+		\label{fig:FIDC}
+	\end{subfigure}
+	\caption{Feature importance of duplicate features and their effect on categorical or numerical datasets}\label{fig:FID}
+\end{figure}
+
+\subsection{Model Validation strategies}
+What strategies do we use to split the datasets into training and test to measure predictive accuracy, bias and variance.
+\subsubsection{Cross validation} \label{cross-val}
+To easily test a single dataset once we use cross validation as it does this k times to get k splits of equal size. We can observe k classifications, to gain insight in duration time. We pick k=10 as standard as it is perceived to be a well rounded amount of folds for decent results\cite{Cross}.
+
+\subsubsection{Bootstrapping} \label{motivation}
+For the bias variance calculation it is import to gain multiple predictions for the same instance and with bootstrapping this can be easily achieved. The downside however can be an increased bias and reduced variance error.  
 
 \subsection{Datasets} \label{description}
 Depending on the property we are going to study we need different datasets or can make assumption. Classification features are not an optimal input for a nearest neighbor classifier as the distant between converted numbers does not tell much about the relation between the features. Multiple target classes datasets are inconvenient for the bias-variance calculation, so we focus on 2 class target datasets, which there are plenty enough on openml. 
 
 \subsubsection{Bias-variance datasets}
-An important part of a dataset to be viable for bias variance analysis is it having 2 classes as target due to calculation we use to find the bias and variance error. The bias and variance error is in this way like recall or precision error.  %give picture of instance versus features
+An important part of a dataset to be viable for bias variance analysis is it having 2 classes as target. This is due to calculation we use to find the bias and variance error. The bias and variance error is in this way like recall or precision error more suitable for a 2 classes target.  %give picture of instance versus features
 \subsubsection{Categorical datasets}
-Categorical datasets hold only features with categorical values
+Categorical datasets hold only features with categorical values. These features are useful for a RandomForestClassifeir to make decisisons with the internal decision tree but for a KNeighborsClassifier it is harder to use these features as input as the structure of the translation to numbers also has an effect.
 \subsubsection{Numerical datasets}
-Numerical datasets hold only features with numerical values
+Numerical datasets hold only features with numerical values. These features are hard to use by classifiers like BernoulliNB which translates the values in their own way by uniqueness. For classifiers like KNeighborsClassifier it is easier to use the uniquess of numerical values for predictions.
+
 \subsection{Collected data}
 For each experiment data is saved to give insight to what the results are. Depending on the experiment different data is important or stored. 
 \begin{itemize}
@@ -370,7 +468,7 @@ Experiments are grouped by all mentioned classifier with some initial settings o
 \subsubsection{Scalability}
 Scalability experiments can be split up in instance based or features based. To measure the effect of features we take datasets with lots of features and remove features in steps to find the impact of these lost features. There is a disadvantage with this strategy as some classifiers calculate values like feature importance which depend on a somewhat complete dataset of features. The removed features are randomly chosen and can be defining features for the accuracy of the dataset. 
 
-To combat this we also so feature removing based on feature importance of a RandomForestClassifier and on correlation between features. For feature importance we train a RandomForestClassifier to find the most important features. We then remove the least important features and remember the features we removed to also remove them in the test set. For correlation we find the feature the 2 most correlated features and then remove the feature that is most correlated to all features of the 2. Based on the amount we are going to remove we repeat the process to remove more.
+To combat this we also do feature removing based on feature importance of a RandomForestClassifier and on correlation between features. For feature importance we train a RandomForestClassifier to find the most important features. We then remove the least important features and remember the features we removed to also remove them in the test set. For correlation we find the feature the 2 most correlated features and then remove the feature that is most correlated to all features of the 2. Based on the amount we are going to remove we repeat the process to remove more.
 
 
 Another option  to measure scalability is to measure the impact of number of instances. For most classifiers each instance is considered during training and we measure an average calculation for each feature. The duration is measured over the whole dataset by doing a 10 fold cross validation.
@@ -531,7 +629,7 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/Instances.png}
-	\caption{The dataset is reduced to a split of the initial dataset and then cross validation is done on the reduced dataset. The lines are predictions}
+	\caption{The dataset is reduced to a split of the initial dataset and then cross llidation is done on the reduced dataset. The lines are predictions}
 	\label{fig:Instances}
 \end{figure}
 
@@ -578,16 +676,36 @@ We consider here both random and duplcite features as they are both redundant.
 	\label{fig:predNonCatAddFeat}
 \end{figure}
 
+
+
+\textbf{RandomForestClassifier} RandomForestClassifier has one of the best predictive accuracies on the clean data sets. The decline however with added features is noticable steep. With duplicate features the decline is pretty steep. The added random features have less of an impact on the accuracy. A large part of the impact can be seen with the initial addition as that has the largest impact in comparison. As indicated in \ref{chapter312} RandomForestClassifier indicates that the random features have some importance in the predictions which only increases with more features, but less than the importance it indicates. The same holds for duplciate features which also gains feature importance with more duplicates.   \\
+\textbf{KNeighborsClassifier} \\
+\textbf{SGDClassifier} \\
+\textbf{AdaBoost} \\
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} \\
+\textbf{BernoulliNB} \\
+\textbf{GradientBoostingClassifier} \\
+
+
+\subsubsection{Combined feature manipulation}
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
 	width=0.65\textwidth
-	]{images/RedudantFeature/predAddNonCatFeature.png}
-	\caption{predictive accuracy for numerical datasets with added redundant features}
-	\label{fig:predNonCatAddFeat}
+	]{images/RedudantFeature/predFeatureComplete.png}
+	\caption{predictive accuracy for datasets with added or removed redundant features}
+	\label{fig:preddFeatComp}
 \end{figure}
 
-
+\textbf{RandomForestClassifier}    \\
+\textbf{KNeighborsClassifier} \\
+\textbf{SGDClassifier} \\
+\textbf{AdaBoost} \\
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} \\
+\textbf{BernoulliNB} \\
+\textbf{GradientBoostingClassifier} \\
 
 \subsection{Noisy data}
 Datasets in these experiments get increasingly more random by injecting the features with noise. In figures \ref{fig:predCatFeat}, \ref{fig:predNonCatFeat} and \ref{fig:predNonCatFeatPre} the accuracy against the noise are displayed. The noise consists of either flipping categories for categorical data or adding a random amount of standard deviation.
@@ -660,7 +778,17 @@ The result will be a ranking of algorithms on different scales. The scales are:
 \newpage
 \section{Conclusion and discussion} \label{Chapter5}
 
+\subsection{Discussion}
+
+\subsubsection{Missed opportunities}
+Within saving as many information obtainable from the algoritms a missed oppertunity is the probability prediction of all the test sets. 
+
+Another missed collected data is the prediction of the training data. This data might not give a good indication of predictive accuracy but can give some valuable information of overfitting on the input data. This can be calculated as a difference in prediction results of the training and test set. For some algorithms this holds more than others. For example SDGClassifier which fits the inputted data as differentiable functions. Opposed to KNeighborsClassifier which will look up all the inputted data for neighbors which will match the training data for prediction. 
+
 \subsection{Resilience to noise}
+
+
+
 
 
 
@@ -668,41 +796,9 @@ The result will be a ranking of algorithms on different scales. The scales are:
 Instead of measuring the influence of standard deviation, we tried to add standard values to all features, the problem with that is features have different deviation and some classifiers prefer a zero mean. The results were similair to injection std but more abrupt. Just changing(moving/word) all features for some datasets mend a drop in accuracy but the continuation of upping the number mend little to change accuracy further.
 
 
-\subsection{MetaFeatures}
-Meta features like mean mutual information or entropy for categorical features are calculated for our enhanced dataset with duplicate feature and random features. The result is that they do little to change these values and so do not indicate reduced information even tough commonly the results deteriorate when these features are added. However if we take the adjusted mean mutual information we can see a more clearer distinction between the permutations of the datasets. With those values the noisy dataset can be more recognized as being worse than before. The normalized  is combination of both which has all three kinds in some case the best or the worsed.
-
-The calculation of the normalized:
-$sqrt(H(labels_true) * H(labels_pred))$
 
 
-the calculation for two cluster for adjusted mean mutual information:
-$AMI(U, V) = [MI(U, V) - E(MI(U, V))] / [max(H(U), H(V)) - E(MI(U, V))]$
-
-
-The default mutual information is:
-$MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V_j\mid}{N} $log $\dfrac{N\mid U_i \cap V_j\mid}{\mid U_i\mid \mid V_j\mid}$
-% Misschien een tabel maken en verschil laten zien
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{images/MeanMutualInformation.png}
-		\caption{Mean Mutual Information for mututations of datasets}
-		\label{fig:MMI}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{images/adjustedMeanMutualInformation.png}
-		\caption{adjusted Mean Mutual Information for mututations of datasets}
-		\label{fig:AMMI}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{images/normalizedMeanMutualInformation.png}
-		\caption{normalized Mean Mutual Information for mututations of datasets}
-		\label{fig:NMMI}
-	\end{subfigure}
-	\caption{Mutual information difference between measure}\label{fig:MMIs}
-\end{figure}
-
+\subsection{replication of previous work}
 
 \begin{figure}[H]
 	\centering
@@ -721,21 +817,21 @@ $MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V
 \end{figure}
 
 In figure \ref{paper-thesis} the experiment setup of Hilario and the expriment setup of this thesis are shown\cite{Resil-1}. For Hilario it was to show that with the added random features the mutual information decreases an indicator that the added features could not improve the accuracy. In the experiment of this thesis the added features also show a decrease in mutual information but the mean mutual information scale is 10 times smaller. This indicates that the datasets used are less valueable in contrast to the ones used by Hilario. The change of x-scale compared to previous experiments is to able to compare it more to the work of Hilario.
-\subsection{replication of previous work}
 
-\subsection{New discoveries}
+
+%\subsection{New discoveries}
 
 
 
 
 \subsection{Future work}
-\subsubsection{More computation}
-with more computation time we can further solidify the results or see a different approach
+%\subsubsection{More computation}
+Adding more experimental runs to this topic can further solidify the results, break the result or alter only slightly the results. As benchmark datasets have a hard time to be a universal standard for testing. The results of a golden standard benchmark may also limit results because of the no free lunch theorem
 
-Use datasets outside of openml like keggle%cite
-to illistrate that openml is not the factor, openml can be focused on a certain subgroup more than another 
+A source of attention can be the use of that only datasets available on openml are used. Openml has a certain community and the datasets available on Openml may not translate to other areas of interest. Another party to consider then is a platform like Kaggle which share a lot of datasets already but the commercial side to kaggle may be more of a counterpart to Openml. 
 
-splitting datasets for finer results. By focusing on a certain dataset type you can find why that dataset type is robust, think about sparse/dense feature rich, feature less. A combination.
+A partly solution for the previous mentioned problem of datasets is the splitting of datasets in certain categories. In this thesis there was a split for categorical and numerical features possible by the classification in Openml of all inputted features. Different splitting of dataset can be done in categories like sparse/dense or cleaned and uncleaned. Further distinguishing in categorical and numerical featueres the different values of discrete, continous or ordinal values. Each can need different preproccessing steps for different algorithms. 
+
 
 
 
@@ -774,6 +870,7 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \bibitem{No-Free-Lunch} No free lunch theorems for optimization, D.H. Wolpert, W.G. Macready, IEEE Transactions on Evolutionary Computation Volume 1 Issue 1, (1997)
 \bibitem{KNN-Sym} A Weighted Nearest Neighbor Algorithm for Learning with symbolic features, S. Cost, S. Salzberg, Machine Learning Volume 10, number 1 pages 57-78, (1993)
 \bibitem{SVM-sym} A practical guide to support vector classification, Chih-wei Hsu, Chich-Chung Chang, Chich-Jen Lin, 101. 1396-1400, (2003)
+\bibitem{Cross} A study of cross-validation and bootstrap for accuracy estimation and model selection, R. Kohavi, (1995)
 
 
  
