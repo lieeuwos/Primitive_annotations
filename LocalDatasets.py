@@ -357,13 +357,13 @@ def doneFracsV2(func,clfName,amountList):
 #this is for the experiment saved as ratios of the input
 def doneFracs(func,clfName,amountList):
     list_of_files = []
-    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+    for (dirpath, dirnames, filenames) in os.walk(pathL):
         for filename in filenames:
             if filename.endswith('cat.csv'): 
                 list_of_files.append(int(filename[:-7]))
     listAdd = []
     for did in list_of_files:
-        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        path = dropbox + func + '\\' + clfName + '\\' + str(did) 
         for (dirpath, dirnames, filenames) in os.walk(path):
             if list1Inlist2(dirnames,amountList):
                 listAdd.append(did)
@@ -372,14 +372,14 @@ def doneFracs(func,clfName,amountList):
 # this is for experiments saved as the features manipulated(added or removed)
 def DoneFeatureMan(func,clfName,amountList):
     list_of_files = []
-    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+    for (dirpath, dirnames, filenames) in os.walk(pathL):
         for filename in filenames:
             if filename.endswith('cat.csv'): 
                 list_of_files.append(int(filename[:-7]))
     
     listAdd = []
     for did in list_of_files:
-        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        path = dropbox + func + '\\' + clfName + '\\' + str(did) 
         amountList2 = []
         for amount in amountList:
             amountList2.append(str(round(amount*(readDict(did)['NumberOfFeatures']-1))))
@@ -391,13 +391,13 @@ def DoneFeatureMan(func,clfName,amountList):
 # returns a dict of done experiments with amount as list per dataset_id               
 def DoneExperiments(func,clfName):
     list_of_files = []
-    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+    for (dirpath, dirnames, filenames) in os.walk(pathL):
         for filename in filenames:
             if filename.endswith('cat.csv'): 
                 list_of_files.append(int(filename[:-7]))
     dictAdd = []
     for did in list_of_files:
-        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        path = dropbox + func + '\\' + clfName + '\\' + str(did) 
         for (dirpath, dirnames, filenames) in os.walk(path):
             if not existInDict(dictAdd,did):
                 dictAdd.append({did: dirnames})
@@ -406,13 +406,13 @@ def DoneExperiments(func,clfName):
 #returns a dictionary of done experiments with amount as fractions of the complete set
 def DoneExperimentsFeatures(func,clfName):
     list_of_files = []
-    for (dirpath, dirnames, filenames) in os.walk('C:\\Users\\S127788\\Documents\\GitHub\\assignment2\did'):
+    for (dirpath, dirnames, filenames) in os.walk(pathL):
         for filename in filenames:
             if filename.endswith('cat.csv'): 
                 list_of_files.append(int(filename[:-7]))
     dictAdd = []
     for did in list_of_files:
-        path = 'D:\\stack\\afstudeer\\results\\' + func + '\\' + clfName + '\\' + str(did) 
+        path = dropbox + func + '\\' + clfName + '\\' + str(did) 
         for (dirpath, dirnames, filenames) in os.walk(path):
             if not existInDict(dictAdd,did):
                 dirnames2 = []
@@ -420,6 +420,21 @@ def DoneExperimentsFeatures(func,clfName):
                     dirnames2.append(round(100*int(dirN)/(readDict(did)['NumberOfFeatures']-1))/100)
                 dictAdd.append({did: dirnames2})
     return dictAdd
+
+def doneOldNoise(func,clfName,amountList):
+    dictAmount = {}
+    for amount in amountList:
+        path2 = dropbox + func + '\\'+ clfName + '\\' + str(amount)        
+        dictAmount[amount] = next(os.walk(path2))[1]    
+    return dictAmount
+
+def doneOldNoiseEasy(func,clfName):
+    dictAmount = {}
+    amountList = dropbox + func + '\\' + clfName 
+    for amount in amountList:
+        path2 = dropbox + func + '\\' + clfName + '\\' + str(amount)        
+        dictAmount[amount] = next(os.walk(path2))[1]    
+    return dictAmount
                 
 def list1Inlist2(list2,list1):
     for i in list1:

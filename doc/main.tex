@@ -217,16 +217,16 @@ RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. Duri
 
 
 \subsubsection{KNeighborsClassifier}
-In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors algorithm(k-NN). K-NN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing in a tree for example. The k-NN uses as it names tells the nearest neighbors for calculation. The inputted feature set is traversed to find the nearest points and depending on the parameter k, an amount of k points is searched for. Depending on the class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but will not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality—find source---
+In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors classification algorithm(kNN)\cite{KNN}. KNN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing. The k-NN uses as it names tells the nearest neighbors for calculation. For prediction the inputted feature set is traversed to find the nearest  k points. Depending on the majority class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but should not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality.\cite{KNN-k}
 
 \subsubsection{SDGClassifier}
-SDGClassifier is an incremental function to stochastic approximate the gradient descent of the input \cite{SGDClass}. It will iteratively minimize or maximize a set of differentiable functions, the input must fit these differentiable functions. This input consists of features with a mean of zero.  This makes the classifier sensitive to raw dense data as it performs optimally with sparse features. The iterative steps needed are bound by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration.
+SDGClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. To fit the classifier it expects continious features with a mean of zero in a sparse setting. This makes the classifier sensitive to categorical data as it performs optimally with continious features. The iterative steps for calculation gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration.
 
 \subsubsection{AdaBoost}
 AdaBoost is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu also solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost algorithm with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
 
 \subsubsection{SVC-rbf}
-SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension, since the standard support vector machine splits the spaces with linearly lines computation grows too large for a large feature space \cite{SVN}. The fit time is already quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will represent them in a dimension space mapped so there is a clear separation between the two categories. With the radial basis function this is with the distant from the points indicated by a separation area. Classifying a point is finding in which class area this point falls. For a multiclass problem this is done in pairs of two for all categories and then the most voted class is picked \cite{Multi-pair-coup}.%TODO ---hyperparameters--
+SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension, since the standard support vector machine splits the spaces with linearly lines computation grows too large for a large feature space \cite{SVN}. The fit time is already quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will represent them in a dimension space mapped so there is a clear separation between the two categories. With the radial basis function this is with the distant from the points indicated by a separation area. Classifying a point is finding in which class area this point falls. For a multiclass problem this is done in pairs of two for all categories and then the most voted class is picked \cite{Multi-pair-coup}. To optimize this method there are two main parameters C and gamma. The parameter C trades off misclassification of training examples gainst simplicity of the decision surface, a low C indicates a simple decision surface and lenient misclassification. The gamma parameter is a measure of influence for a single training example. The larger gamma is, the less influence a single instances has.
 
 \subsubsection{GaussianNB}
 GaussianNB is a naïve Bayes classifier implementation with the  assumption that the feature set is gaussian distributed \cite{Bayes}. For fitting the data, a partial fit function is used based on the work of Chan, Golub and LeVeque \cite{Sam-var}. This calculates the assumed means and variances of a gaussian distribution of the inputted feature set. Based on this distribution the prediction is made by filling in the maximum likelihood. The limited calculation needed for classification and prediction makes this one of the fastest algorithms. The only parameter of this classifier specifies the prior probabilities of the classes, which will when specified not be adjusted to the given input. 
@@ -235,7 +235,7 @@ GaussianNB is a naïve Bayes classifier implementation with the  assumption that
 BernoulliNB is a naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This setting can be disabled or reduced by a threshold for the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability.
 
 \subsubsection{GradientBoostingClassifier}
-GradientBoost is an ensemble classifier that builds from weaker classifiers \cite{GradientBoost}. Like AdaboostClassifier it builds an additive model in a forward stage-wise fashion.  The weak classifiers used in the scikit-learn implementation are decision trees.  %TODO add\cite{Greedy-GBC}
+GradientBoost is an ensemble classifier that builds from weaker classifiers \cite{GradientBoost}. Like AdaboostClassifier it builds an additive model in a forward stage-wise fashion.  The weak classifiers used in the scikit-learn implementation are decision trees. The default loss function which is optimized in a stage-wise fashion is a logistic regression for classification with probabilistic outputs\cite{Greedy-GBC}.
 
 
 
@@ -321,6 +321,8 @@ In this section definitions and abbreviations are explained and set in context. 
 	std & standard deviation\\
 	
 	TU/e & Eindhoven University of Technology \\
+	
+	SVC-rbf & Support vector classification with a radial based function kernel
 	
 	
 \end{tabular}
@@ -679,13 +681,22 @@ We consider here both random and duplcite features as they are both redundant.
 
 
 \textbf{RandomForestClassifier} RandomForestClassifier has one of the best predictive accuracies on the clean data sets. The decline however with added features is noticable steep. With duplicate features the decline is pretty steep. The added random features have less of an impact on the accuracy. A large part of the impact can be seen with the initial addition as that has the largest impact in comparison. As indicated in \ref{chapter312} RandomForestClassifier indicates that the random features have some importance in the predictions which only increases with more features, but less than the importance it indicates. The same holds for duplciate features which also gains feature importance with more duplicates.   \\
-\textbf{KNeighborsClassifier} \\
+
+\textbf{KNeighborsClassifier} The predictive accuracy of Knn is decent on the categorical datasets for both values of k. The downfall in quality however with random categorical values is hard, which is mostly due to inability to handle categorical features. If we look at the same datasets with added numerical categories there is even an increase in predictive accuracy.\ref{fig:predRedCatNum}.
+The duplicate features have in both cases of numerical and categorical datasets a near equal impact considering the different datasets. The random numerical features in the numerical datasets have a clear impact when they are added but only a slight decrease afterwards. This can be explained as the variability of the random features. A previous instances would have a chance to be close to its equal class neighbors but with the added dimensions of random features this closeness is shifted. This variances does not increase that much with more features as the odds of extreme cases still staying the same. An extreme case being a previous neighbors instance having the minimal value for all added value and the neighbors of equal class having all maximal values of the added class. \\
+
 \textbf{SGDClassifier} \\
+
 \textbf{AdaBoost} \\
+
 \textbf{SVC-rbf} \\
+
 \textbf{GaussianNB} \\
+
 \textbf{BernoulliNB} \\
+
 \textbf{GradientBoostingClassifier} \\
+
 
 
 \subsubsection{Combined feature manipulation}
@@ -854,7 +865,7 @@ Proceedings of the 4th European Conference on Principles of data mining and know
 \bibitem{SVN} Support-Vector networks, Cortes, Corinna, Vapnik, Vladimir, Machine Learning Volume 20 issue 3 (1995)
 \bibitem{Bayes} Idiot’s Bayes—Not So Stupid After All?, David J. Hand, Keming Yu, International Statistical Review Volume 69 Number 3(2001)
 \bibitem{NB-text} A Comparison of event models for naïve Bayes text classification, Andrew McCallum, Kamal Nigam, AAAI-98 workshops on learning for text categorization (1998)
-\bibitem{KNNreg} An introduction to kernel and nearest-neighbor nonparametric regression, N. S. Altman, American Statistician 46(3): 175-185 (1992)
+\bibitem{KNN-k} Investigating the performance of Naive-bayes classifiers and k-nearest neighbor classifiers, M. J. Islam, Q. M. J. Wu, M. Ahmadi and M. A. Sid-Ahmed, International conference on convergence information technology(ICCIT) Gyeongju pages 1541-1546,(2007)
 \bibitem{RDF} Random Decision Forests, Tin Kam Ho, Proceedings of the 3rd Iternational Conference on Document analysis and recognition (1995)
 \bibitem{AdaBoost} A short introduction to Boosting, Yoav Freund, Robert E. Shapire, Journal of Japanse Society for artificial Intelligence 14(5):771-780 (1999)
 \bibitem{MadaB} Multi-class AdaBoost, J. Zhu, S. Rosset, H. Zou, T. Hastie, Statistics and its Interface volume 2, pages 349-360 (2009)
@@ -871,6 +882,7 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \bibitem{KNN-Sym} A Weighted Nearest Neighbor Algorithm for Learning with symbolic features, S. Cost, S. Salzberg, Machine Learning Volume 10, number 1 pages 57-78, (1993)
 \bibitem{SVM-sym} A practical guide to support vector classification, Chih-wei Hsu, Chich-Chung Chang, Chich-Jen Lin, 101. 1396-1400, (2003)
 \bibitem{Cross} A study of cross-validation and bootstrap for accuracy estimation and model selection, R. Kohavi, (1995)
+\bibitem{KNN} Nearest neighbor pattern classification, T. Coverm P. Hart, IEEE Transaction on Information Theory 13:21-27,(1967)
 
 
  
@@ -880,8 +892,77 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 
 \section{Appendix}
 \subsection{datasets per figure}
+figure \ref{fig:predFlat} - 10,12,18
 
+\subsection{different approach}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/predRedudantFeaturesCatNum.png}
+	\caption{adding or removing uniformly random std to numerical features for GaussianNB.}
+	\label{fig:predRedCatNum}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/predFlat.png}
+	\caption{adding flat values to each feature}
+	\label{fig:predFlat}
+\end{figure}
+
+\newpage
 \subsection{Results per dataset per classifier}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesRF.png}
+	\caption{adding or removing uniformly random std to numerical features for RandomForestClassifier.}
+	\label{fig:predNoisyFeaturesRF}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesKNN.png}
+	\caption{adding or removing uniformly random std to numerical features for KNeighborsClassifier.}
+	\label{fig:predNoisyFeaturesKNN}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeatures1NN.png}
+	\caption{adding or removing uniformly random std to numerical features for 1NeighborClassifier.}
+	\label{fig:predNoisyFeatures1NN}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesSGD.png}
+	\caption{adding or removing uniformly random std to numerical features for SGDClassifier.}
+	\label{fig:predNoisyFeaturesSGD}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesADA.png}
+	\caption{adding or removing uniformly random std to numerical features for AdaBoost.}
+	\label{fig:predNoisyFeaturesADA}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesSVC.png}
+	\caption{adding or removing uniformly random std to numerical features for SVC-rbf.}
+	\label{fig:predNoisyFeaturesSVC}
+\end{figure}
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
@@ -889,6 +970,22 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 	]{images/appendix/PredNoisyFeaturesGNB.png}
 	\caption{adding or removing uniformly random std to numerical features for GaussianNB.}
 	\label{fig:predNoisyFeaturesGNB}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesBNB.png}
+	\caption{adding or removing uniformly random std to numerical features for BernoulliNB.}
+	\label{fig:predNoisyFeaturesBNB}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/PredNoisyFeaturesGBC.png}
+	\caption{adding or removing uniformly random std to numerical features for GradientBoostingAlgorithm.}
+	\label{fig:predNoisyFeaturesGBC}
 \end{figure}
 %insert tables
 
