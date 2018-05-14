@@ -58,6 +58,8 @@ def featureClf(did,cv,amount,typ):
         func = 'cvScoreFeatures4Duration'
     if typ == 3:
         func = 'cvScoreFeatures5Duration'
+    if typ == 4:
+        func = 'cvScoreFeatures6Laptop'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['RandomForestClassifier', 'SGDClassifier', 'AdaBoost','GaussianNB', 'BernoulliNB','GradientBoost','KNeighborsClassifier', '1NeighborsClassifier', 'SVC-rbf']
 
