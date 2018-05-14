@@ -147,14 +147,13 @@ To improve machine learning selection based on robustness and scalability in the
 
 \section{Introduction} \label{Chapter1}
 This report is the result of my graduation project which completes my Business Information Systems study at Eindhoven University of Technology.
-The project was performed internally at the University in the Data mining department.
+The project was performed internally at the Eindhoven University of Technology in the Data mining department.
 In this project we investigated annotations of primitives, more specifically primitives in the scikit-learn library.
-In the section \ref{Intr-Prob} we will briefly explain more about primitives and the annotations.
-To elaborate on this we will outline the research questions and thesis structure
+To elaborate on this we will outline the research questions and thesis structure further in this introduction.
  
 
 \subsection{problem description}\label{Intr-Prob}
-Machine learning is a growing field that can help process the increase of available data\cite{Big-data}\cite{ML-trends}. 
+Machine learning is a growing field that can help process the increase of available data \cite{Big-data}\cite{ML-trends}. 
 Python is a language which holds premade machine learning algorithms in libraries like scikit-learn\cite{scikit-learn}.
 In recent years python is also increasing in so called market share for machine learning\cite{python-pop}.
 To help people choose machine learners in the scikit-learn library a model was made to indicate what algorithm to use for what problem. In figure \ref{fig:FlowChartML} you can see that depending on size of the data and early results, different algorithms are recommend. This gives a quick overview of available algorithms and when to pick which. This figure however is outdated as new algorithms are added to the library over time. Such a model is based on the concept of no free lunch which explains that there cannot be one algorithm to solve all optimization problems\cite{No-Free-Lunch}.  
@@ -526,46 +525,42 @@ All results with a duration axis. The duration axis is in seconds and shows a 10
 Due to the robustness experiments a lot of results change the composition of a dataset in the feature dimension. In this subsection all results changing the composition of a dataset are included with a duration y axis. 
 
 
-\paragraph{Categorical features}
-The results are obtained from datasets with only categorical features and the averaged results are shown in figure \ref{fig:FeatAddCat}.
-\begin{figure}[h] %use t for top of page instead of h for here
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/scalability/FeatAddCat.png}
-	\caption{Features added straight line represent duplicate features and dotted line are random categorical features between 0 and 2}
-	\label{fig:FeatAddCat}
-\end{figure}
-\\
-\textbf{RandomForestClassifier} \\
-\textbf{KNeighborsClassifier} \\
-\textbf{SGDClassifier} \\
-\textbf{AdaBoost} \\
-\textbf{SVC-rbf} \\
-\textbf{GaussianNB} \\
-\textbf{BernoulliNB} \\
-\textbf{GradientBoostingClassifier} \\
-\newpage
-\paragraph{Numerical features}
+
+\paragraph{Added features}
 in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCatSlope}.
-\begin{figure}[h] 
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/scalability/FeatAddNonCat.png}
-	\caption{Features added straight line represent duplicate features and dotted line are random numerical features}
-	\label{fig:FeatAddNonCat}
-\end{figure}
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/scalability/FeatAddDupRandClass.png}
+		\caption{only the time needed to predict }
+		\label{fig:SADRC}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/scalability/FeatAddDupRandPred.png}
+		\caption{only the time needed to make the predictions}
+		\label{fig:SADRP}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/scalability/FeatAddDupRand.png}
+		\caption{The combined time of predicting and classifying on a dataset with added random and duplicated features}
+		\label{fig:SADR}
+	\end{subfigure}
+	\caption{Adding duplicate and random features to a dataset plotted against the duration needed.}
+	
+\end{figure}\label{fig:ScalableAdded}
 
 
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
 	width=0.65\textwidth
-	]{images/scalability/FeatAddNonCatSlope.png}
-	\caption{Features added straight line represent duplicate features and dotted line are random numerical features}
-	\label{fig:FeatAddNonCatSlope}
+	]{images/scalability/FeatAddDupRandSlope.png}
+	\caption{Slope for \ref{fig:SADR} with the dotted line for random added features and the straight line for duplicate features}
+	\label{fig:SADS}
 \end{figure}
+
+
+
 \textbf{RandomForestClassifier} \\
 \textbf{KNeighborsClassifier} \\
 \textbf{SGDClassifier} \\
@@ -893,6 +888,7 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \section{Appendix}
 \subsection{datasets per figure}
 figure \ref{fig:predFlat} - 10,12,18
+figure \ref{fig:FailDurMan} - 1038,1043,1049,1050,1176,12,1466,1468,1475,1476,1478,1479,1485,1487,1491,1492,1493,1494,14,1501,1504,1510,1515,16,22,28,300,40499,40,4134,44,4538,458
 
 \subsection{different approach}
 \begin{figure}[h] 
@@ -912,6 +908,55 @@ figure \ref{fig:predFlat} - 10,12,18
 	\caption{adding flat values to each feature}
 	\label{fig:predFlat}
 \end{figure}
+
+\subsection{Duration variance}
+In this section duration examples are shown which show behaviour that should not happen.
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurAddOld.png}
+	\caption{Duration of the oldest version of adding random features}
+	\label{fig:durOld}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/FailDurAdd.png}
+	\caption{Duration of the oldest version of adding random features}
+	\label{fig:durNewer}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/FailDurAddNew.png}
+	\caption{Duration of the newest version of adding random features}
+	\label{fig:durNewest}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/FailDurAddNew.png}
+	\caption{Duration of the newest version of adding random features}
+	\label{fig:durNewest}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/FailDurMan.png}
+	\caption{Duration of adding and removing features combined result}
+	\label{fig:FailDurMan}
+\end{figure}
+
+
 
 \newpage
 \subsection{Results per dataset per classifier}

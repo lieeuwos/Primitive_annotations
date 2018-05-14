@@ -845,6 +845,10 @@ def preProcessV2(X_train,train_X,X_test,test_X,cat,catM,clfName):
     
     return X_train,train_X,X_test,test_X
 
+def random_seed(seed):
+    random.seed(seed)
+    return random.random()
+
 
     
 
