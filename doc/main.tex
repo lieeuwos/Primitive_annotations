@@ -8,6 +8,7 @@
 \usepackage{enumerate}
 \usepackage{subcaption,array}
 \usepackage{multicol}
+\usepackage{csvsimple}
 %\usepackage{mathtools}
 \usepackage{latexsym}
 \usepackage{fullpage}
@@ -136,7 +137,8 @@ Supervisor: Joaquin Vanschoren \\
 \end{titlepage}
 
 \begin{abstract}
-To improve machine learning selection based on robustness and scalability in the scikit-learn library. By researching the python library which is gaining popularity we give a few insights into the qualitive properties of these machine learning algoritms. For accuracy GradientBoostingClassifier is a solid pick which outperforms with default settings on nearly all cases. A runner up on accuracy is RandomForestClassifier an easier and quicker solution. For noisy data KNeighborsClassifier is most robust and Naive Bayes algorithms are least robust. For the more unpredictable cases of noisy data in a categorical setting Gaussian Naive Bayes is however a more robust solution.
+%To improve machine learning selection based on robustness and scalability in the scikit-learn library.
+ By researching the python library which is gaining popularity we give a few insights into the qualitive properties of these machine learning algoritms. For accuracy GradientBoostingClassifier is a solid pick which outperforms with default settings on nearly all cases. on equal footing in accuracy is RandomForestClassifier an easier and quicker solution. For noisy data KNeighborsClassifier is most robust and Naive Bayes algorithms are least robust. For the more unpredictable cases of noisy data in a categorical setting Gaussian Naive Bayes is however a more robust solution.
 
 \end{abstract}
 
@@ -478,13 +480,19 @@ Another option  to measure scalability is to measure the impact of number of ins
 \subsubsection{Duplicate features}
 Duplicate features experiments have multiple goals in mind. By adding existing feature we can measure scalability of datasets with some amount of features. These duplicate features can also be identified as adding little to the dataset or the same features can overrule existing important features. The accuracy on these modified dataset
 can teach us about the impact of features on accuracy and how classifiers handle these irrelevant features. The method to add these duplicate features is by randomly picking and adding. This can result in features being multiple times in the manipulated  dataset even though it is only twice the orignal dataset size. The accuracy is measured over the whole dataset by doing a 10 fold cross validation.
+
 \subsubsection{Random Features}
 Random features experiments have similar goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with randomish features. These random features can deceivingly have information as there is much variability. By measuring the accuracy we can observe what the impact is for different classifiers. There are two sorts of random features we add; Numerical and categorical features. We add either the categorical or numerical depending on the distribution of the dataset. The odds of either a categorical or numerical feature being added is the distribution of the initial dataset. The accuracy is measured over the whole dataset by doing a 10 fold cross validation. %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
+
+
  
 \paragraph{categorical random features \newline}
 The categorical random feature is a uniform value between 0 and k. The value of k can influence how a classifier perceive this random feature. For all the instances in the set a uniform random number between 0 and 1 is multiplied by k and then rounded. 
 \paragraph{numerical random features \newline}
 The numerical random feature is a uniform random value between 0 and 1. This feature has in this case all unique values.
+
+\subsubsection{Redundant duplicate features}
+Redundant duplicate features experiments are datasets with duplicate features appended in training and different features appended to the test set. These features so appear to have some predictive quality similair to the features already in the dataset. These features are similair to the original dataset, so we can better measure the impact of scalability of features similair to the duplicate features. The comparison can be made to the randomly added features datasets in terms of scalability and predictive accuracy 
 
 
 \subsubsection{Noisy data}
@@ -542,10 +550,10 @@ in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCat
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{images/scalability/FeatAddDupRand.png}
-		\caption{The combined time of predicting and classifying on a dataset with added random and duplicated features}
+		\caption{The combined time of predicting and classifying on a dataset with added random and redundant duplicated features}
 		\label{fig:SADR}
 	\end{subfigure}
-	\caption{Adding duplicate and random features to a dataset plotted against the duration needed.}
+	\caption{Adding redundant duplicate and random features to a dataset plotted against the duration needed.}
 	
 \end{figure}\label{fig:ScalableAdded}
 
@@ -555,7 +563,7 @@ in figure \ref{fig:FeatAddNonCat} and the slope in figure \ref{fig:FeatAddNonCat
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/FeatAddDupRandSlope.png}
-	\caption{Slope for \ref{fig:SADR} with the dotted line for random added features and the straight line for duplicate features}
+	\caption{Slope for \ref{fig:SADR} with the dotted line for random added features and the straight line for redundant duplicate features}
 	\label{fig:SADS}
 \end{figure}
 
@@ -578,7 +586,7 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/FeatMan.png}
-	\caption{features randomly removed and feature randomly duplicated}
+	\caption{features removed randomly and features  redundantly duplicated}
 	\label{fig:FeatMan}
 \end{figure}
 
@@ -587,7 +595,7 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/FeatManLog.png}
-	\caption{features randomly removed and feature randomly duplicated}
+	\caption{features removed randomly and features  redundantly duplicatedd with a log scale}
 	\label{fig:FeatManLog}
 \end{figure}
 
@@ -596,7 +604,7 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/FeatManSlope.png}
-	\caption{features randomly removed and feature randomly duplicated}
+	\caption{features removed randomly and features  redundantly duplicated slope of \ref{fig:FeatMan}}
 	\label{fig:FeatManSlope}
 \end{figure}
 
@@ -605,7 +613,7 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/FeatManSlope1.png}
-	\caption{features randomly removed and feature randomly duplicated}
+	\caption{features removed randomly and features  redundantly duplicated absolute slope calculated of the clean dataset (values from  \ref{fig:FeatMan}) }
 	\label{fig:FeatManSlope1}
 \end{figure}
 
@@ -614,7 +622,7 @@ in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatM
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/FeatManSlope1Log.png}
-	\caption{features randomly removed and feature randomly duplicated}
+	\caption{features removed randomly and features  redundantly duplicated absolute slope calculated of the clean dataset with a log scale (values from  \ref{fig:FeatMan})}
 	\label{fig:FeatManSlope1Log}
 \end{figure}
 
@@ -691,6 +699,12 @@ The duplicate features have in both cases of numerical and categorical datasets 
 \textbf{BernoulliNB} \\
 
 \textbf{GradientBoostingClassifier} \\
+\begin{table}[h]
+	\centering
+	\csvautotabular{flucRedudantFeatures.csv}
+	\caption{all change in predictive accuracy in adding certain kind of features(results from \ref{fig:predNonCatAddFeat})}\label{table:fluc}
+\end{table}
+
 
 
 
@@ -954,6 +968,15 @@ In this section duration examples are shown which show behaviour that should not
 	]{images/appendix/FailDurMan.png}
 	\caption{Duration of adding and removing features combined result}
 	\label{fig:FailDurMan}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/FailFixedDup.png}
+	\caption{Duration of duplicated features against random features with clear spikes in duration registering}
+	\label{fig:failFixed}
 \end{figure}
 
 

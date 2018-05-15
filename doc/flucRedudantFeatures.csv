@@ -1,0 +1,10 @@
+,duplicate features,random features,redundant duplicates features
+RandomForestClassifier,0.0,-0.19,-0.08
+KNeighborsClassifier,-0.0,-0.13,-0.33
+1NeighborsClassifier,-0.0,-0.12,-0.33
+SGDClassifier,-0.01,-0.07,-0.18
+AdaBoost,0.0,-0.1,-0.02
+SVC-rbf,-0.0,-0.2,-0.32
+GaussianNB,-0.02,-0.21,0.01
+BernoulliNB,-0.03,-0.08,-0.0
+GradientBoost,-0.0,-0.15,-0.05
