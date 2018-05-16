@@ -214,14 +214,14 @@ All resources are open source and hosted on Github. Before scikit-learn there we
 
 
 \subsubsection{RandomForestClassifier}
-RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data and averages the results for the result. These sub-samples are chosen randomly so the results can vary between runs on the same input. A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. As RandomForestClassifier is made up of trees you can use the ordering of the trees, more specifically the top most layer of the tree to find feature importance. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the tree in a random forest this gives an average result of important features in a trained dataset.
+RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data and uses the highstest probabilistic prediction for the prediction. These sub-samples are chosen randomly so the results can vary between runs on the same input. A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. As RandomForestClassifier is made up of trees you can use the ordering of the trees, more specifically the top most layer of the tree to find feature importance. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the tree in a random forest this gives an average result of important features in a trained dataset.
 
 
 \subsubsection{KNeighborsClassifier}
 In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors classification algorithm(kNN)\cite{KNN}. KNN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing. The k-NN uses as it names tells the nearest neighbors for calculation. For prediction the inputted feature set is traversed to find the nearest  k points. Depending on the majority class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but should not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality.\cite{KNN-k}
 
-\subsubsection{SDGClassifier}
-SDGClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. To fit the classifier it expects continious features with a mean of zero in a sparse setting. This makes the classifier sensitive to categorical data as it performs optimally with continious features. The iterative steps for calculation gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration. As the fitted functions are linear, if the input has mutliple classes a classifier predicts one class versus all other classes. 
+\subsubsection{SGDClassifier}
+SGDClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. To fit the classifier it expects continious features with a mean of zero in a sparse setting. This makes the classifier sensitive to categorical data as it performs optimally with continious features. The iterative steps for calculation gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maxima. The learning rate is used to update the model in each iteration. As the fitted functions are linear, if the input has mutliple classes a classifier predicts one class versus all other classes. 
 
 \subsubsection{AdaBoost}
 AdaBoost is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu also solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost classifier with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
@@ -319,7 +319,7 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	did & dataset identifier \\
 	
-	SDG & Stochastic gradient descent \\
+	SGD & Stochastic gradient descent \\
 	
 	std & standard deviation\\
 	
@@ -610,61 +610,83 @@ The averaged size of this dataset is 3797 instances and 200 features.  and the s
   \\
 
 The slopes of the different classifiers are close to a linear scale and vary a bit between addition(figure \ref{fig:SADS}). This is mostly an the starting impact of the added features compared to the clean dataset. 
-\newpage
-\paragraph{combined}
-in figures \ref{fig:FeatMan} and \ref{fig:FeatManLog} adding and removing features is shown.
-in figures \ref{fig:FeatManSlope1Log},\ref{fig:FeatManSlope1} and \ref{fig:FeatManSlope}
 
+
+\paragraph{Removed features}
+In figure \ref{fig:FeatRem} the duration against features removed from a dataset are shown. Three different techniques of feature removing are shown. In figure \ref{fig:FeatRemImp} features are randomly remove or a RandomForestClassifier is fitted on the training set and the least important feature is removed. In figure \ref{fig:FeatCorImp} the features are removed by their importance or by having the most correlation with another feature in the training set. In figure \ref{fig:FeatRemImp} the average dataset is 2230 instances with 307 features and in figure \ref{fig:FeatCorImp} the average dataset is 3329 instances with 258 features.
 \begin{figure}[H]
 	\centering	
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
-		]{images/scalability/FeatMan.png}
-		\caption{features removed randomly and features  redundantly duplicated}
-		\label{fig:FeatMan}
+		]{images/scalability/FeatRemImp.png}
+		\caption{features randomly removed or removed by importance }
+		\label{fig:FeatRemImp}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[
+		width=0.65\textwidth
+		]{images/scalability/FeatCorImp.png}
+		\caption{features removed by least importance or by most correlation with other features}
+		\label{fig:FeatCorImp}
+	\end{subfigure}
+	
+	\caption{Duration of classification and prediction of the classifiers against removing features from clean datasets.}
+	\label{fig:FeatRem}
+\end{figure}
+
+\textbf{RandomForestClassifier} A small difference in duration can be seen between the randomly removed feature and feature removed by lack of importance. On the smallest dataset the importance removed feature dataset takes longer. This can be explained as the feature set needing more time for the quality of the split. Between highest correlation removing and importance removing the difference is minimal\\
+
+\textbf{KNeighborsClassifier} For KNeighborsClassifer there is also more time needed for a small importance removed dataset and even more for highest correlation based removing. The longest duration for correlation based removing can come from the lack of correlation giving more variation between features as they are least similair to each other. This means that the features are different and more calculation is needed to find neighbors. For important features this is also the case but to a lesser extend than the least correlated features, which indicates that some features can still be closesly correlated but still have some perceived importance.\\
+
+\textbf{SGDClassifier} The SGDClassifier can be seen as one of the quickest algorithms in figure \ref{fig:FeatRemImp} but a bit more time consuming in figure \ref{fig:FeatCorImp}. There is even a big time difference between randomly removing features and removing feature by least importance. The more important the features the longer the classifier needs. This can be explained as the features less likely being standard for the input of the classifier. This means that the important featuers are likely dense features. \\
+
+\textbf{AdaBoost} AdaBoost classifier needs more time for least important removed feature dataset than randomly removed features. This seems similair to the RandomForestClassifier. With the important features left AdaBoost has a harder time to classify outliers which the removed features were more likely to be used for. \\
+
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} On the smallest duration \\
+\textbf{BernoulliNB} Removing the least important features from a dataset has less of an impact of decreasing the duration than removing random features. This can be due to the randomly remaining features being easier to binarize and quicker to calculate mean and variance of. \\
+
+\textbf{GradientBoostingClassifier} As the only classifer GradientBoostingClassifier takes less time with only the most important features. This can be the nature of the stagewise steps of GradientBoostingClassfier needing less time with more successfull features than random features whos importance can be questionable. The dataset with the least correlated features hardly as any difference with the least important removed feature dataset.\\
+
+
+\newpage
+
+\paragraph{combined}
+in figure \ref{fig:Log} adding and removing features is shown.
+in figure \ref{fig:FeatManSlope} the slope is shown.
+
+
+
+
+
+\begin{figure}[H]
+	\centering	
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/scalability/FeatManLog.png}
+	\caption{features removed randomly and features  redundantly duplicated slope }
+	\label{fig:FeatManLog}	
+\end{figure}
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[
+		width=0.65\textwidth
+		]{images/scalability/FeatManSlopeLog.png}
+		\caption{features removed randomly and features   duplicatedd with a log scale of \ref{fig:FeatManLog}}
+		\label{fig:FeatManSlopeLog}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/scalability/FeatManLog.png}
-		\caption{features removed randomly and features  redundantly duplicatedd with a log scale}
-		\label{fig:FeatManLog}
+		\caption{features removed randomly and features   duplicatedd with a log scale}
+		\label{fig:FeatManSlope1Log}
 	\end{subfigure}
-	\caption{feature manipulation from removing to adding features.}
-	\label{fig:FeatManTot}
-\end{figure}
-
-\begin{figure}[H]
-	\centering	
-	\begin{subfigure}[b]{0.45\textwidth}
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/scalability/FeatManSlope.png}
-	\caption{features removed randomly and features  redundantly duplicated slope of \ref{fig:FeatMan}}
-	\label{fig:FeatManSlope}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/scalability/FeatManSlope1.png}
-	\caption{features removed randomly and features  redundantly duplicated absolute slope calculated of the clean dataset (values from  \ref{fig:FeatMan}) }
-	\label{fig:FeatManSlope1}
-	\end{subfigure}
-	\caption{feature manipulation slope from removing to adding features.}
-	\label{fig:FeatManTot}
-\end{figure}
-
-
-
-
-\begin{figure}[h] 
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/scalability/FeatManSlope1Log.png}
-	\caption{features removed randomly and features  redundantly duplicated absolute slope calculated of the clean dataset with a log scale (values from  \ref{fig:FeatMan})}
-	\label{fig:FeatManSlope1Log}
+	
+	\caption{Slopes of Feature percentage total duration of the original dataset}
+	\label{fig:SlopeDurMan}
 \end{figure}
 
 
@@ -844,10 +866,11 @@ The result will be a ranking of classifiers on different scales. The scales are:
 \subsubsection{Missed opportunities}
 Within saving as many information obtainable from the algoritms a missed oppertunity is the probability prediction of all the test sets. 
 
-Another missed collected data is the prediction of the training data. This data might not give a good indication of predictive accuracy but can give some valuable information of overfitting on the input data. This can be calculated as a difference in prediction results of the training and test set. For some classifiers this holds more than others. For example SDGClassifier which fits the inputted data as differentiable functions. Opposed to KNeighborsClassifier which will look up all the inputted data for neighbors which will match the training data for prediction. 
+Another missed collected data is the prediction of the training data. This data might not give a good indication of predictive accuracy but can give some valuable information of overfitting on the input data. This can be calculated as a difference in prediction results of the training and test set. For some classifiers this holds more than others. For example SGDClassifier which fits the inputted data as differentiable functions. Opposed to KNeighborsClassifier which will look up all the inputted data for neighbors which will match the training data for prediction. 
 
 \subsubsection{Duration}
-
+For the duration pictures some results are removed as they do not fall in line with the other results at all. By using the standard of the clean dataset which is calculated with each run we throw out any results changing more than 5$\%$ from another average.
+The reason for these differences in duration is because of multiple used systems and other processes running during computation. 
 
 \subsection{Resilience to noise}
 
@@ -948,8 +971,13 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \section{Appendix}
 \subsection{datasets}
 \subsubsection{datasets per figure}
+openml dataset identifiers per figure \\
 figure \ref{fig:predFlat} - 10,12,18 \\
 figure \ref{fig:FailDurMan} - 1038,1043,1049,1050,1176,12,1466,1468,1475,1476,1478,1479,1485,1487,1491,1492,1493,1494,14,1501,1504,1510,1515,16,22,28,300,40499,40,4134,44,4538,458 \\
+figure \ref{fig:FeatManLog} - 22, 1176, 4134, 1063, 1067, 1068, 44, 53, 4538, 458 \\
+figure \ref{fig:FeatCorImp} - 12, 1038, 14, 16, 1043, 22, 1176, 1049, 1050, 28, 1063, 1067, 1068, 300, 1466, 1467, 1468, 1475, 1476
+figure \ref{fig:FeatRemImp} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068
+figure 
 \subsubsection{Distribution}
 The number of features and instances for datasets
 \begin{figure}[h] 
