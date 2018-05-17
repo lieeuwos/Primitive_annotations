@@ -862,21 +862,21 @@ Randomly removing features, based on least importance or based on most correlati
 	\label{fig:Rem}
 \end{figure}
 
-\textbf{RandomForestClassifier}    \\
+\textbf{RandomForestClassifier} The predictive accuracy of RandomForestClassifier has a normal behavior considering we are randomly removing features, the accuracy gradually declines. For the features removed by least importance the accuracy stays nearly the same there is little gain of removing the features, so RandomForestClassifier had no problem classifying before. Removing features based on most correlation has a similair effect as randomly removing. \\
 
-\textbf{KNeighborsClassifier} \\
+\textbf{KNeighborsClassifier}  The predictive accuracy of the kNN classifiers has a steady flow with the first 50 $\%$ features removed randomly as the accuracy stays nearly equal and the drop off in accuracy is from then on. For the features removed by least importance a similair pattern is visible but with a lite increase in accuracy for the default and a bump for the 1NN version. The decrease in accuracy is also less for the final drop off. This is mostly due to the nature of the kNN of distance between points, the RandomForestClassifier finds importance in the features and so these points distinguish for the classifier what will influence which target it will be. The correlation removing has a bad effect on the accuracy as it goes down hill similair to random features.  \\
 
-\textbf{SGDClassifier} \\
+\textbf{SGDClassifier} The SGDClassifier has a strange behavior off accuracy as the highest accuracy is attained with either 10 $\%$ or 5 $\%$ randomly removed features. This is most likely the result of removing a random feature that fitted less in the linear regression or a split off the data that was better considering the accuracy only changed a percentage. The importance of features matter less for fitting a SGDClassifier as now the increase in accuracy noticable at 50 $\%$ features randomly removed is gone. This means that the important features are not likely to fit an SGDClassifier. Removing by most correlation has more effect on the accuracy as with only 50 $\%$ of the features left the highest accuracy is measured, matching the previous highest of removing by least importance. The accuracy in that experiment has also more variance as there is no clear straight line of decline or decrease but a fluctuation of the result.   \\
 
-\textbf{AdaBoost} \\
+\textbf{AdaBoost} The accuracy of adaBoost remais rather robust on randomly removed features. With the focus on outliers the remaining dataset is a good example of the strength of AdaBoost even without configuration. Similair behavior is found with removing the least important features, the accuracy stays nearly the same overall. Removing the most correlated features gives a more gradual decline of each step losing some accuracy.   \\
 
-\textbf{SVC-rbf} \\
+\textbf{SVC-rbf} The accuracy of the SVC-rbf classifier has a steady pattern over all the methods of removing features. The only noticable difference is even a slight increase in accuracy for the smallest set made by randomly removing. This means that the feature remaining still have a lot of information in them and that nearly no features were hindering the accuracy of SVC-rbf for theses datasets. The accuracy gain of most features in those dataset is nearly equal for a default SVC-rbf.   \\
 
-\textbf{GaussianNB} \\
+\textbf{GaussianNB} The accuracy of the GaussianNB classifier shows interseting behavior of fluctuating between improving or deteriorating for randomly removed features. This means that similair for SVC-rbf that most features have an similair impact for GaussianNB, when looking at them randomly. Only when looking at the feature removed by least importance there is a steady increase in accuracy by removing more features. This explains that there due exist more fitting features for the GaussianNB in these datasets. For the most correlated removed features a steady decline is seen. Which shows that those feature that are somewhat correlated may be the most important featueres in comparison for GaussianNB. \\
 
-\textbf{BernoulliNB} \\
+\textbf{BernoulliNB} The most interesting behavior of the accuracy can be seen with the BernoulliNB as with all feature removing methods give an increase in accuracy. Least feature importance removing only by a slight margin gaining the best result. This means that the binarization and fitting to the Bernoulli distribution can be best realized with only the most important features of a dataset. For this classifier most features are an obstacle for performance. \\
 
-\textbf{GradientBoostingClassifier} \\
+\textbf{GradientBoostingClassifier} GradientBoostingCLassifier shows a similair pattern as the RandomForestClassifier in all cases showing their similairty. The default accuracy is only slightly higher of the GradientBoostingClassifier compared to the RandomForestClassifier. \\
 
 
 \newpage
