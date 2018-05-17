@@ -808,9 +808,6 @@ We consider here random, duplicate and redundant duplicate features as they are 
 \end{figure}
 
 
-
-
-%TODO on hold asof 14/5 fault
 \textbf{RandomForestClassifier} RandomForestClassifier is robust against default duplicate features with even gaining slightly better accuracy in both numerical and categorical datasets. The decrease in accuracy with adding redundant duplicate features is one of the hardest. As seen in chapter \ref{chapter312} RandomForestClassifier gives these added duplicate features less than its share of the dataset importance. The redundant duplciate feature have slightly more importance than the random numerical features and the result is far more decrease of accuracy for the redundant duplicate features. RandomForestClassifier is a ensemble method and therefor the performance does not drop dramatically on some redundant features but with a larger share the impact becomes more devisating.\\
 
 \textbf{KNeighborsClassifier} The kNN classifier the robustness against duplciate feature is good for the default setting but for the 1NN there is more variance of performance for the categorical datasets. Adding the redundant features the kNN classifier is not so robust and the accuracy drops quickly. Against the random features the most impact can be seen when introducing the features. Upon introducting of the random categorical features the accuracy drops hard 30 $\%$ accuracy. For the numerical random features this is less but in comparison it is one of the largest drops in accuracy. THis is due the numbers associated with these random features. For the categorical features with k=100 the absolute difference between features become larger than with the default classes which are incremental categories. With a class feature value in the training set of 10 and a similair class with feature value 90 the absolute difference is large between features. Without preprocessing the kNN has no robustness against these irrelevant features. \\
@@ -832,21 +829,38 @@ We consider here random, duplicate and redundant duplicate features as they are 
 	\csvautotabular{flucRedudantFeatures.csv}
 	\caption{all changes in predictive accuracy in adding both kind of features(results from figures \ref{fig:predAddNum} and \ref{fig:predAddCat})}\label{table:fluc}
 \end{table}
+\newpage
 
+\subsubsection{Removing Features}
+Randomly removing features, based on least importance or based on most correlation. The accuracy against the feature left is shown. 
 
-
-
-\subsubsection{Combined feature manipulation}
-\begin{figure}[h] 
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/RedudantFeature/predFeatureComplete.png}
-	\caption{predictive accuracy for datasets with added or removed redundant features}
-	\label{fig:preddFeatComp}
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[
+		width=0.65\textwidth
+		]{images/RedudantFeature/predRemMan.png}
+		\caption{Features randomly removed from a dataset.}
+		\label{fig:predRemMan}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[
+		width=0.65\textwidth
+		]{images/RedudantFeature/predRemImp.png}
+		\caption{Features removed based on the least feature importance in the training set done by a RandomForestClassifier}
+		\label{fig:predRemImp}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[
+		width=0.65\textwidth
+		]{images/RedudantFeature/predRemCor.png}
+		\caption{Removing the feature most correlated to another feature and also most correlated to all other features of the two.}
+		\label{fig:predRemCor}
+	\end{subfigure}
+	
+	\caption{Predictive accuracy of classifiers with feature removed based on certain preconceptions.}
+	\label{fig:Rem}
 \end{figure}
-
-
 
 \textbf{RandomForestClassifier}    \\
 
@@ -864,6 +878,8 @@ We consider here random, duplicate and redundant duplicate features as they are 
 
 \textbf{GradientBoostingClassifier} \\
 
+
+\newpage
 \subsection{Noisy data}
 Datasets in these experiments get increasingly more random by injecting the features with noise. In figures \ref{fig:predCatFeat}, \ref{fig:predNonCatFeat} and \ref{fig:predNonCatFeatPre} the accuracy against the noise are displayed. The noise consists of either flipping categories for categorical data or adding a random amount of standard deviation.
 \begin{figure}[h] 
@@ -1053,6 +1069,7 @@ figure \ref{fig:FeatCorImp} - 12, 1038, 14, 16, 1043, 22, 1176, 1049, 1050, 28, 
 figure \ref{fig:FeatRemImp} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068
 figure \ref{fig:predAddNum} - 11, 12, 1038,14, 16, 18, 1043, 1046, 22,1176, 1049, 1050, 28,30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499 , 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458,1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 1504, 1510, 1515, 375\\ 
 figure \ref{fig:predAddCat} - 20, 21, 26, 333, 334, 335, 40668, 4135, 4534, 469, 46, 50\\
+figure \ref{fig:Rem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 \subsubsection{Distribution}
 The number of features and instances for datasets
 \begin{figure}[h] 
