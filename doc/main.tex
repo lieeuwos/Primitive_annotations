@@ -540,7 +540,7 @@ Preprocessing is a neccesary job for most machine learning classifiers as they a
 
 
 \subsection{Scalability}
-All results with a duration axis. The duration axis is in seconds and shows a 10 fold cross validiation. This means that the duration encompasses 10 times fitting over 90\% of the data and 10 times predicting 10\% of the data.
+All results with a duration axis. The duration axis is in seconds and shows a 10 fold cross validiation. This means that the duration encompasses 10 times fitting over 90\% of the data and 10 times predicting 10\% of the data. In total fitting over 9 times the dataset size and once predicting the whole dataset.
 
 \subsubsection{features}
 Due to the robustness experiments a lot of results change the composition of a dataset in the feature dimension. In this subsection all results changing the composition of a dataset are included with a duration y axis. 
@@ -703,46 +703,41 @@ For most classifiers the results paint a clear picture. Removing features has mo
 
 \newpage
 \subsubsection{Instances}
-\begin{figure}[h] 
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/scalability/Instances.png}
-	\caption{The dataset is reduced to a split of the initial dataset and then cross validation is done on the reduced dataset. The lines are predictions}
-	\label{fig:Instances}
-\end{figure}
+In this sections datasets are split reduced in the instance dimension. First the set is shuffled and then a percentage of the dataset is cross validated. In figure \ref{fig:Inst} the results can be seen. In these results the scalability in the instance dimension of the classifiers is shown. The averaged dataset is 7786 instances with 154 features for figure \ref{fig:Inst} 
 
-\begin{figure}[h] 
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/scalability/InstancesPredictionSlope.png}
-	\caption{The slopes are calculated from the results in \ref{fig:Instances} }
-	\label{fig:InstancesPredSlope}
-\end{figure}
+Comparing the lines visible in figure \ref{fig:Instances} with the actually slope in figure \ref{fig:InstancesPredSlope} the classifiers GradientBoostingClassifer, RandomForestClassifier, AdaBoostClassifier, SGDClassifier, BernoulliNB and GaussianNB have a near linear ascension. Expect for the bump in duration around 50 $\%$ is the duration increase stable for these classifiers. This is also expected from classifier depending on standard calculations of mean, variance, linear fit and decision trees. Those calculation are linear in the amount of input. For the remaining classifiers SVC-rbf and the kNN variants the algorithms show a non linear trend. For the kNN classifier this is due to the prediction using a kdTree or ball tree which needs longer linear time for construction and searching. For SVC-rbf the implimentation estimates a quadratic time complexity for the number of samples. 
 
-\begin{figure}[h] 
-	\centering
+The averaged result can be easily captured with a linear fit with taking the log of the duration and instances. In figure \ref{fig:Instances} the predictions lines for most classifiers, line up with the actually results. Together with the slope seen in figure \ref{fig:InstancesPredSlope} this seems reasonable. However this is the average result on around 80 datasets. Can we actually predict for a single dataset the duration it takes for classifciaton and predicting. The result is shown in figure \ref{fig:InstancesPred} as the dotted line, that line clearly does not line up with the averaged result. Visisble in the appendix in chapter \ref{InstancesApp} the duration lines per datasets are less linear than the averaged result. The prediction is made by adding some additional information to a Kernel Ridge regression algorithm namely the number of categorical, numerical and total features, the number of instances and the number of classes in the target feature. These are chosen based on the configuration of the chosen classifiers and early results of duration experiments. 
+
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[
+		width=0.65\textwidth
+		]{images/scalability/Instances.png}
+		\caption{The percentage of the initial daaset against the duration needed. The dots are the results and the lines are fitted on these dots. The scale is log based}
+		\label{fig:Instances}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[
+		width=0.65\textwidth
+		]{images/scalability/InstancesPredictionSlope.png}
+		\caption{The default line is the slope of the experiments and the dotted line is a prediction line with figure \ref{fig:Instances} as input. }
+		\label{fig:InstancesPredSlope}
+	\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/InstancesPrediction.png}
-	\caption{the dataset is reduced to a fraction of the initial dataset. A prediction is made of the duration of classification and prediction per dataset, indicated by the dotted line }
+	\caption{The default line are the result of experiments done, the same as the ones in figure \ref{fig:Instances}. The dotted line is prediciting by a KernelRidge for each inputted dataset the trend line of the duration. }
 	\label{fig:InstancesPred}
+\end{subfigure}
+	
+	\caption{Instances scalability, the slope and the prediction attempts.}
+	\label{fig:Inst}
 \end{figure}
 
-
-
-\textbf{RandomForestClassifier} \\
-\textbf{KNeighborsClassifier} \\
-\textbf{SGDClassifier} \\
-\textbf{AdaBoost} \\
-\textbf{SVC-rbf} \\
-\textbf{GaussianNB} \\
-\textbf{BernoulliNB} \\
-\textbf{GradientBoostingClassifier} \\
-
-\paragraph{Prediction}
-For scalability it is easier to predict then for accuracy. The lines for the duration increase are on a log scale nearly linear. This makes for an easy fit with a linear line with log preprocessing. In figure \ref{fig:Instances} you can see that the averaged results of an instance scalability has a good fit. However if we try to predict on an individual bases per dataset the results are less promising(figure \ref{fig:InstancesPred}). Here we tried fitting a KernelRidge with some additional meta features. The meta features include the number of instances,features,numeric features ,categorical featueres and number of classes. 
+ 
 
 \newpage
 \subsection{Redundant features}
@@ -929,6 +924,8 @@ Datasets in these experiments get increasingly more random by injecting the feat
 \subsection{Bias variance}
 
 
+
+
 \subsection{Ontology}
 To present the results from all the experiments, this ranks the different classifiers on different aspects discussed.
 These rankings can be compared to results from a review from 2007 of classification techniques \cite{RevClass}
@@ -939,6 +936,15 @@ The result will be a ranking of classifiers on different scales. The scales are:
 	\item preprocessing needed
 	\item initial prediction accuracy
 \end{itemize} 
+
+\textbf{RandomForestClassifier} \\
+\textbf{KNeighborsClassifier} \\
+\textbf{SGDClassifier} \\
+\textbf{AdaBoost} \\
+\textbf{SVC-rbf} \\
+\textbf{GaussianNB} \\
+\textbf{BernoulliNB} \\
+\textbf{GradientBoostingClassifier} \\
 
 
 %\section{Discussion} \label{Chapter5}
@@ -1066,10 +1072,11 @@ figure \ref{fig:predFlat} - 10,12,18 \\
 figure \ref{fig:FailDurMan} - 1038,1043,1049,1050,1176,12,1466,1468,1475,1476,1478,1479,1485,1487,1491,1492,1493,1494,14,1501,1504,1510,1515,16,22,28,300,40499,40,4134,44,4538,458 \\
 figure \ref{fig:FeatManLog} - 22, 1176, 4134, 1063, 1067, 1068, 44, 53, 4538, 458 \\
 figure \ref{fig:FeatCorImp} - 12, 1038, 14, 16, 1043, 22, 1176, 1049, 1050, 28, 1063, 1067, 1068, 300, 1466, 1467, 1468, 1475, 1476 \\
-figure \ref{fig:FeatRemImp} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068
+figure \ref{fig:FeatRemImp} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 figure \ref{fig:predAddNum} - 11, 12, 1038,14, 16, 18, 1043, 1046, 22,1176, 1049, 1050, 28,30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499 , 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458,1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 1504, 1510, 1515, 375\\ 
 figure \ref{fig:predAddCat} - 20, 21, 26, 333, 334, 335, 40668, 4135, 4534, 469, 46, 50\\
 figure \ref{fig:Rem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
+figure \ref{fig:Inst} - 6, 1036, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 23, 1049, 1050, 26, 28, 30, 32, 1570, 36, 4134, 4135, 1067, 1068, 44, 46, 40499, 60, 1120, 151, 1176, 182, 184, 40645, 40646, 40647, 40648, 40649, 40650, 40651, 40652, 40653, 40654, 40655, 40656, 40664, 40668, 40670, 40677, 40678, 40680, 40687, 40695, 40696, 40697, 40702, 40706, 300, 179000, 312, 375, 1459, 1461, 1462, 4534, 953, 1466, 4538, 1468, 959, 1475, 1476, 1478, 1479, 1485, 1486, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 991, 1504, 1505, 1022 \\
 \subsubsection{Distribution}
 The number of features and instances for datasets
 \begin{figure}[h] 
@@ -1100,7 +1107,7 @@ The number of features and instances for datasets
 	\caption{adding flat values to each feature}
 	\label{fig:predFlat}
 \end{figure}
-
+\newpage
 \subsection{Duration variance}
 In this section duration examples are shown which show behaviour that should not happen.
 \begin{figure}[h] 
@@ -1130,14 +1137,6 @@ In this section duration examples are shown which show behaviour that should not
 	\label{fig:durNewest}
 \end{figure}
 
-\begin{figure}[h] 
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/appendix/FailDurAddNew.png}
-	\caption{Duration of the newest version of adding random features}
-	\label{fig:durNewest}
-\end{figure}
 
 \begin{figure}[h] 
 	\centering
@@ -1161,6 +1160,9 @@ In this section duration examples are shown which show behaviour that should not
 
 \newpage
 \subsection{Results per dataset per classifier}
+results for individual datasets grouped per classifier instead of averaged. 
+\subsubsection{Noisy data}
+injection of std into numerical datasets figure \ref{fig:predNonCatFeat}. 
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
@@ -1233,6 +1235,89 @@ In this section duration examples are shown which show behaviour that should not
 	\caption{adding or removing uniformly random std to numerical features for GradientBoostingAlgorithm.}
 	\label{fig:predNoisyFeaturesGBC}
 \end{figure}
+
 %insert tables
+\newpage
+\subsubsection{Instance duration}\label{InstancesApp}
+Percentage of instances remaing of a dataset duration per individual dataset reference to figure \ref{fig:Inst}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesRF.png}
+	\caption{number of instances against duration for RandomForestClassifier}
+	\label{fig:InstRF}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesKNN.png}
+	\caption{number of instances against duration for KNeighborsClassifier}
+	\label{fig:InstKNN}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstances1NN.png}
+	\caption{number of instances against duration for 1NeighborsClassifier}
+	\label{fig:Inst1NN}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesSGD.png}
+	\caption{number of instances against duration for SGDClassifier}
+	\label{fig:InstSGD}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesADA.png}
+	\caption{number of instances against duration for AdaBoostingClassifier}
+	\label{fig:InstADA}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesSVC.png}
+	\caption{number of instances against duration for SVC-rbf}
+	\label{fig:InstSVC}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesGNB.png}
+	\caption{number of instances against duration for GaussianNB}
+	\label{fig:InstGNB}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesBNB.png}
+	\caption{number of instances against duration for BernoulliNB}
+	\label{fig:InstBNB}
+\end{figure}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/DurInstancesGBC.png}
+	\caption{number of instances against duration for GradientBoostingClassifier}
+	\label{fig:InstGBC}
+\end{figure}
+
+
 
 \end{document}
