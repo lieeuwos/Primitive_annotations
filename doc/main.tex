@@ -1053,8 +1053,8 @@ Instead of measuring the influence of standard deviation, we tried to add standa
 In figure \ref{paper-thesis} the experiment setup of Hilario and the expriment setup of this thesis are shown\cite{Resil-1}. For Hilario it was to show that with the added random features the mutual information decreases an indicator that the added features could not improve the accuracy. In the experiment of this thesis the added features also show a decrease in mutual information but the mean mutual information scale is 10 times smaller. This indicates that the datasets used are less valueable in contrast to the ones used by Hilario. The change of x-scale compared to previous experiments is to able to compare it more to the work of Hilario. Comparing the results is harder as the versions of the classifiers have been changed over time.
 
 
-%\subsection{New discoveries}
-
+\subsection{Conclusion}
+As recommendation the RandomForestClassifier is a strong pick for most problems with little tuning. Within a sort amount of time a strong result can be noticed. A direct improvement when robustness is needed, the GradientBoostingClassifier scores equal to the RandomForestClassifier with more robustness for adding features. If a dataset is more likely to get noise in the features GradientBoostingClassifier is a worse choice. The most robustness against adding irrelevant features is found in the BernoulliNB while also being one of the fastest classification and prediction. The downsize of BernoulliNB is that the input must be close to the Bernoulli distribution to achieve any competable accuracy. For noise in numerical features kNN is the best option and with some preprocessing the classifier outshines all others. 
 
 
 
