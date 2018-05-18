@@ -15,6 +15,7 @@
 \usepackage{verbatim}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{booktabs,array,dcolumn}
 \usepackage{float}
 \usepackage{bbm}
 \usepackage[section]{placeins} % Prevent floats from passing beyond \FloatBarrier; keep floats within their sections
@@ -38,6 +39,9 @@
 \newcommand{\ee}{\mathbb{E}}
 \newcommand{\lnn}{\tilde{L}_n}
 \newcommand{\convdis}{\overset{d}{\longrightarrow}}
+
+\newcolumntype{d}{D{.}{.}{2.3}}
+\newcolumntype{C}{>{\centering}p}
 
 
 
@@ -920,13 +924,29 @@ Datasets in these experiments get increasingly more random by injecting the feat
 
 \textbf{GradientBoostingClassifier} GradientBoostingClassifier has one of the best predictive accuracy on both sorts of datasets. Performing near equal to RandomForestClassifier. In robustness it loses to RandomForestClassifier on numerical datasets and there is only a slight increase over the results on categorical datasets. The results of GradientBoostingClassifier copy those of RandomForestClassifier as they both use Decision trees for their ensembles. The lack of robustness on numerical datasets can be regarded as overfitting compared to the RandomForestClassifier. The GBC uses more time to fit the classifiers for an additive model rather than pure random voting.\\
 
-
+\newpage
 \subsection{Bias variance}
+In figure \ref{fig:BiasScaling} the bias percentage is given against the instance percentage of a dataset. 
 
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/Bias-variance/BiasBigScale.png}
+	\caption{Bias percentage against percentage of instances from a dataset.}
+	\label{fig:BiasScaling}
+\end{figure}
 
-
-
-\subsection{Ontology}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/Bias-variance/BiasAccuracy.png}
+	\caption{Bias accuracy against percentage of instances from a dataset.}
+	\label{fig:BiasAcc}
+\end{figure}
+\newpage
+ \subsection{Ontology}
 To present the results from all the experiments, this ranks the different classifiers on different aspects discussed.
 These rankings can be compared to results from a review from 2007 of classification techniques \cite{RevClass}
 The result will be a ranking of classifiers on different scales. The scales are:
@@ -936,6 +956,37 @@ The result will be a ranking of classifiers on different scales. The scales are:
 	\item preprocessing needed
 	\item initial prediction accuracy
 \end{itemize} 
+
+\begin{table}[H]
+	\caption{Comparison of Elements in Air on the Space Station and sea level on Earth}    
+	\centering
+	\begin{center}
+		\begin{tabular}{p{1.25in}ddddddd}
+			\toprule
+			& \multicolumn{1}{C{1.25in}}{dur Feat} & \multicolumn{1}{C{1.25in}}{dur Inst} & \multicolumn{1}{C{1.25in}}{robust Noise} & \multicolumn{1}{C{1.25in}}{robust Rand} & \multicolumn{1}{C{1.25in}}{robust ReFeat} & \multicolumn{1}{C{1.25in}}{preprocessing} & \multicolumn{1}{C{1.25in}}{need bias managements} \\
+			\midrule
+			RandomForestClassifier     & 4                            & 4                             & 5                   & 5                                  & 7                             &                           & +/-                   \\
+			KNeighborsClassifier       & 5                            & 5                             & 1                   & 8                                  & 6                             & +                         & +/-                   \\
+			SGDClassifier              & 1                            & 3                             & 2                   & 6                                  & 4                             & +                         & -                     \\
+			AdaBoost                   & 6                            & 6                             & 3                   & 3                                  & 3                             &                           & +                     \\
+			SVC-rbf                    & 7                            & 8                             & 4                   & 7                                  & 5                             & +                         & ++                    \\
+			GaussianNB                 & 3                            & 2                             & 7                   & 1                                  & 8                             & +                         & ++                    \\
+			BernoulliNB                & 2                            & 1                             & 8                   & 2                                  & 1                             & +                         & ++                    \\
+			GradientBoostingClassifier & 8                            & 7                             & 6                   & 4                                  & 2                             & +                         & +   \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+	\label{default}
+\end{table}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/Ontology.png}
+	\caption{Comparison between the different algorithms. }
+	\label{fig:Ont}
+\end{figure}
+
 
 \textbf{RandomForestClassifier} \\
 \textbf{KNeighborsClassifier} \\
@@ -1077,6 +1128,7 @@ figure \ref{fig:predAddNum} - 11, 12, 1038,14, 16, 18, 1043, 1046, 22,1176, 1049
 figure \ref{fig:predAddCat} - 20, 21, 26, 333, 334, 335, 40668, 4135, 4534, 469, 46, 50\\
 figure \ref{fig:Rem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 figure \ref{fig:Inst} - 6, 1036, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 23, 1049, 1050, 26, 28, 30, 32, 1570, 36, 4134, 4135, 1067, 1068, 44, 46, 40499, 60, 1120, 151, 1176, 182, 184, 40645, 40646, 40647, 40648, 40649, 40650, 40651, 40652, 40653, 40654, 40655, 40656, 40664, 40668, 40670, 40677, 40678, 40680, 40687, 40695, 40696, 40697, 40702, 40706, 300, 179000, 312, 375, 1459, 1461, 1462, 4534, 953, 1466, 4538, 1468, 959, 1475, 1476, 1478, 1479, 1485, 1486, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 991, 1504, 1505, 1022 \\
+figures \ref{fig:BiasAcc},\ref{fig:BiasScaling} - 1025, 1067, 1036, 1068, 1038, 1043, 1014, 1049, 1050, 1022 \\ 
 \subsubsection{Distribution}
 The number of features and instances for datasets
 \begin{figure}[h] 
