@@ -102,7 +102,7 @@ numbers=left,                    % where to put the line-numbers; possible value
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
 \HRule \\[0.4cm]
-{ \Huge \bfseries Algorithm primitives}\\[0.4cm] % Title of your document
+{ \Huge \bfseries Primitive annotations}\\[0.4cm] % Title of your document
 \HRule \\[1.5cm]
 
 %----------------------------------------------------------------------------------------
@@ -152,17 +152,22 @@ Supervisor: Joaquin Vanschoren \\
 
 
 \section{Introduction} \label{Chapter1}
+With the use of 
 This report is the result of my graduation project which completes my Business Information Systems study at Eindhoven University of Technology.
 The project was performed internally at the Eindhoven University of Technology in the Data mining department.
 In this project we investigated annotations of primitives, more specifically primitives in the scikit-learn library.
 To elaborate on this we will outline the research questions and thesis structure further in this introduction.
  
 
-\subsection{problem description}\label{Intr-Prob}
-Machine learning is a growing field that can help process the increase of available data \cite{Big-data}\cite{ML-trends}. 
-Python is a language which holds premade machine learning classifiers in libraries like scikit-learn\cite{scikit-learn}.
-In recent years python is also increasing in so called market share for machine learning\cite{python-pop}.
-To help people choose machine learners in the scikit-learn library a model was made to indicate what algorithm to use for what problem. In figure \ref{fig:FlowChartML} you can see that depending on size of the data and early results, different algorithms are recommend. This gives a quick overview of available algorithms and when to pick which. This figure however is outdated as new algorithms are added to the library over time. Such a model is based on the concept of no free lunch which explains that there cannot be one algorithm to solve all optimization problems\cite{No-Free-Lunch}.  
+\subsection{Problem description}\label{Intr-Prob}
+Machine learning is a growing field that can help process the increase of available data \cite{Big-data}\cite{ML-trends}. Python is a trending machine learning language, as it holds premade machine learning algorithms in the scikit-learn (sklearn) library.
+\cite{python-pop}.
+This libary is made to ease the choose of algorithm for a machine learning problem. Figure \ref{fig:FlowChart} a flowchart is depicted with the different machine learning algorithms that can be chosen. It can be seen that different algorithms are recommended depending on the early results, size and problem.
+ 
+ It can be seen that different algorithms are recommened depending on the problem, size of the dataset and early results. 
+ It can be seen that four different groups are present: classification, regression, clustering and dimensionality reduction. The selection of a group depends on the type of the problem, as each group contains a different selection of algorithms Specific algorithms are recommended depending on the size of the data and early results.
+ However, with time new algorithms are added to the library. This allows for the recommendedation of more specialized algorithms for a particular problem. Each different problem cannot be solved by the same algorithms. This concept is based on the 'no-free-lunch' theorm, which desribes that one particular algorithm cannot be used to solve all optimzation problems \cite{No-Free-Lunch}.  
+
  
 
 \begin{figure}[h] %use t for top of page instead of h for here
@@ -170,15 +175,21 @@ To help people choose machine learners in the scikit-learn library a model was m
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/FlowChartML.png}
-	\caption{FlowChartML scikit-learn for any dataset which machine learning algorithm to choose}
+	\caption{FlowChart with the different machine learning algorithms in the sklearn library \ref{{scikit-learn}}}
 	\label{fig:FlowChart}
 \end{figure}
 %explain the need for automation and then the boost of information, I try to give.
 
-\subsection{research question}
+\subsection{Research question}
+In this research we focus on the classification group to give room to new algorithms
+This thesis focusses on the selection of algorithms in the classification group. The work of Joaquin introduces the properties for classifiers
 % the proposed annotations
 We base our research question on the work of Joaquin to give properties to classifiers\cite{Joaquin-phd}. More specifically we look more closely to the resilience properties and the bias-variance profile. 
 Earlier research has been done on scalability and resilience to irrelevant variables\cite{Resil-1}
+
+The work of Joaquin describes that properties can be given to the classification group. This allow for earlier research to improve the algorithm choice of new research. Out of the quantitative properties given by Joaquin the resilience properties and the bias-variance are investigated. The resilience properties describes how an algorithm can learn from volatile data, while the bias-variance characterizes the errors taht are made by learning algorithms. Some features of these properties have been investigated over a decade ago. However new algorithms have become popular, which makes this thesis more relevant in today's worlds. 
+
+Research questions have been formulated. These questions have been made to determine the properties of the research and to reflect on earlier work. 
 
 %\begin{itemize}
 %	\item scalability: runtime is measured with either a varying sample size or varying feature space 
@@ -204,6 +215,8 @@ We rank the classifiers on their performance(predictive accuracy), robustness an
 
 \subsection{Outline}
 In the first chapter the research question is introduced. In the second chapter background information is discussed relevant for the research. In the third chapter the setup of the experiments is outlined with the input and output of executed experiments. The fourth chapter shows the results of the experiments. The fifth chapter is a conclusion and discussion of the obtained results. This chapter also explains an outlook on future work and different roads taken. In chapter six the references are outlined. The last chapter is the appendix with some additional information which help with reproducing and validating the results. 
+
+In the first chapter the research question is introduced, followed by the second chapter, this chapter discusses the relevant background information. The third chapter gives the setup of the experiments for the classifiers
 \newpage
 
 
@@ -218,7 +231,8 @@ All resources are open source and hosted on Github. Before scikit-learn there we
 
 
 \subsubsection{RandomForestClassifier}
-RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data and uses the highest probabilistic prediction for the prediction. These sub-samples are chosen randomly so the results can vary between runs on the same input. A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. As RandomForestClassifier is made up of trees you can use the ordering of the trees, more specifically the top most layer of the tree to find feature importance. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the tree in a random forest this gives an average result of important features in a trained dataset.
+RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data.  A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. 
+ The highest probabilistic prediction of all the directive trees is the prediction. The sub-samples for the directive trees are chosen randomly so the results can vary between runs on the same input. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. As RandomForestClassifier is made up of trees you can use the ordering of the trees, more specifically the top most layer of the tree to find feature importance. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the tree in a random forest this gives an average result of important features in a trained dataset.
 
 
 \subsubsection{KNeighborsClassifier}
@@ -240,7 +254,9 @@ GaussianNB is a naïve Bayes classifier implementation with the  assumption that
 BernoulliNB is a naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This setting can be disabled or reduced by a threshold for the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability.
 
 \subsubsection{GradientBoostingClassifier}
-GradientBoost is an ensemble classifier that builds from weaker classifiers \cite{GradientBoost}. Like AdaboostClassifier it builds an additive model in a forward stage-wise fashion.  The weak classifiers used in the scikit-learn implementation are decision trees. The default loss function which is optimized in a stage-wise fashion is a logistic regression for classification with probabilistic outputs\cite{Greedy-GBC}.
+GradientBoostingClassifier builds from other classifiers, which makes it an ensemble classifier, like AdaBoostClassifier \cite{GradientBoost}. GradientBoostingClassifier builds an additive model in a forward stage-wise fashion. This means that the default loss function is optimized in a stage-wise fashion. A logistic regression is created to classify a probabilistic output \cite{Greedy-GBC}. 
+
+
 
 
 
@@ -297,6 +313,8 @@ In this section definitions and abbreviations are explained and set in context. 
 \end{tabular}
 \newpage
 \begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
+	
+	
 	slope & a slope value is the value to go from one point to another as a vector. For example from point (1,1) to point (2,3) there is a slope of 1/2.\\[1ex]
 	
 	sparse matrix & a matrix with lots of zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
@@ -325,6 +343,8 @@ In this section definitions and abbreviations are explained and set in context. 
 	did & dataset identifier \\
 	
 	SGD & Stochastic gradient descent \\
+	
+	sklearn & scikit-learn \\
 	
 	std & standard deviation\\
 	
@@ -926,7 +946,9 @@ Datasets in these experiments get increasingly more random by injecting the feat
 
 \newpage
 \subsection{Bias variance}
-In figure \ref{fig:BiasScaling} the bias percentage is given against the instance percentage of a dataset. 
+In figure \ref{fig:BiasScaling} the bias percentage is given against the instance percentage of a dataset. The averaged dataset has a number of instance of 3186 and a number of features of 160.
+
+
 
 \begin{figure}[h] 
 	\centering
@@ -988,12 +1010,15 @@ The result will be a ranking of classifiers on different scales. The scales are:
 \end{figure}
 
 
-\textbf{RandomForestClassifier} \\
-\textbf{KNeighborsClassifier} \\
-\textbf{SGDClassifier} \\
-\textbf{AdaBoost} \\
+\textbf{RandomForestClassifier} The strenght of RandomForestClassifier is the easy and quick solution, solid solution. With a high un proccessed predictive accuracy, quick estimates of predictive accuracy on a dataset can be achieved. The classifier does lack some robustness against features and noisy data. For a more supervised approach the feature can be more preproccessed for better results. Lastly some bias managements is needed as a large part of the error is due to bias error on average.  \\
+
+\textbf{KNeighborsClassifier} The strenght of kNN is in the robustness against noisy numerical features. With a dependence on numerical relations between instances a shift in that dimension is not the downfall. Categorical values and random features are a harder issue. With a robustness againt noisy data, random featuers may be non obvious to be not robust against. The problem with the random data is the scale of these features in comparison to the other features and the difference this can make. If the random features have larger value differences than the important features, those features get rained under. This fall in line with earlier results of Wettschereck\ref{redundant}. \\
+
+\textbf{SGDClassifier} The strenght of the SGDClassifier is in the quickness and the robustness against noise. With a default dependence on linear SVC the noise is only variance in the fit.  \\
+
+\textbf{AdaBoost} The strenght of adaBoost is the average robustness, AdaBoost has not the most resilience against the introduced noise and irrelevance. The strenght lies more in fitting to outliers found in a training set. With more redundant features, outliers remain to exist \\
 \textbf{SVC-rbf} \\
-\textbf{GaussianNB} \\
+\textbf{GaussianNB} work of Dominogos and Pazzani\ref{red-NB}\\
 \textbf{BernoulliNB} \\
 \textbf{GradientBoostingClassifier} \\
 
@@ -1018,6 +1043,10 @@ Another missed collected data is the prediction of the training data. This data 
 \subsubsection{Duration}
 For the duration pictures some results are removed as they do not fall in line with the other results at all. By using the standard of the clean dataset which is calculated with each run we throw out any results changing more than 5$\%$ from another average.
 The reason for these differences in duration is because of multiple used systems and other processes running during computation. 
+
+\subsubsection{Bias Variance}
+The datasets used by Jaoquin in \cite{Bias-var} were UCI datasets, some of these are also published on the Openml under the dataset ids (1370-1377)
+
 
 \subsection{Resilience to noise}
 
@@ -1106,6 +1135,11 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \bibitem{SVM-sym} A practical guide to support vector classification, Chih-wei Hsu, Chich-Chung Chang, Chich-Jen Lin, 101. 1396-1400, (2003)
 \bibitem{Cross} A study of cross-validation and bootstrap for accuracy estimation and model selection, R. Kohavi, (1995)
 \bibitem{KNN} Nearest neighbor pattern classification, T. Coverm P. Hart, IEEE Transaction on Information Theory 13:21-27,(1967)
+\bibitem{scikit-learn} Choosing the right estimator, l,Scikit-learn, Retrieved from http://scikit-learn.org/stable/tutorial/machine$\_$learning$\_$map/index.htm 28 may 2018.
+\bibitem{Noise} Instance-based learning algorithms, Aha, David W., D. Kibler, Marc K., Machine learning 6:1 pages 37-66
+\bibitem{Red-Bias} On the optimality of the simple Bayesian classifier under zero-one loss,P. Domingos, M. Pazzani, Machine learning 29 2-3 pages 103-130, (1997)
+\bibitem{redundant} A review and emperical evalutions of feature weighting methods for a class of lazy learning algorithms, Wettschereck, D. Aha, T. Mohri, Artificial Inteligence Review 11(1-5) pages 273-314, (1997)
+
 
 
 
@@ -1116,8 +1150,8 @@ Previous bias-variance research has shown a trend of larger dataset increasing t
 \endgroup
 
 \section{Appendix}
-\subsection{datasets}
-\subsubsection{datasets per figure}
+\subsection{Datasets}
+\subsubsection{Datasets per figure}
 openml dataset identifiers per figure \\
 figure \ref{fig:predFlat} - 10,12,18 \\
 figure \ref{fig:FailDurMan} - 1038,1043,1049,1050,1176,12,1466,1468,1475,1476,1478,1479,1485,1487,1491,1492,1493,1494,14,1501,1504,1510,1515,16,22,28,300,40499,40,4134,44,4538,458 \\
@@ -1141,7 +1175,7 @@ The number of features and instances for datasets
 \end{figure}
 
 
-\subsection{different approach}
+\subsection{Different approach}
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
