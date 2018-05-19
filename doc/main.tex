@@ -400,7 +400,7 @@ $MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V
 Feature importance calculated with a RandomForestClassifer gives an indication what features are important for the decision trees. In figures \ref{fig:FIC100}, \ref{fig:FIC3}, \ref{fig:FIN100}, \ref{fig:FIN3}, the feature importance of the added random features are shown. This makes it clear that RandomForestClassifier does not recognize these features as unimportant. There is a difference in the perceived importance of random categorical and numerical features. Even more so the distribution of random categorical features. The slope of random categorical with k=3, features importance is also steeper as it more than doubles and for numerical features it only nearly doubles. This is however not true for random categorical features with k= 100 which has an equal absolute increase but starts higher. This can be explained as more perceived variance in k=100 which might indicate better probability of differentiating between the target classes. The lack of increase can be attributed to the cap on the importance at 100$\%$. The original features might give some better results in predicting but the added features still consists of some percentage of the total amount of features. Random Forest Classifier has a limit on the amount of features considered for each split which is capped at a percentage of the total set. This is partly the reason that these random features can be considered as important in the split together with their variance. The variance gives perceived information as you look at a subset of instances the high variability shows that for some target class this feature value is this number and for the other classes the odds of different values for that feature is high. 
 \\
 
-In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates can be seen. This shows that the order of features is important as the duplicate features have less importance than their percentage of the dataset. It also means that they are not recognized as totally redundant for prediction. The difference between the feature importance for numerical and categorical is also shown. This is partly discussed earlier as the variation in the features and feature order. This has the effect of duplicate numerical features having around 47$\%$ feature importance when the dataset is half duplicates. For categorical features this is only 39$\%$. The feature importance of the GradientBoostingClassifier seen in figure \ref{fig:FIGBC} shows a bit less importance for random and duplicate numerical features. The random features even start with more feature importance than the duplicate mostly due to the high variation within the duplicates. With 50$\%$ additional features the duplicates have more importance than the random features on average. 
+In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates can be seen. This shows that the order of features is important as the duplicate features have less importance than their percentage of the dataset. It also means that they are not recognized as totally redundant for prediction. The duplicate features having importance is because they hold the same amount of information, the order of the dataset is the factor that makes those features not equally important. The end results is 47$\%$ feature importance for duplicate features when the dataset is half duplicates. The feature importance of the GradientBoostingClassifier seen in figure \ref{fig:FIGBC} shows a bit less importance for random and duplicate numerical features. The random features even start with more feature importance than the duplicate mostly due to the high variation within the duplicates. With 50$\%$ additional features the duplicates have more importance than the random features on average. 
 
 \begin{figure}[H]
 	\centering
@@ -432,9 +432,10 @@ In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates 
 	\caption{Feature importance of random numerical features. The average mean does not influence the importance of random numerical features}\label{fig:FIN}
 \end{figure}
 
+
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.40\textwidth}
 		\includegraphics[width=\textwidth]{images/MetaFeatures/FeatureImportanceNum.png}
 		\caption{Feature importance for duplicate features for numerical datasets}
 		\label{fig:FIDN}
@@ -572,8 +573,8 @@ Due to the robustness experiments a lot of results change the composition of a d
 
 
 \paragraph{Added features}
-In figures \ref{fig:SADRC},\ref{fig:SADRP},\ref{fig:SADR} the durations of adding redundant duplicate or random features are shown. In figures \ref{fig:SADRC2},\ref{fig:SADRP2},\ref{fig:SADR2} the durations of adding duplicate or random features are shown In figure \ref{fig:SADRC} the classification times are shown for a growing feature size, these durations are a great part of most classifiers.In figure \ref{fig:SADRP} the prediction time is shown, here most classifier take only a short while. The combined time can be seen in figure \ref{fig:SADR} which shows the total difference.
-The averaged size of this dataset is 3797 instances and 200 features.  and the slope of these added figures is seen in figure \ref{fig:SADS}.
+In figure \ref{fig:ScalableAdded} the durations of adding redundant duplicate or random features are shown. In figures \ref{fig:ScalableAdded2} the durations of adding duplicate or random features are shown In figure \ref{fig:SADRC} the classification times are shown for a growing feature size, these durations are a great part of most classifiers.In figure \ref{fig:SADRP} the prediction time is shown, here most classifier take only a short while. The combined time can be seen in figure \ref{fig:SADR} which shows the total difference.
+The averaged size of this dataset is 3797 instances and 200 features. he slope of these added figures is seen in figure \ref{fig:SADS}.
 \begin{figure}[H]
 	\centering	
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -855,21 +856,21 @@ Randomly removing features, based on least importance or based on most correlati
 
 \begin{figure}[H]
 	\centering	
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predRemMan.png}
 		\caption{Features randomly removed from a dataset.}
 		\label{fig:predRemMan}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predRemImp.png}
 		\caption{Features removed based on the least feature importance in the training set done by a RandomForestClassifier}
 		\label{fig:predRemImp}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predRemCor.png}
@@ -1156,13 +1157,13 @@ openml dataset identifiers per figure \\
 figure \ref{fig:predFlat} - 10,12,18 \\
 figure \ref{fig:FailDurMan} - 1038,1043,1049,1050,1176,12,1466,1468,1475,1476,1478,1479,1485,1487,1491,1492,1493,1494,14,1501,1504,1510,1515,16,22,28,300,40499,40,4134,44,4538,458 \\
 figure \ref{fig:FeatManLog} - 22, 1176, 4134, 1063, 1067, 1068, 44, 53, 4538, 458 \\
-figure \ref{fig:FeatCorImp} - 12, 1038, 14, 16, 1043, 22, 1176, 1049, 1050, 28, 1063, 1067, 1068, 300, 1466, 1467, 1468, 1475, 1476 \\
-figure \ref{fig:FeatRemImp} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
+figure \ref{fig:FeatRem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 figure \ref{fig:predAddNum} - 11, 12, 1038,14, 16, 18, 1043, 1046, 22,1176, 1049, 1050, 28,30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499 , 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458,1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 1504, 1510, 1515, 375\\ 
 figure \ref{fig:predAddCat} - 20, 21, 26, 333, 334, 335, 40668, 4135, 4534, 469, 46, 50\\
 figure \ref{fig:Rem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 figure \ref{fig:Inst} - 6, 1036, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 23, 1049, 1050, 26, 28, 30, 32, 1570, 36, 4134, 4135, 1067, 1068, 44, 46, 40499, 60, 1120, 151, 1176, 182, 184, 40645, 40646, 40647, 40648, 40649, 40650, 40651, 40652, 40653, 40654, 40655, 40656, 40664, 40668, 40670, 40677, 40678, 40680, 40687, 40695, 40696, 40697, 40702, 40706, 300, 179000, 312, 375, 1459, 1461, 1462, 4534, 953, 1466, 4538, 1468, 959, 1475, 1476, 1478, 1479, 1485, 1486, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 991, 1504, 1505, 1022 \\
 figures \ref{fig:BiasAcc},\ref{fig:BiasScaling} - 1025, 1067, 1036, 1068, 1038, 1043, 1014, 1049, 1050, 1022 \\ 
+figures \ref{Overfit} - 11, 12, 37, 54, 458, 1038, 1043
 \subsubsection{Distribution}
 The number of features and instances for datasets
 \begin{figure}[h] 
@@ -1191,6 +1192,15 @@ The number of features and instances for datasets
 	width=0.65\textwidth
 	]{images/appendix/predFlat.png}
 	\caption{adding flat values to each feature}
+	\label{fig:predFlat}
+\end{figure}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/appendix/Overfit.png}
+	\caption{predictive accuracy against numerical datasets with std difference, hyperparameter optimization(dotted line), default settings(straight line) }
 	\label{fig:predFlat}
 \end{figure}
 \newpage
