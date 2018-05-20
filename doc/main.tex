@@ -72,13 +72,13 @@ numbers=left,                    % where to put the line-numbers; possible value
 \setlength{\headheight}{15.0 pt}
 \setlength{\headsep}{0.5 cm}
 \pagestyle{fancy}
-\fancyfoot[L]{} %naam van groep
+%\fancyfoot[L]{} %naam van groep
 \fancyfoot[C]{}
 \fancyfoot[R]{\thepage}
 \renewcommand{\footrulewidth}{0.4pt}
 
 \fancyhead[L]{\large{\emph{Primitive Annotations}}} %Naam van project
-\fancyhead[C]{}
+%\fancyhead[C]{}
 \renewcommand{\headrulewidth}{0pt} %thickness of the decorative lines on the header
 
 \usepackage{hyperref}
@@ -160,13 +160,11 @@ To elaborate on this we will outline the research questions and thesis structure
  
 
 \subsection{Problem description}\label{Intr-Prob}
-Machine learning is a growing field that can help process the increase of available data \cite{Big-data}\cite{ML-trends}. Python is a trending machine learning language, as it holds premade machine learning algorithms in the scikit-learn (sklearn) library.
-\cite{python-pop}.
-This libary is made to ease the choose of algorithm for a machine learning problem. Figure \ref{fig:FlowChart} a flowchart is depicted with the different machine learning algorithms that can be chosen. It can be seen that different algorithms are recommended depending on the early results, size and problem.
+Machine learning is a growing field that can help process the increase of available data \cite{Big-data}\cite{ML-trends}. Python is a trending machine learning language, as it holds premade machine learning algorithms in the scikit-learn (sklearn) library.\cite{python-pop}. This library is made to ease the choose of algorithm for a machine learning problem. Figure \ref{fig:FlowChart} a flowchart is depicted with the different machine learning algorithms that can be chosen. It can be seen that different algorithms are recommended depending on the early results, size and problem.
  
- It can be seen that different algorithms are recommened depending on the problem, size of the dataset and early results. 
+ It can be seen that different algorithms are recommend depending on the problem, size of the dataset and early results. 
  It can be seen that four different groups are present: classification, regression, clustering and dimensionality reduction. The selection of a group depends on the type of the problem, as each group contains a different selection of algorithms Specific algorithms are recommended depending on the size of the data and early results.
- However, with time new algorithms are added to the library. This allows for the recommendedation of more specialized algorithms for a particular problem. Each different problem cannot be solved by the same algorithms. This concept is based on the 'no-free-lunch' theorm, which desribes that one particular algorithm cannot be used to solve all optimzation problems \cite{No-Free-Lunch}.  
+ However, with time new algorithms are added to the library. This allows for the recommendation of more specialized algorithms for a particular problem. Each different problem cannot be solved by the same algorithms. This concept is based on the 'no-free-lunch' theorem, which describes that one particular algorithm cannot be used to solve all optimization problems \cite{No-Free-Lunch}.  
 
  
 
@@ -182,7 +180,7 @@ This libary is made to ease the choose of algorithm for a machine learning probl
 
 \subsection{Research question}
 In this research we focus on the classification group to give room to new algorithms
-This thesis focusses on the selection of algorithms in the classification group. The work of Joaquin introduces the properties for classifiers
+This thesis focuses on the selection of algorithms in the classification group. The work of Joaquin introduces the properties for classifiers
 % the proposed annotations
 We base our research question on the work of Joaquin to give properties to classifiers\cite{Joaquin-phd}. More specifically we look more closely to the resilience properties and the bias-variance profile. 
 Earlier research has been done on scalability and resilience to irrelevant variables\cite{Resil-1}
@@ -198,25 +196,22 @@ Research questions have been formulated. These questions have been made to deter
 %\end{itemize}
 
 \begin{itemize}
-	\item What is the impact on runtime of the amount of features for classification machine learning classifiers?
-	\item What is the impact on runtime of the amount of instances for classification machine learning classifiers?
-	\item What is the impact on accuracy of irrelevant or redundant features for classification machine learning classifiers?
-	\item What is the impact on accuracy of noisy features for classification machine learning classifiers?
-	\item What is the percentage of Bias-error or variance-error for classification machine learning classifiers?
+	\item What is the impact on runtime for the number of features for classifiers?
+	\item What is the impact on runtime for the number of instances for classifiers?
+	\item What is the impact on accuracy of irrelevant or redundant features for classifiers?
+	\item What is the impact on accuracy of noisy features for classifiers?
+	\item What is the percentage of Bias-error or variance-error for classifiers?
 \end{itemize}
 
-The question for scalability is how varying sample size and feature space influences the runtime. Is there a measure to match this. 
-
-We rank the classifiers on their performance(predictive accuracy), robustness and scalability to find a ranking like done by Quan Sun and Bernhard Phahringer\cite{ranking}.
+To summarize we rank the classifiers on their performance(predictive accuracy), robustness and scalability to find a ranking like done by Quan Sun and Bernhard Phahringer\cite{ranking}.
 
 
 %\subsection{thesis structure}
 
 
 \subsection{Outline}
-In the first chapter the research question is introduced. In the second chapter background information is discussed relevant for the research. In the third chapter the setup of the experiments is outlined with the input and output of executed experiments. The fourth chapter shows the results of the experiments. The fifth chapter is a conclusion and discussion of the obtained results. This chapter also explains an outlook on future work and different roads taken. In chapter six the references are outlined. The last chapter is the appendix with some additional information which help with reproducing and validating the results. 
+In the first chapter the research question is introduced, followed by the second chapter, this chapter discusses the relevant background information. The third chapter gives the setup of the experiments for the classifiers. The fourth chapter shows the results for each classifier. The fifth chapter presents the conclusion and answers the research questions and discusses future extensions.
 
-In the first chapter the research question is introduced, followed by the second chapter, this chapter discusses the relevant background information. The third chapter gives the setup of the experiments for the classifiers
 \newpage
 
 
@@ -231,27 +226,27 @@ All resources are open source and hosted on Github. Before scikit-learn there we
 
 
 \subsubsection{RandomForestClassifier}
-RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. During fitting a random forest classifier constructs directive trees on subsamples of the input data.  A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. 
- The highest probabilistic prediction of all the directive trees is the prediction. The sub-samples for the directive trees are chosen randomly so the results can vary between runs on the same input. This splitting of the data is either randomly or choosing the best split, to measure this split a criterion is used like Gini or entropy. The amount of splits, features and samples are also considered and can be inputted. As RandomForestClassifier is made up of trees you can use the ordering of the trees, more specifically the top most layer of the tree to find feature importance. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the tree in a random forest this gives an average result of important features in a trained dataset.
+RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. The random forest classifier constructs directive trees on subsamples of the input data.  A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. The highest probabilistic prediction of all the directive trees is the prediction. The subsamples for the directive trees are chosen randomly so the results can vary between runs on the same input. This splitting of the data is either randomly or choosing the best split. The criterion to judge the best split is either Gini or entropy based. The number of splits, features and samples are also considered during fitting. 
+RandomForestClassifier is made up of decision trees. These trees split the features on certain thresholds or values in each node. The top most node of the tree is the most deciding part as it is defines the first step in the tree. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the top most nodes in the trees of a random forest. The value of feature importance can be calculated as the percentage of occurrence in all the top most nodes of trees in the RandomForestClassifier. This feature importance value tells us what the RandomForestClassifier finds to be important features in a dataset.
 
 
 \subsubsection{KNeighborsClassifier}
-In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors classification algorithm(kNN)\cite{KNN}. KNN uses instance-based learning or non-generalizing learning. This means that during fitting no complete model is made but only the given feature set is stored in order of appearing. The k-NN uses as it names tells the nearest neighbors for calculation. For prediction the inputted feature set is traversed to find the nearest  k points. Depending on the majority class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance another option is the Manhattan distance which is less accurate but needs less computing. To find the nearest points an option can be made between a ball tree, a kd-tree or a brute search. This can heavily influence the search time, depending on the amount and size of the input (features and instances) this can influence the prediction time heavily but should not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality.\cite{KNN-k}
+In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors classification algorithm(kNN)\cite{KNN}. The kNN uses as it names tells the k nearest neighbors for calculation. This is done by instance-based learning and results in non-generalizing learning. Instance-based learning and non-generalizing learning means that during fitting no complete model is made but only the given feature set is stored in order of appearing. The target predicting is done by going through the inputted feature set to find the nearest k points for each instance, depending on the majority class of the k neighbors the classification is vote is decided. The default metric for distance measuring is Euclidean distance(absolute distance) another option is the Manhattan distance. The Manhattan distance is the sum of all differences in features between two instances, this is quicker than calculating the Euclidean distance but less accurate. A ball tree, a kd-tree or a brute search is used find the k nearest neighbor. These can heavily influence the search time, depending on the number of instances and number of features. These methods can influence the prediction time heavily but should not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality.\cite{KNN-k}
 
 \subsubsection{SGDClassifier}
-SGDClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. To fit the classifier it expects continuous features with a mean of zero in a sparse setting. This makes the classifier sensitive to categorical data as it performs optimally with continuous features. The iterative steps for calculation gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maximal. The learning rate is used to update the model in each iteration. As the fitted functions are linear, if the input has mutliple classes a classifier predicts one class versus all other classes. 
+SGDClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. The classifier expects continuous features with a mean of zero and sparse setting. This makes the classifier sensitive to categorical data, as it performs optimally with continuous features. The iterative steps for calculation gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maximal. The learning rate is used to update the model in each iteration. The fitted functions are linear, if the input has multiple target classes a classifier predicts one class versus all other classes. 
 
-\subsubsection{AdaBoost}
-AdaBoost is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu also solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost classifier with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
+\subsubsection{AdaBoostingClassifier}
+AdaBoostingClassifier(AdaBoost) is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost classifier with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
 
 \subsubsection{SVC-rbf}
-SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension, since the standard support vector machine splits the spaces with linearly lines computation grows too large for a large feature space \cite{SVN}. The fit time is already quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will represent them in a dimension space mapped so there is a clear separation between the two categories. With the radial basis function this is with the distant from the points indicated by a separation area. Classifying a point is finding in which class area this point falls. For a multiclass problem this is done in pairs of two for all categories and then the most voted class is picked \cite{Multi-pair-coup}. To optimize this method there are two main parameters C and gamma. The parameter C trades off misclassification of training examples against simplicity of the decision surface, a low C indicates a simple decision surface and lenient misclassification. The gamma parameter is a measure of influence for a single training example. The larger gamma is, the less influence a single instances has.
+SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension. The standard support vector machine splits for each feature pair, doing this for a large feature space computation grows outside a feasible duration for classification \cite{SVN}. The feasible duration doing a run of fitting and predicting in a day or two. This fit time is quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will map them in a new dimension space. This mapping is to make a clear separation between the two categories. However, with the radial basis function this is done with the distant from the points indicated by a separation area in a multi feature space. Classifying a point is finding in which class area this point falls. The multi class problem is solved by  all combinations of classes pairs and the class with the most votes is picked \cite{Multi-pair-coup}. To optimize the decision surface there are two main parameters C and gamma. The parameter C trades off misclassification of training examples against simplicity of the decision surface, a low C indicates a simple decision surface and lenient misclassification. The gamma parameter is a measure of influence for a single training example. The larger gamma is, the less influence a single instances has.
 
 \subsubsection{GaussianNB}
-GaussianNB is a naïve Bayes classifier implementation with the  assumption that the feature set is Gaussian distributed \cite{Bayes}. For fitting the data, a partial fit function is used based on the work of Chan, Golub and LeVeque \cite{Sam-var}. This calculates the assumed means and variances of a Gaussian distribution of the inputted feature set. Based on this distribution the prediction is made by filling in the maximum likelihood. The limited calculation needed for classification and prediction makes this one of the fastest classifiers. The only parameter of this classifier specifies the prior probabilities of the classes, which will when specified not be adjusted to the given input. 
+GaussianNB is a Naïve Bayes classifier implementation with the  assumption that the feature set is Gaussian distributed \cite{Bayes}. Fitting the data, a partial fit function is used based on the work of Chan, Golub and LeVeque \cite{Sam-var}. This calculates the assumed means and variances of a Gaussian distribution of the inputted feature set. Based on this distribution the prediction is made by filling in the maximum likelihood. The limited calculation needed for classification and prediction makes this one of the fastest classifiers. The only parameter of this classifier specifies the prior probabilities of the classes. This means that no adjustment to the given input is made on importances for classification. which will when specified not be adjusted to the given input. 
 
 \subsubsection{BernoulliNB}
-BernoulliNB is a naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This setting can be disabled or reduced by a threshold for the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability.
+BernoulliNB is a Naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This binarization is done by binning numerical values in ranges of their value or splitting categorical values into separate classes for each class their own. This binarization can be disabled or reduced by a threshold on the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability.
 
 \subsubsection{GradientBoostingClassifier}
 GradientBoostingClassifier builds from other classifiers, which makes it an ensemble classifier, like AdaBoostClassifier \cite{GradientBoost}. GradientBoostingClassifier builds an additive model in a forward stage-wise fashion. This means that the default loss function is optimized in a stage-wise fashion. A logistic regression is created to classify a probabilistic output \cite{Greedy-GBC}. 
@@ -261,7 +256,7 @@ GradientBoostingClassifier builds from other classifiers, which makes it an ense
 
 
 \subsection{Definitions and abbreviations}
-In this section definitions and abbreviations are explained and set in context. Common synonyms are mentioned to avoid some confusion in text
+In this section definitions and abbreviations are explained and set in context. Common synonyms are mentioned to avoid some confusion.
 \subsubsection{Definitions}
 
 \begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
@@ -269,61 +264,54 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	algorithm & A process with a specified in and output that solves a problem in a step by step case.\\ [1ex]
 	
-	amount & a value that indicates the change of the feature set either in dimension or in value. For \\[1ex]
+	amount & a value that is mostly used for the relative change of a feature. The amount of noise is mostly a ratio to relate different level of noise disruption. \\[1ex]	
 	
+	annotations & Adjectives of something like an algorithm, examples can be robust or biased\\ [1ex]
 	
-	annotations & Adjectives of something like a machine learning classifiers, examples can be robust or biased\\ [1ex]
+	categorical & as property of a feature. This means that the feature has distinct categories or classes. The numerical relation between two categorical values has no meaning. \\ [1ex]
 	
-	categorical & property of the features distribution and content of the feature in this case meaning seperate distinc classes, which have no numerical meaning, a unique number for each distinguished class\\ [1ex]
+	classifier & machine learning algorithm to specifically predict classes \\ [1ex]
 	
-	class	 & categorical featueres consist of at least 2 classes\\ [1ex]
+	class	 & categorical features consist of at least 2 classes\\ [1ex]
 	
-	datapoint & a datapoint is a single value of a feature. For example an instance has for all feature of a dataset a single datapoint.\\[1ex]
+	datapoint & a datapoint is a single value of a feature. For example a single instance has for all features a single datapoint.\\[1ex]
 	
-	dataset & a dataset are values in a matrix format, where each row represents a single Instance and each collum represent all the values of a feature.\\ [1ex]
+	dataset & a dataset are values in a matrix format, where each row represents a single Instance and each column represent all the values of a feature.\\ [1ex]
 	
-	dataset manipulation & like the word suggested is the manipulation of a dataset like injecting std deviation or inserting random categories. Adding or removing; of  features or instances to the dataset also counts as it also influences the structure of a dataset. \\ [1ex]
+	dataset manipulation & like the word suggested is the manipulation of a dataset by adding or removing; of features or instances. This influences the internal structure of a dataset.  \\ [1ex]
 	
-	dense matrix & most values in a matrix are different and fluctuate with each row or collumn.(non-zero)\\ [1ex]
-	
-	distribution & A distribution of a dataset is the probability distribution of that dataset. So considering the dataset what are the odss of picking a specific value. \\ [1ex]
-	
+	dense matrix & most values in a matrix are different and fluctuate with each row or column.(non-zero)\\ [1ex]
+		
 	estimator & An estimator is part of an ensemble classifier. It is a single instance of a classifier in the vote of an ensemble classifier.\\ [1ex]
 	
-	features & part of a whole, Consider a flower it has a color, size, amount of branches, amount of leaves and age. Features describe someone or something in this context it describes something, in this context it is the input to a machine learning for predicting a target , a synonym is variable.\\ [1ex]
+	features & part of a whole, Consider a flower it has a color, size, amount of branches, number of leaves and age. Features describe someone or something in this context. Features are part of a dataset and the input to a machine learner.\\ [1ex]
 	
-	fit & To fit the data, synonym with inputting the training data, preparing the classifier for prediction\\ [1ex]
+	feature importance & is a value for all features in a dataset calculated with either RandomForestClassifier, AdaBoost or GradientBoostingClassifier. The value explains the perceived importance of a feature in a dataset, 100 percent meaning most important and 0 no importance.  \\ [1ex]
 	
-	Github & an online platfrom to host data. It uses git commands and is mostly used with programming project to organize a common project which each member can locally alter and centeralizly share updates or modifications. \\ [1ex]	
+	fit & preparing the classifier for prediction, synonym with inputting the training data \\ [1ex]
 	
-	machine learning classifier & An algorithm that will will learn something and may adopt to the input to better fit the learned instance. To goal of learning can be mostly to predict a Target value, this can be part of an initial input.\\ [1ex]	
+	Github & an online platfrom to host data. It uses git commands and is mostly used with programming project to organize a common project wich each member can locally alter and centralize share updates or modifications. \\ [1ex]	
+	
+	machine learning & An algorithm that will will learn something and may adopt to the input to better fit the learned instance. To goal of learning can be mostly to predict a Target value, this can be part of an initial input. Multiple flavors of machine learners exists, for example for regression, classification, clustering.\\ [1ex]	
 	
 	numerical & exact values, more uniquely than a category. For example a temperature value or time value. Such a value can be subtracted or divided \\ [1ex]	
-	
-	profiling & To sketch information of something in a category, so you can relate it to other things in the same category\\ [1ex]
-	
-	robustness &  The ability of an classifier to cope with changes in features. An classifier is more robust if it deteriorates less than another. \\ [1ex]	
-	
-	sample & the size of the to be predicted target set. So all distinct features once matched with a target feature\\ [1ex]
-	
-	scalability & is the capability of a system to handle growing amount of work. \\[1ex]
-	
-	
-	
 \end{tabular}
 \newpage
 \begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
 	
+	robustness &  The ability of an classifier to cope with changes in the dataset. A classifier is more robust if it deteriorates less than another in a value like predictive accuracy. \\ [1ex]	
+	
+	sample & A part of a larger something.\\ [1ex]
+	
+	scalability & is the capability of a system to handle growing amount of work. Work can be something like more input in or more output out. \\[1ex]	
 	
 	slope & a slope value is the value to go from one point to another as a vector. For example from point (1,1) to point (2,3) there is a slope of 1/2.\\[1ex]
 	
-	sparse matrix & a matrix with lots of zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
+	sparse matrix & a matrix with mostly zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
 	
-	target & In a classificication the value or classes that needs to be predicted, where it mostly about a single feature with at least 2 classes. This can be a feature of something \\ [+1ex]
+	target & In a classification problem the value or classes that needs to be predicted. This is value is most likely also a feature of the origin of the data. Each feature in a dataset can be chosen to be the target feature in a supervised machine learning setting. The supervised machine learning has the precondition of knowing what needs to be predicted. \\ [+1ex]	
 	
-	
-	
-	weight & The influence or power of a value, function or object. It can be expressed as a fraction of 1 to inidicate its factor from other weights.	\\ [1ex]
+	weight & The influence or power of a value, function or object. It can be expressed as a fraction of 1 to indicate its factor from other weights.	\\ [1ex]
 	
 	
 	
@@ -357,24 +345,13 @@ In this section definitions and abbreviations are explained and set in context. 
 
 \newpage
 \section{Experimental setup} \label{Chapter3}
-For different parts of the research different datasets are chosen. There is overlap between these datasets but the chosen datasets can have a large impact on shown results. Most results are shown as an average result of the datasets involved.
+Different parts of the research different datasets are chosen. Most results are shown as an average result of the datasets involved. The chosen datasets can have a large impact on shown results. 
 
 \subsection{MetaFeatures}
 
 \subsubsection{Mean Mutual Information}\label{chapter311}
 Meta features like mean mutual information or entropy for categorical features are calculated for our enhanced dataset with duplicate feature and random features. The result is that they do little to change these values and so do not indicate reduced information even tough commonly the results deteriorate when these features are added, seen in figure \ref{fig:MMI}. However if we take the adjusted mean mutual information we can see a more clearer distinction between the permutations of the datasets, figure \ref{fig:AMMI}. With those values the noisy dataset can be more recognized as being worse than before. The normalized seen in figure \ref{fig:NMMI}  is a combination of both which shows depending on the dataset a different ranking of all three datasets.
 
-The calculation of the normalized:
-$sqrt(H(labels_true) * H(labels_pred))$
-
-
-the calculation for two cluster for adjusted mean mutual information:
-$AMI(U, V) = [MI(U, V) - E(MI(U, V))] / [max(H(U), H(V)) - E(MI(U, V))]$
-
-
-The default mutual information is:
-$MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V_j\mid}{N} $log $\dfrac{N\mid U_i \cap V_j\mid}{\mid U_i\mid \mid V_j\mid}$
-% Misschien een tabel maken en verschil laten zien
 
 \begin{figure}[H]
 	\centering
@@ -397,10 +374,10 @@ $MI(U,V) = \sum_{i = 1}^{I} U \mid\sum_{j = 1}^{I} V \mid \dfrac{\mid U_i \cap V
 \end{figure}
 
 \subsubsection{Feature Importance}\label{chapter312}
-Feature importance calculated with a RandomForestClassifer gives an indication what features are important for the decision trees. In figures \ref{fig:FIC100}, \ref{fig:FIC3}, \ref{fig:FIN100}, \ref{fig:FIN3}, the feature importance of the added random features are shown. This makes it clear that RandomForestClassifier does not recognize these features as unimportant. There is a difference in the perceived importance of random categorical and numerical features. Even more so the distribution of random categorical features. The slope of random categorical with k=3, features importance is also steeper as it more than doubles and for numerical features it only nearly doubles. This is however not true for random categorical features with k= 100 which has an equal absolute increase but starts higher. This can be explained as more perceived variance in k=100 which might indicate better probability of differentiating between the target classes. The lack of increase can be attributed to the cap on the importance at 100$\%$. The original features might give some better results in predicting but the added features still consists of some percentage of the total amount of features. Random Forest Classifier has a limit on the amount of features considered for each split which is capped at a percentage of the total set. This is partly the reason that these random features can be considered as important in the split together with their variance. The variance gives perceived information as you look at a subset of instances the high variability shows that for some target class this feature value is this number and for the other classes the odds of different values for that feature is high. 
+Feature importance calculated with a RandomForestClassifer gives an indication what features are important for the decision trees. In figure \ref{fig:FIC100}, \ref{fig:FIC3}, \ref{fig:FIN100}, \ref{fig:FIN3}, the feature importance of the added random features are shown. This makes it clear that RandomForestClassifier does not recognize these features as unimportant. There is a difference in the perceived importance of random categorical and numerical features. Even more so the distribution of random categorical features. The slope of random categorical with k=3, features importance is also steeper as it more than doubles and for numerical features it only nearly doubles. This is however not true for random categorical features with k= 100 which has an equal absolute increase but starts higher. This can be explained as more perceived variance in k=100 which might indicate better probability of differentiating between the target classes. The lack of increase can be attributed to the cap on the importance at 100$\%$. The original features might give some better results in predicting but the added features still consists of some percentage of the total number of features. Random Forest Classifier has a limit on the number of features considered for each split which is capped at a percentage of the total set. This is partly the reason that these random features can be considered as important in the split together with their variance. The variance gives perceived information as you look at a subset of instances the high variability shows that for some target class this feature value is this number and for the other classes the odds of different values for that feature is high. 
 \\
 
-In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates can be seen. This shows that the order of features is important as the duplicate features have less importance than their percentage of the dataset. It also means that they are not recognized as totally redundant for prediction. The duplicate features having importance is because they hold the same amount of information, the order of the dataset is the factor that makes those features not equally important. The end results is 47$\%$ feature importance for duplicate features when the dataset is half duplicates. The feature importance of the GradientBoostingClassifier seen in figure \ref{fig:FIGBC} shows a bit less importance for random and duplicate numerical features. The random features even start with more feature importance than the duplicate mostly due to the high variation within the duplicates. With 50$\%$ additional features the duplicates have more importance than the random features on average. 
+In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates can be seen. This shows that the order of features is important as the duplicate features have less importance than their percentage of the dataset. It also means that they are not recognized as totally redundant for prediction. The duplicate features having importance is because they hold the same value of information, the order of the dataset is the factor that makes those features not equally important. The end results is 47$\%$ feature importance for duplicate features when the dataset is half duplicates. The feature importance of the GradientBoostingClassifier seen in figure \ref{fig:FIGBC} shows a bit less importance for random and duplicate numerical features. The random features even start with more feature importance than the duplicate mostly due to the high variation within the duplicates. With 50$\%$ additional features the duplicates have more importance than the random features on average. 
 
 \begin{figure}[H]
 	\centering
@@ -460,7 +437,7 @@ In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates 
 \subsection{Model Validation strategies}
 What strategies do we use to split the datasets into training and test to measure predictive accuracy, duration, bias and variance.
 \subsubsection{Cross validation} \label{cross-val}
-To easily test a single dataset once we use cross validation as it does this k times to get k splits of equal size. We can observe k classifications, to gain insight in duration time. We pick k=10 as standard as it is perceived to be a well rounded amount of folds for decent results\cite{Cross}.
+To easily test a single dataset once we use cross validation as it does this k times to get k splits of equal size. We can observe k classifications, to gain insight in duration time. We pick k=10 as standard as it is perceived to be a well rounded value of folds for decent results\cite{Cross}.
 
 \subsubsection{Bootstrapping} \label{motivation}
 For the bias variance calculation it is import to gain multiple predictions for the same instance and with bootstrapping this can be easily achieved. The downside however can be an increased bias and reduced variance error.  
@@ -492,7 +469,7 @@ For each predictions the outputted target value. Multiple files indicate multipl
 Gives the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
 
 \subsubsection{SummaryGuesses}
-SummaryGuesses give a quick overview of the obtained results. It stores in python dictionaries the total amount of predictions for each class. The results is that you can easily observe if a classifier has picked a class exclusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
+SummaryGuesses give a quick overview of the obtained results. It stores in python dictionaries the total number of predictions for each class. The results is that you can easily observe if a classifier has picked a class exclusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
 
 \subsubsection{BiasVar}
 When bootstrapping is done a bias and variance error is calculated together with the total error value. These are stored for easy lookup to the bias and variance error part of a classifier.
@@ -508,18 +485,18 @@ Experiments are grouped by all mentioned classifier with some initial settings o
 \subsubsection{Scalability}
 Scalability experiments can be split up in instance based or features based. To measure the effect of features we take datasets with lots of features and remove features in steps to find the impact of these lost features. There is a disadvantage with this strategy as some classifiers calculate values like feature importance which depend on a somewhat complete dataset of features. The removed features are randomly chosen and can be defining features for the accuracy of the dataset. 
 
-To combat this we also do feature removing based on feature importance of a RandomForestClassifier and on correlation between features. For feature importance we train a RandomForestClassifier to find the most important features. We then remove the least important features and remember the features we removed to also remove them in the test set. For correlation we find the feature the 2 most correlated features and then remove the feature that is most correlated to all features of the 2. Based on the amount we are going to remove we repeat the process to remove more.
+To combat this we also do feature removing based on feature importance of a RandomForestClassifier and on correlation between features. Training a RandomForestClassifier to find the feature importance of all features. The next step is to remove the least important features. In the other case of correlation we find the feature the 2 most correlated features and then remove the feature that is most correlated to all features of the 2. Based on the value we are going to remove we repeat the process to remove more.
 
 
 Another option  to measure scalability is to measure the impact of number of instances. For most classifiers each instance is considered during training and we measure an average calculation for each feature. The duration is measured over the whole dataset by doing a 10 fold cross validation.
 %We compare the found scalability against the perceived running time upper or lower bounds. 
 
 \subsubsection{Duplicate features}
-Duplicate features experiments have multiple goals in mind. By adding existing feature we can measure scalability of datasets with some amount of features. These duplicate features can also be identified as adding little to the dataset or the same features can overrule existing important features. The accuracy on these modified dataset
-can teach us about the impact of features on accuracy and how classifiers handle these irrelevant features. The method to add these duplicate features is by randomly picking and adding. This can result in features being multiple times in the manipulated  dataset even though it is only twice the original dataset size. The accuracy is measured over the whole dataset by doing a 10 fold cross validation.
+Duplicate features experiments have multiple goals in mind. By adding existing feature we can measure scalability of datasets with some number of features. These duplicate features can also be identified as adding little to the dataset or the same features can overrule existing important features. The accuracy on these modified dataset
+can teach us about the impact of features on accuracy and how classifiers handle these irrelevant features. The method to add these duplicate features is by randomly picking and adding. This can result in features being multiple times in the manipulated  dataset even though it is only twice the original dataset size. The predictive accuracy is measured over the whole dataset by doing a 10 fold cross validation.
 
 \subsubsection{Random Features}
-Random features experiments have similar goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with random features. These random features can deceivingly have information as there is much variability. By measuring the accuracy we can observe what the impact is for different classifiers. There are two sorts of random features we add; Numerical and categorical features. We add either the categorical or numerical depending on the distribution of the dataset. The odds of either a categorical or numerical feature being added is the distribution of the initial dataset. The accuracy is measured over the whole dataset by doing a 10 fold cross validation. %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
+Random features experiments have similar goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with random features. These random features can deceivingly have information as there is much variability. The accuracy that is measured can explain what the impact is for different classifiers. Two sorts of random features are added; Numerical and categorical features. We add either the categorical or numerical depending on the the dataset. The odds of either a categorical or numerical feature being added is depended on the amount of numerical and categorical features of the initial dataset. The predictive accuracy is measured over the whole dataset by doing a 10 fold cross validation. %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
 
 
  
@@ -533,7 +510,7 @@ Redundant duplicate features experiments are datasets with duplicate features ap
 
 
 \subsubsection{Noisy data}
-Datasets can get more noisy over time. During training of a machine learning classifier the dataset is clean and over time new data can change. By measuring the predictive accuracy off the classifiers on more noisy datasets the robustness can be measured. The accuracy is measured over the whole dataset by doing a 10 fold cross validation.
+Datasets can get more noisy over time. During training of a classifier the dataset is clean and over time new data can change. By measuring the predictive accuracy off the classifiers on more noisy datasets the robustness can be measured. The accuracy is measured over the whole dataset by doing a 10 fold cross validation.
 
 \paragraph{categorical features \newline}
 To explain the implementation of our noisy data for a categorical feature we present this snippet of pseudo code. THe input is the dataset X and the amount of noise. The amount can be converted to a percentage of features being flipped by this formula $()1-1/(amount+0.5))*100$. The distribution$_X$ is derived from the dataset X as the probability distribution of all categorical classes in a feature. The random.choice function uses this probability function to pick a value in the range of the feature. The default random function picks a uniform random value between 0 and 1.  \\
@@ -559,7 +536,7 @@ Calculate std$_X$ for all features in dataset X\\
 To measure the bias and variance error factor we use the calculation of Kohavi and Wolpert\cite{BiasCalc}. This is the same measure used in the work of Joaquin et al.\cite{Bias-var}. This experiment is made to reproduce that experiment with the scicikit-learn library. The input for the bias and variance calculation is done by doing 40 bootstraps. 
 
 \subsubsection{PreProcessing}
-Preprocessing is a neccesary job for most machine learning classifiers as they are dependent on the input structure to classify. For example KNeighborsClassifier is dependent on distance between instances, if we look at categorical data the distance between instances is not always relevant. That is why experiments with specifically categorical datasets are repeated with some preprocessing for at least KNeighborsClassifier, SGDClassifier and SVC-rbf. For these classifiers a translation of categorical features seems to be necessary \cite{KNN-Sym}\cite{SVM-sym}. The proposed preprocessing steps are OneHotEncoder and Standardscaler in that order. OneHotEncoder translates the categorical features in features corresponding to the amount of classes. Each feature is then a boolean value of being the class or not. The StandardScaler removes the mean and scales on the standard deviation. Storing the mean and std of the training set to use it to transform the test set balances the dataset accordingly. 
+Preprocessing is a neccesary job for most classifiers as they are dependent on the input structure to classify. For example KNeighborsClassifier is dependent on distance between instances, if we look at categorical data the distance between instances is not always relevant. That is why experiments with specifically categorical datasets are repeated with some preprocessing for at least KNeighborsClassifier, SGDClassifier and SVC-rbf. For these classifiers a translation of categorical features seems to be necessary \cite{KNN-Sym}\cite{SVM-sym}. The proposed preprocessing steps are OneHotEncoder and Standardscaler in that order. OneHotEncoder translates the categorical features in features corresponding to the number of classes. Each feature is then a boolean value of being the class or not. The StandardScaler removes the mean and scales on the standard deviation. Storing the mean and std of the training set to use it to transform the test set balances the dataset accordingly. 
 \newpage
 \section{Experimental Results} \label{Chapter4}
 
@@ -642,7 +619,7 @@ The averaged size of this dataset is 3797 instances and 200 features. he slope o
 
 \textbf{BernoulliNB} BernoulliNB is also one of the quickest in prediction and classification time. With a similar approach as BernoulliNB there is little calculation in both prediction and classification. The only added calculation for BernoulliNB is a binarization. \\
 
-\textbf{GradientBoostingClassifier} The GradientBoostingClassifier takes the longest amount of time of all classifiers. With 10 times the estimators of RandomForestClassifier it takes on average 250 times the total duration. With the calculation in multiple stages the duration time ramps up to fit the Decision trees. The impact of random features is more than either of the duplicate features. This is also due to more variation in the features with also using DecisionTrees, GradientBoostingClassifier %TODO feature importance of GradientBoostingClassifier
+\textbf{GradientBoostingClassifier} The GradientBoostingClassifier need the most time of all classifiers for classification and prediction. With 10 times the estimators of RandomForestClassifier it takes on average 250 times the total duration. With the calculation in multiple stages the duration time ramps up to fit the Decision trees. The impact of random features is more than either of the duplicate features. This is also due to more variation in the features with also using DecisionTrees, GradientBoostingClassifier %TODO feature importance of GradientBoostingClassifier
   \\
 
 The slopes of the different classifiers are close to a linear scale and vary a bit between addition(figure \ref{fig:SADS}). This is mostly an the starting impact of the added features compared to the clean dataset. 
@@ -730,7 +707,7 @@ For most classifiers the results paint a clear picture. Removing features has mo
 \subsubsection{Instances}
 In this sections datasets are split reduced in the instance dimension. First the set is shuffled and then a percentage of the dataset is cross validated. In figure \ref{fig:Inst} the results can be seen. In these results the scalability in the instance dimension of the classifiers is shown. The averaged dataset is 7786 instances with 154 features for figure \ref{fig:Inst} 
 
-Comparing the lines visible in figure \ref{fig:Instances} with the actually slope in figure \ref{fig:InstancesPredSlope} the classifiers GradientBoostingClassifer, RandomForestClassifier, AdaBoostClassifier, SGDClassifier, BernoulliNB and GaussianNB have a near linear ascension. Expect for the bump in duration around 50 $\%$ is the duration increase stable for these classifiers. This is also expected from classifier depending on standard calculations of mean, variance, linear fit and decision trees. Those calculation are linear in the amount of input. For the remaining classifiers SVC-rbf and the kNN variants the algorithms show a non linear trend. For the kNN classifier this is due to the prediction using a kdTree or ball tree which needs longer linear time for construction and searching. For SVC-rbf the implementation estimates a quadratic time complexity for the number of samples. 
+Comparing the lines visible in figure \ref{fig:Instances} with the actually slope in figure \ref{fig:InstancesPredSlope} the classifiers GradientBoostingClassifer, RandomForestClassifier, AdaBoostClassifier, SGDClassifier, BernoulliNB and GaussianNB have a near linear ascension. Expect for the bump in duration around 50 $\%$ is the duration increase stable for these classifiers. This is also expected from classifier depending on standard calculations of mean, variance, linear fit and decision trees. Those calculation are linear in the number of instances. For the remaining classifiers SVC-rbf and the kNN variants the algorithms show a non linear trend. For the kNN classifier this is due to the prediction using a kdTree or ball tree which needs longer linear time for construction and searching. For SVC-rbf the implementation estimates a quadratic time complexity for the number of samples. 
 
 The averaged result can be easily captured with a linear fit with taking the log of the duration and instances. In figure \ref{fig:Instances} the predictions lines for most classifiers, line up with the actually results. Together with the slope seen in figure \ref{fig:InstancesPredSlope} this seems reasonable. However this is the average result on around 80 datasets. Can we actually predict for a single dataset the duration it takes for classification and predicting. The result is shown in figure \ref{fig:InstancesPred} as the dotted line, that line clearly does not line up with the averaged result. Visisble in the appendix in chapter \ref{InstancesApp} the duration lines per datasets are less linear than the averaged result. The prediction is made by adding some additional information to a Kernel Ridge regression algorithm namely the number of categorical, numerical and total features, the number of instances and the number of classes in the target feature. These are chosen based on the configuration of the chosen classifiers and early results of duration experiments. 
 
@@ -892,7 +869,7 @@ Randomly removing features, based on least importance or based on most correlati
 
 \textbf{SVC-rbf} The accuracy of the SVC-rbf classifier has a steady pattern over all the methods of removing features. The only noticable difference is even a slight increase in accuracy for the smallest set made by randomly removing. This means that the feature remaining still have a lot of information in them and that nearly no features were hindering the accuracy of SVC-rbf for theses datasets. The accuracy gain of most features in those dataset is nearly equal for a default SVC-rbf.   \\
 
-\textbf{GaussianNB} The accuracy of the GaussianNB classifier shows interseting behavior of fluctuating between improving or deteriorating for randomly removed features. This means that similair for SVC-rbf that most features have an similair impact for GaussianNB, when looking at them randomly. Only when looking at the feature removed by least importance there is a steady increase in accuracy by removing more features. This explains that there due exist more fitting features for the GaussianNB in these datasets. For the most correlated removed features a steady decline is seen. Which shows that those feature that are somewhat correlated may be the most important featueres in comparison for GaussianNB. \\
+\textbf{GaussianNB} The accuracy of the GaussianNB classifier shows interseting behavior of fluctuating between improving or deteriorating for randomly removed features. This means that similair for SVC-rbf that most features have an similair impact for GaussianNB, when looking at them randomly. Only when looking at the feature removed by least importance there is a steady increase in accuracy by removing more features. This explains that there due exist more fitting features for the GaussianNB in these datasets. For the most correlated removed features a steady decline is seen. Which shows that those feature that are somewhat correlated may be the most important features in comparison for GaussianNB. \\
 
 \textbf{BernoulliNB} The most interesting behavior of the accuracy can be seen with the BernoulliNB as with all feature removing methods give an increase in accuracy. Least feature importance removing only by a slight margin gaining the best result. This means that the binarization and fitting to the Bernoulli distribution can be best realized with only the most important features of a dataset. For this classifier most features are an obstacle for performance. \\
 
@@ -1011,11 +988,11 @@ The result will be a ranking of classifiers on different scales. The scales are:
 \end{figure}
 
 
-\textbf{RandomForestClassifier} The strenght of RandomForestClassifier is the easy and quick solution, solid solution. With a high un proccessed predictive accuracy, quick estimates of predictive accuracy on a dataset can be achieved. The classifier does lack some robustness against features and noisy data. For a more supervised approach the feature can be more preproccessed for better results. Lastly some bias managements is needed as a large part of the error is due to bias error on average.  \\
+\textbf{RandomForestClassifier} The strength of RandomForestClassifier is the easy and quick solution, solid solution. With a high un processed predictive accuracy, quick estimates of predictive accuracy on a dataset can be achieved. The classifier does lack some robustness against features and noisy data. For a more supervised approach the feature can be more preprocessed for better results. Lastly some bias managements is needed as a large part of the error is due to bias error on average.  \\
 
-\textbf{KNeighborsClassifier} The strenght of kNN is in the robustness against noisy numerical features. With a dependence on numerical relations between instances a shift in that dimension is not the downfall. Categorical values and random features are a harder issue. With a robustness againt noisy data, random featuers may be non obvious to be not robust against. The problem with the random data is the scale of these features in comparison to the other features and the difference this can make. If the random features have larger value differences than the important features, those features get rained under. This fall in line with earlier results of Wettschereck\ref{redundant}. \\
+\textbf{KNeighborsClassifier} The strength of kNN is in the robustness against noisy numerical features. With a dependence on numerical relations between instances a shift in that dimension is not the downfall. Categorical values and random features are a harder issue. With a robustness against noisy data, random features may be non obvious to be not robust against. The problem with the random data is the scale of these features in comparison to the other features and the difference this can make. If the random features have larger value differences than the important features, those features get rained under. This fall in line with earlier results of Wettschereck\ref{redundant}. \\
 
-\textbf{SGDClassifier} The strenght of the SGDClassifier is in the quickness and the robustness against noise. With a default dependence on linear SVC the noise is only variance in the fit.  \\
+\textbf{SGDClassifier} The strength of the SGDClassifier is in the quickness and the robustness against noise. With a default dependence on linear SVC the noise is only variance in the fit.  \\
 
 \textbf{AdaBoost} The strenght of adaBoost is the average robustness, AdaBoost has not the most resilience against the introduced noise and irrelevance. The strenght lies more in fitting to outliers found in a training set. With more redundant features, outliers remain to exist \\
 \textbf{SVC-rbf} \\
@@ -1076,7 +1053,7 @@ Instead of measuring the influence of standard deviation, we tried to add standa
 		\caption{average Mutual Information as a measure of relevance}
 		\label{fig:AMMIpaper}
 	\end{subfigure}
-	\caption{Mutual information decline between previous work and this work}\label{fig:MMIs}
+	\caption{Mutual information decline between previous work and this work}\label{fig:AMMIs}
 	\label{paper-thesis}
 \end{figure}
 
@@ -1084,7 +1061,7 @@ In figure \ref{paper-thesis} the experiment setup of Hilario and the experiment 
 
 
 \subsection{Conclusion}
-As recommendation the RandomForestClassifier is a strong pick for most problems with little tuning. Within a sort amount of time a strong result can be noticed. A direct improvement when robustness is needed, the GradientBoostingClassifier scores equal to the RandomForestClassifier with more robustness for adding features. If a dataset is more likely to get noise in the features GradientBoostingClassifier is a worse choice. The most robustness against adding irrelevant features is found in the BernoulliNB while also being one of the fastest classification and prediction. The downsize of BernoulliNB is that the input must be close to the Bernoulli distribution to achieve any competing accuracy. For noise in numerical features kNN is the best option and with some preprocessing the classifier outshines all others. 
+As recommendation the RandomForestClassifier is a strong pick for most problems with little tuning. Within a sort duration a strong result can be noticed. A direct improvement when robustness is needed, the GradientBoostingClassifier scores equal to the RandomForestClassifier with more robustness for adding features. If a dataset is more likely to get noise in the features GradientBoostingClassifier is a worse choice. The most robustness against adding irrelevant features is found in the BernoulliNB while also being one of the fastest classification and prediction. The downsize of BernoulliNB is that the input must be close to the Bernoulli distribution to achieve any competing accuracy. For noise in numerical features kNN is the best option and with some preprocessing the classifier outshines all others. 
 
 
 
@@ -1164,7 +1141,7 @@ figure \ref{fig:Rem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 figure \ref{fig:Inst} - 6, 1036, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 23, 1049, 1050, 26, 28, 30, 32, 1570, 36, 4134, 4135, 1067, 1068, 44, 46, 40499, 60, 1120, 151, 1176, 182, 184, 40645, 40646, 40647, 40648, 40649, 40650, 40651, 40652, 40653, 40654, 40655, 40656, 40664, 40668, 40670, 40677, 40678, 40680, 40687, 40695, 40696, 40697, 40702, 40706, 300, 179000, 312, 375, 1459, 1461, 1462, 4534, 953, 1466, 4538, 1468, 959, 1475, 1476, 1478, 1479, 1485, 1486, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 991, 1504, 1505, 1022 \\
 figures \ref{fig:BiasAcc},\ref{fig:BiasScaling} - 1025, 1067, 1036, 1068, 1038, 1043, 1014, 1049, 1050, 1022 \\ 
 figures \ref{Overfit} - 11, 12, 37, 54, 458, 1038, 1043
-\subsubsection{Distribution}
+\subsubsection{Values}
 The number of features and instances for datasets
 \begin{figure}[h] 
 	\centering
