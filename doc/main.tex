@@ -140,11 +140,7 @@ Supervisor: Joaquin Vanschoren \\
 
 \end{titlepage}
 
-\begin{abstract}
-%To improve machine learning selection based on robustness and scalability in the scikit-learn library.
- By researching the python library which is gaining popularity we give a few insights into the qualitative properties of these machine learning algorithms. For accuracy GradientBoostingClassifier is a solid pick which outperforms with default settings on nearly all cases. on equal footing in accuracy is RandomForestClassifier an easier and quicker solution. For noisy data KNeighborsClassifier is most robust and Naive Bayes classifiers are least robust. For the more unpredictable cases of noisy data in a categorical setting Gaussian Naive Bayes is however a more robust solution.
 
-\end{abstract}
 
 \newpage
 \tableofcontents
@@ -152,7 +148,6 @@ Supervisor: Joaquin Vanschoren \\
 
 
 \section{Introduction} \label{Chapter1}
-With the use of 
 This report is the result of my graduation project which completes my Business Information Systems study at Eindhoven University of Technology.
 The project was performed internally at the Eindhoven University of Technology in the Data mining department.
 In this project we investigated annotations of primitives, more specifically primitives in the scikit-learn library.
@@ -160,10 +155,10 @@ To elaborate on this we will outline the research questions and thesis structure
  
 
 \subsection{Problem description}\label{Intr-Prob}
-Machine learning is a growing field that can help process the increase of available data \cite{Big-data}\cite{ML-trends}. Python is a trending machine learning language, as it holds premade machine learning algorithms in the scikit-learn (sklearn) library.\cite{python-pop}. This library is made to ease the choose of algorithm for a machine learning problem. Figure \ref{fig:FlowChart} a flowchart is depicted with the different machine learning algorithms that can be chosen. It can be seen that different algorithms are recommended depending on the early results, size and problem.
+Machine learning is a growing field that can help process the increase of available data \cite{Big-data}, \cite{ML-trends}. Python is a trending machine learning language, as it holds premade machine learning algorithms in the scikit-learn (sklearn) library.\cite{python-pop}. This library is made to easily choose between different algorithm for a machine learning problem. Figure \ref{fig:FlowChart} depicts a flowchart with the different machine learning algorithms that can be chosen in the sklearn library. It can be seen that different algorithms are recommended depending on the early results, size and problem.
  
  It can be seen that different algorithms are recommend depending on the problem, size of the dataset and early results. 
- It can be seen that four different groups are present: classification, regression, clustering and dimensionality reduction. The selection of a group depends on the type of the problem, as each group contains a different selection of algorithms Specific algorithms are recommended depending on the size of the data and early results.
+ It can also be seen that four different groups are present: classification, regression, clustering and dimensionality reduction. The selection of a group depends on the type of the problem that needs to be solved. Each group contains a different selection of algorithms. A specific algorithm is recommended depending on the size of the data and early results.
  However, with time new algorithms are added to the library. This allows for the recommendation of more specialized algorithms for a particular problem. Each different problem cannot be solved by the same algorithms. This concept is based on the 'no-free-lunch' theorem, which describes that one particular algorithm cannot be used to solve all optimization problems \cite{No-Free-Lunch}.  
 
  
@@ -237,7 +232,7 @@ In the scikit-learn library KNeighborsClassifier is an implementation of the k-n
 SGDClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. The classifier expects continuous features with a mean of zero and sparse setting. This makes the classifier sensitive to categorical data, as it performs optimally with continuous features. The iterative steps for calculation gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maximal. The learning rate is used to update the model in each iteration. The fitted functions are linear, if the input has multiple target classes a classifier predicts one class versus all other classes. 
 
 \subsubsection{AdaBoostingClassifier}
-AdaBoostingClassifier(AdaBoost) is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost classifier with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
+AdaBoostingClassifier (AdaBoost) is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost classifier with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
 
 \subsubsection{SVC-rbf}
 SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension. The standard support vector machine splits for each feature pair, doing this for a large feature space computation grows outside a feasible duration for classification \cite{SVN}. The feasible duration doing a run of fitting and predicting in a day or two. This fit time is quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will map them in a new dimension space. This mapping is to make a clear separation between the two categories. However, with the radial basis function this is done with the distant from the points indicated by a separation area in a multi feature space. Classifying a point is finding in which class area this point falls. The multi class problem is solved by  all combinations of classes pairs and the class with the most votes is picked \cite{Multi-pair-coup}. To optimize the decision surface there are two main parameters C and gamma. The parameter C trades off misclassification of training examples against simplicity of the decision surface, a low C indicates a simple decision surface and lenient misclassification. The gamma parameter is a measure of influence for a single training example. The larger gamma is, the less influence a single instances has.
@@ -249,7 +244,7 @@ GaussianNB is a Naïve Bayes classifier implementation with the  assumption that
 BernoulliNB is a Naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This binarization is done by binning numerical values in ranges of their value or splitting categorical values into separate classes for each class their own. This binarization can be disabled or reduced by a threshold on the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability.
 
 \subsubsection{GradientBoostingClassifier}
-GradientBoostingClassifier builds from other classifiers, which makes it an ensemble classifier, like AdaBoostClassifier \cite{GradientBoost}. GradientBoostingClassifier builds an additive model in a forward stage-wise fashion. This means that the default loss function is optimized in a stage-wise fashion. A logistic regression is created to classify a probabilistic output \cite{Greedy-GBC}. 
+GradientBoostingClassifier builds from other classifiers, which makes it an ensemble classifier, like AdaBoost \cite{GradientBoost}. GradientBoostingClassifier builds an additive model in a forward stage-wise fashion. This means that the default loss function is optimized in a stage-wise fashion. A logistic regression is created to classify a probabilistic output \cite{Greedy-GBC}. 
 
 
 
@@ -358,9 +353,9 @@ Depending on the property that an experiment focuses on different datasets are c
 \subsubsection{Bias-variance datasets}
 An important part of a dataset to be viable for bias variance analysis is it having 2 classes as target. This is due to calculation we use to find the bias and variance error. The bias and variance error is in this way like recall or precision error more suitable for a 2 classes target.  %give picture of instance versus features
 \subsubsection{Categorical datasets}
-Categorical datasets hold only features with categorical values. These features are useful for a RandomForestClassifeir to make decisisons with the internal decision tree but for a KNeighborsClassifier it is harder to use these features as input as the structure of the translation to numbers also has an effect.
+Categorical datasets hold only features with categorical values. These features are useful for a RandomForestClassifier to make decisions with the internal decision tree but for a KNeighborsClassifier it is harder to use these features as input as the structure of the translation to numbers also has an effect.
 \subsubsection{Numerical datasets}
-Numerical datasets hold only features with numerical values. These features are hard to use by classifiers like BernoulliNB which translates the values in their own way by uniqueness. For classifiers like KNeighborsClassifier it is easier to use the uniquess of numerical values for predictions.
+Numerical datasets hold only features with numerical values. These features are hard to use by classifiers like BernoulliNB which translates the values in their own way by uniqueness. For classifiers like KNeighborsClassifier it is easier to use the uniqueness of numerical values for predictions.
 
 \subsection{Collected data}
 Experiment data is saved to give insight to what the results are. Depending on the experiment different data is important or stored. 
@@ -376,7 +371,7 @@ The duration for each classification instance and for each prediction the time i
 The predictions of the outputted target value is saved. Individual files are chosen for each case of predictions. The true value for the prediction is also saved as reference and option for recalculation. 
 
 \subsubsection{scores}
-Gives the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
+The scores gives the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
 
 \subsubsection{SummaryGuesses}
 SummaryGuesses give a quick overview of the obtained results. It stores in python dictionaries the total number of predictions for each class. The results is that you can easily observe if a classifier has picked a class exclusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
@@ -424,7 +419,8 @@ Datasets can get more noisy over time. During training of a classifier the datas
 
 \paragraph{categorical features \newline}
 To explain the implementation of our noisy data for a categorical feature we present this snippet of pseudo code. The input is the dataset X and the amount of noise. The amount can be converted to a percentage of features being flipped by this formula $()1-1/(amount+0.5))*100$. The distribution$_X$ is derived from the dataset X as the probability distribution of all categorical classes in a feature. The random.choice function uses this probability function to pick a value in the range of the feature. The default random function picks a uniform random value between 0 and 1.  \\
-Initiliaze distribution$_X$ for all features in dataset X\\
+Initiliaze distribution$_X$ for all features in dataset X\\ 
+\newline
 \textbf{for} numerical feature k in dataset X\\
 .\hspace{1cm} \textbf{for} data point x in feature k\\
 .\hspace{2cm} \textbf{if} random()*amount $>$ 0.5 \\	
@@ -446,7 +442,7 @@ Calculate std$_X$ for all features in dataset X\\
 To measure the bias and variance error factor we use the calculation of Kohavi and Wolpert\cite{BiasCalc}. This is the same measure used in the work of Joaquin et al.\cite{Bias-var}. This experiment is made to reproduce that experiment with the scicikit-learn library. The input for the bias and variance calculation is done by doing 40 bootstraps. 
 
 \subsubsection{PreProcessing}
-Preprocessing is a neccesary job for most classifiers as they are dependent on the input structure to classify. For example KNeighborsClassifier is dependent on distance between instances, if we look at categorical data the distance between instances is not always relevant. That is why experiments with specifically categorical datasets are repeated with some preprocessing for at least KNeighborsClassifier, SGDClassifier and SVC-rbf. For these classifiers a translation of categorical features seems to be necessary \cite{KNN-Sym}\cite{SVM-sym}. The proposed preprocessing steps are OneHotEncoder and Standardscaler in that order. OneHotEncoder translates the categorical features in features corresponding to the number of classes. Each feature is then a boolean value of being the class or not. The StandardScaler removes the mean and scales on the standard deviation. Storing the mean and std of the training set to use it to transform the test set balances the dataset accordingly. 
+Preprocessing is a necessary job for most classifiers as they are dependent on the input structure to classify. For example KNeighborsClassifier is dependent on distance between instances, if we look at categorical data the distance between instances is not always relevant. That is why experiments with specifically categorical datasets are repeated with some preprocessing for at least KNeighborsClassifier, SGDClassifier and SVC-rbf. For these classifiers a translation of categorical features seems to be necessary \cite{KNN-Sym}\cite{SVM-sym}. The proposed preprocessing steps are OneHotEncoder and Standardscaler in that order. OneHotEncoder translates the categorical features in features corresponding to the number of classes. Each feature is then a boolean value of being the class or not. The StandardScaler removes the mean and scales on the standard deviation. Storing the mean and std of the training set to use it to transform the test set balances the dataset accordingly. 
 
 \subsection{MetaFeatures}
 
@@ -458,17 +454,17 @@ Meta features like mean mutual information or entropy for categorical features a
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{images/MeanMutualInformation.png}
-		\caption{Mean Mutual Information for mututations of datasets}
+		\caption{Mean Mutual Information for manipulation of datasets}
 		\label{fig:MMI}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{images/adjustedMeanMutualInformation.png}
-		\caption{adjusted Mean Mutual Information for mututations of datasets}
+		\caption{adjusted Mean Mutual Information for manipulation of datasets}
 		\label{fig:AMMI}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{images/normalizedMeanMutualInformation.png}
-		\caption{normalized Mean Mutual Information for mututations of datasets}
+		\caption{normalized Mean Mutual Information for manipulation of datasets}
 		\label{fig:NMMI}
 	\end{subfigure}
 	\caption{Mutual information difference between measure}\label{fig:MMIs}
@@ -490,7 +486,7 @@ In figure \ref{paper-thesis} the experiment setup of Hilario and the experiment 
 		\caption{average Mutual Information as a measure of relevance}
 		\label{fig:AMMIpaper}
 	\end{subfigure}
-	\caption{Mutual information decline between previous work and this work}\label{fig:AMMIs}
+	\caption{Mutual information decline between previous work and this work}
 	\label{paper-thesis}
 \end{figure}
 
@@ -570,18 +566,18 @@ Due to the robustness experiments a lot of results change the composition of a d
 
 
 \paragraph{Added features}
-In figure \ref{fig:ScalableAdded} the durations of adding redundant duplicate or random features are shown. In figures \ref{fig:ScalableAdded2} the durations of adding duplicate or random features are shown In figure \ref{fig:SADRC} the classification times are shown for a growing feature size, these durations are a great part of most classifiers.In figure \ref{fig:SADRP} the prediction time is shown, here most classifier take only a short while. The combined time can be seen in figure \ref{fig:SADR} which shows the total difference.
+In figure \ref{fig:ScalableAdded} the durations of adding redundant duplicate or random features are shown. In figures \ref{fig:ScalableAdded2} the durations of adding duplicate or random features are shown In figures \ref{fig:SADRC}, ,\ref{fig:SADRC2} the classification times are shown for a growing feature size, these durations are a great part of most classifiers. In figures \ref{fig:SADRP}, \ref{fig:SADRP2} the prediction time is shown, here most classifier take only a short while. The combined time can be seen in figures \ref{fig:SADR}, \ref{fig:SADR2} which shows the total difference.
 The averaged size of this dataset is 3797 instances and 200 features. he slope of these added figures is seen in figure \ref{fig:SADS}.
 \begin{figure}[H]
 	\centering	
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{images/scalability/FeatAddDupRandClass.png}
-		\caption{only the time needed to predict }
+		\caption{only the time needed to fit }
 		\label{fig:SADRC}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{images/scalability/FeatAddDupRandPred.png}
-		\caption{only the time needed to make the predictions}
+		\caption{only the time needed to make predictions}
 		\label{fig:SADRP}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -670,7 +666,7 @@ In figure \ref{fig:FeatRem} the duration against features removed from a dataset
 
 \textbf{RandomForestClassifier} A small difference in duration can be seen between the randomly removed feature and feature removed by lack of importance. On the smallest dataset the importance removed feature dataset takes longer. This can be explained as the feature set needing more time for the quality of the split. Between highest correlation removing and importance removing the difference is minimal\\
 
-\textbf{KNeighborsClassifier} KNeighborsClassifer need more for least importance removed dataset and even more for highest correlation based removing. The longest duration for correlation based removing can come from the lack of correlation giving more variation between features as they are least similar to each other. This means that the features are different and more calculation is needed to find neighbors. This is also the case for important features but to a lesser extend than the least correlated features, which indicates that some features can still be closely correlated but still have some perceived importance.\\
+\textbf{KNeighborsClassifier} KNeighborsClassifier need more for least importance removed dataset and even more for highest correlation based removing. The longest duration for correlation based removing can come from the lack of correlation giving more variation between features as they are least similar to each other. This means that the features are different and more calculation is needed to find neighbors. This is also the case for important features but to a lesser extend than the least correlated features, which indicates that some features can still be closely correlated but still have some perceived importance.\\
 
 \textbf{SGDClassifier} The SGDClassifier can be seen as one of the quickest algorithms in figure \ref{fig:FeatRemImp} but a bit more time consuming in figure \ref{fig:FeatCorImp}. There is even a big time difference between randomly removing features and removing feature by least importance. The more important the features the longer the classifier needs. This can be explained as the features less likely being standard for the input of the classifier. This means that the important features are likely dense features. \\
 
@@ -682,7 +678,7 @@ In figure \ref{fig:FeatRem} the duration against features removed from a dataset
 
 \textbf{BernoulliNB} The same behavior seen in the GaussianNB can be seen for the BernoulliNB. This can be due to the randomly remaining features being easier to binarize. As that is the only factor that might be influenced by values of the features. \\
 
-\textbf{GradientBoostingClassifier} As the only classifier GradientBoostingClassifier takes less time with only the most important features. This can be the nature of the stage wise steps of GradientBoostingClassfier needing less time with more important features than random features who's importance can be questionable. The dataset with the least correlated features hardly as any difference with the least important removed feature dataset.\\
+\textbf{GradientBoostingClassifier} As the only classifier GradientBoostingClassifier takes less time with only the most important features. This can be the nature of the stage wise steps of GradientBoostingClassifier needing less time with more important features than random features who's importance can be questionable. The dataset with the least correlated features hardly as any difference with the least important removed feature dataset.\\
 
 
 \paragraph{combined}
@@ -696,7 +692,7 @@ Most classifiers paint a clear picture in the results. Removing features has mor
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/scalability/FeatManLog.png}
-	\caption{features removed randomly and features  redundantly duplicated slope }
+	\caption{features removed randomly and features redundantly duplicated(straight lines), randomly added (dotted line) }
 	\label{fig:FeatManLog}	
 \end{figure}
 \begin{figure}[H]
@@ -727,9 +723,9 @@ Most classifiers paint a clear picture in the results. Removing features has mor
 \subsubsection{Instances}
 In this sections datasets are split reduced in the instance dimension. First the set is shuffled and then a percentage of the dataset is cross validated. In figure \ref{fig:Inst} the results can be seen. In these results the scalability in the instance dimension of the classifiers is shown. The averaged dataset is 7786 instances with 154 features for figure \ref{fig:Inst} 
 
-Comparing the lines visible in figure \ref{fig:Instances} with the actually slope in figure \ref{fig:InstancesPredSlope} the classifiers GradientBoostingClassifer, RandomForestClassifier, AdaBoostClassifier, SGDClassifier, BernoulliNB and GaussianNB have a near linear ascension. Expect for the bump in duration around 50 $\%$ is the duration increase stable for these classifiers. This is also expected from classifier depending on standard calculations of mean, variance, linear fit and decision trees. Those calculation are linear in the number of instances. For the remaining classifiers SVC-rbf and the kNN variants the algorithms show a non linear trend. For the kNN classifier this is due to the prediction using a kdTree or ball tree which needs longer linear time for construction and searching. For SVC-rbf the implementation estimates a quadratic time complexity for the number of samples. 
+Comparing the lines visible in figure \ref{fig:Instances} with the actually slope in figure \ref{fig:InstancesPredSlope} the classifiers GradientBoostingClassifier, RandomForestClassifier, AdaBoost, SGDClassifier, BernoulliNB and GaussianNB have a near linear ascension. Expect for the bump in duration around 50 $\%$ is the duration increase stable for these classifiers. This is also expected from classifier depending on standard calculations of mean, variance, linear fit and decision trees. Those calculation are linear in the number of instances. For the remaining classifiers SVC-rbf and the kNN variants the algorithms show a non linear trend. For the kNN classifier this is due to the prediction using a kdTree or ball tree which needs longer linear time for construction and searching. For SVC-rbf the implementation estimates a quadratic time complexity for the number of samples. 
 
-The averaged result can be easily captured with a linear fit with taking the log of the duration and instances. In figure \ref{fig:Instances} the predictions lines for most classifiers, line up with the actually results. Together with the slope seen in figure \ref{fig:InstancesPredSlope} this seems reasonable. However this is the average result on around 80 datasets. Can we actually predict for a single dataset the duration it takes for classification and predicting. The result is shown in figure \ref{fig:InstancesPred} as the dotted line, that line clearly does not line up with the averaged result. Visisble in the appendix in chapter \ref{InstancesApp} the duration lines per datasets are less linear than the averaged result. The prediction is made by adding some additional information to a Kernel Ridge regression algorithm namely the number of categorical, numerical and total features, the number of instances and the number of classes in the target feature. These are chosen based on the configuration of the chosen classifiers and early results of duration experiments. 
+The averaged result can be easily captured with a linear fit with taking the log of the duration and instances. In figure \ref{fig:Instances} the predictions lines for most classifiers, line up with the actually results. Together with the slope seen in figure \ref{fig:InstancesPredSlope} this seems reasonable. However this is the average result on around 80 datasets. Can we actually predict for a single dataset the duration it takes for classification and predicting. The result is shown in figure \ref{fig:InstancesPred} as the dotted line, that line clearly does not line up with the averaged result. Visible in the appendix in chapter \ref{InstancesApp} the duration lines per datasets are less linear than the averaged result. The prediction is made by adding some additional information to a Kernel Ridge regression algorithm namely the number of categorical, numerical and total features, the number of instances and the number of classes in the target feature. These are chosen based on the configuration of the chosen classifiers and early results of duration experiments. 
 
 \begin{figure}[H]
 	\centering	
@@ -827,7 +823,7 @@ We consider here random, duplicate and redundant duplicate features as they are 
 
 \textbf{RandomForestClassifier} RandomForestClassifier is robust against default duplicate features with even gaining slightly better accuracy in both numerical and categorical datasets. The decrease in accuracy with adding redundant duplicate features is one of the hardest. As seen in chapter \ref{chapter312} RandomForestClassifier gives these added duplicate features less than its share of the dataset importance. The redundant duplciate feature have slightly more importance than the random numerical features and the result is far more decrease of accuracy for the redundant duplicate features. RandomForestClassifier is a ensemble method and therefor the performance does not drop dramatically on some redundant features but with a larger share the impact becomes more devastating.\\
 
-\textbf{KNeighborsClassifier} The kNN classifier the robustness against duplciate feature is good for the default setting but for the 1NN there is more variance of performance for the categorical datasets. Adding the redundant features the kNN classifier is not so robust and the accuracy drops quickly. Against the random features the most impact can be seen when introducing the features. Upon introducing of the random categorical features the accuracy drops hard 30 $\%$ accuracy. For the numerical random features this is less but in comparison it is one of the largest drops in accuracy. This is due the numbers associated with these random features. For the categorical features with k=100 the absolute difference between features become larger than with the default classes which are incremental categories. With a class feature value in the training set of 10 and a similar class with feature value 90 the absolute difference is large between features. Without preprocessing the kNN has no robustness against these irrelevant features. \\
+\textbf{KNeighborsClassifier} The kNN classifier the robustness against duplicate feature is good for the default setting but for the 1NN there is more variance of performance for the categorical datasets. Adding the redundant features the kNN classifier is not so robust and the accuracy drops quickly. Against the random features the most impact can be seen when introducing the features. Upon introducing of the random categorical features the accuracy drops hard 30 $\%$ accuracy. For the numerical random features this is less but in comparison it is one of the largest drops in accuracy. This is due the numbers associated with these random features. For the categorical features with k=100 the absolute difference between features become larger than with the default classes which are incremental categories. With a class feature value in the training set of 10 and a similar class with feature value 90 the absolute difference is large between features. Without preprocessing the kNN has no robustness against these irrelevant features. \\
 
 \textbf{SGDClassifier} SGDClassifier is robust against duplicates with the random nature of the classifier. With added duplicates with numerical datasets the classifiers fluctuates a lot. With a doubled feature size the accuracy goes up a few percentages in accuracy. For categorical datasets the performance is less positive. Mostly for adding random categorical features the accuracy drops harshly. This is mostly because the SGDClassifier cannot handle categorical data nicely without preprocessing. The increase in number of classes and so more value variation makes is harder to use those features. The robustness for numerical datasets is stronger with average robustness for redundant duplicate features.  \\
 
@@ -835,11 +831,11 @@ We consider here random, duplicate and redundant duplicate features as they are 
 
 \textbf{SVC-rbf} The robustness of SVC-rbf against duplicate features is similar to most classifiers. The lack of robustness against categorical datasets is mostly with the impact of these features. SVC-rbf builds on all features the decision surface and with these features being irrelevant the SVC has a harder time to correctly classify. Similar behavior can be seen with the introduction of categorical random features. There are not misleading like redundant duplicate features but with the variation of 100 classes the SVC will fail to make a good decision surface without tuning of the C parameter to simplify the decision surface. There is more robustness for SVC with numerical random features. Handling of numerical redundant duplicate features is also not the strong suit of SVC but with a low accuracy the SVC is already under fitted on the data.  \\
 
-\textbf{GaussianNB} GaussianNB is one of the only once to lose some accuracy with duplicate categorical features. With the added features the likelihood function has a decreased performance. The dependance on all the feature is also visible with the redundant feature addition for both categorical and numerical datasets the performance drops significantly with the introduction. The classifier depends on all features to fall in the distribution with a mean and variance and the added features fall outside these values and accuracy drops. For random categorical features the GaussianNB is even the most robust with an increase in accuracy with the introduction. For numerical the accuracy stays the same. This is by virtue of the random features having a clear structure of uniform randomness which the classifiers gives no importance to in classification accuracy.   \\
+\textbf{GaussianNB} GaussianNB is one of the only once to lose some accuracy with duplicate categorical features. With the added features the likelihood function has a decreased performance. The dependence on all the feature is also visible with the redundant feature addition for both categorical and numerical datasets the performance drops significantly with the introduction. The classifier depends on all features to fall in the distribution with a mean and variance and the added features fall outside these values and accuracy drops. For random categorical features the GaussianNB is even the most robust with an increase in accuracy with the introduction. For numerical the accuracy stays the same. This is by virtue of the random features having a clear structure of uniform randomness which the classifiers gives no importance to in classification accuracy.   \\
 
-\textbf{BernoulliNB} Similair to GaussianNB does BernoulliNB lose accuracy with introduction of duplicate features. As a trait of a Naïve Bayes classifier all features are given some importance and these duplicate feature have equal perfomance as the original features. As this is mostly categorical datasets  the binarization of these feature decreases the accuracy. The redundant duplicate feature addition to the dataset decreases the accuracy only slightly as seen with the introduction of duplicates the accuracy can decrease with more irrelevant features. The decrease of accuracy of the BernoulliNB is the lowest which indicates that the classifier has hardly classified correctly because of under fitting. The result is that the accuracy drops only because it depends on all features useful for prediction calculated during fitting. The addition of random feature has a similar effect as on GaussianNB namely no effect. \\
+\textbf{BernoulliNB} Similar to GaussianNB does BernoulliNB lose accuracy with introduction of duplicate features. As a trait of a Naïve Bayes classifier all features are given some importance and these duplicate feature have equal performance as the original features. As this is mostly categorical datasets  the binarization of these feature decreases the accuracy. The redundant duplicate feature addition to the dataset decreases the accuracy only slightly as seen with the introduction of duplicates the accuracy can decrease with more irrelevant features. The decrease of accuracy of the BernoulliNB is the lowest which indicates that the classifier has hardly classified correctly because of under fitting. The result is that the accuracy drops only because it depends on all features useful for prediction calculated during fitting. The addition of random feature has a similar effect as on GaussianNB namely no effect. \\
 
-\textbf{GradientBoostingClassifier} The effect of duplicate features has a similar story to both AdaBoost and RandomForestClassifier in other words no effect. The decision trees handle the duplicate features as a bit less important than the original dataset(figure {fig:FIGBC}). This explains a less decrease in accuracy compared to the RandomForestClassifier, the classifier is less fitted to those added features and so more robust. For the random features the same is true, as it shows better performance over the RandomForestClassifier. \\
+\textbf{GradientBoostingClassifier} The effect of duplicate features has a similar story to both AdaBoost and RandomForestClassifier in other words no effect. The decision trees handle the duplicate features as a bit less important than the original dataset(figure \ref{fig:FIGBC}). This explains a less decrease in accuracy compared to the RandomForestClassifier, the classifier is less fitted to those added features and so more robust. For the random features the same is true, as it shows better performance over the RandomForestClassifier. \\
 
 \begin{table}[h]
 	\centering
@@ -879,21 +875,21 @@ Randomly removing features, based on least importance or based on most correlati
 	\label{fig:Rem}
 \end{figure}
 
-\textbf{RandomForestClassifier} The predictive accuracy of RandomForestClassifier has a normal behavior considering we are randomly removing features, the accuracy gradually declines. For the features removed by least importance the accuracy stays nearly the same there is little gain of removing the features, so RandomForestClassifier had no problem classifying before. Removing features based on most correlation has a similair effect as randomly removing. \\
+\textbf{RandomForestClassifier} The predictive accuracy of RandomForestClassifier has a normal behavior considering we are randomly removing features, the accuracy gradually declines. For the features removed by least importance the accuracy stays nearly the same there is little gain of removing the features, so RandomForestClassifier had no problem classifying before. Removing features based on most correlation has a similar effect as randomly removing. \\
 
 \textbf{KNeighborsClassifier}  The predictive accuracy of the kNN classifiers has a steady flow with the first 50 $\%$ features removed randomly as the accuracy stays nearly equal and the drop off in accuracy is from then on. For the features removed by least importance a similar pattern is visible but with a lite increase in accuracy for the default and a bump for the 1NN version. The decrease in accuracy is also less for the final drop off. This is mostly due to the nature of the kNN of distance between points, the RandomForestClassifier finds importance in the features and so these points distinguish for the classifier what will influence which target it will be. The correlation removing has a bad effect on the accuracy as it goes down hill similar to random features.  \\
 
 \textbf{SGDClassifier} The SGDClassifier has a strange behavior off accuracy as the highest accuracy is attained with either 10 $\%$ or 5 $\%$ randomly removed features. This is most likely the result of removing a random feature that fitted less in the linear regression or a split off the data that was better considering the accuracy only changed a percentage. The importance of features matter less for fitting a SGDClassifier as now the increase in accuracy noticeable at 50 $\%$ features randomly removed is gone. This means that the important features are not likely to fit an SGDClassifier. Removing by most correlation has more effect on the accuracy as with only 50 $\%$ of the features left the highest accuracy is measured, matching the previous highest of removing by least importance. The accuracy in that experiment has also more variance as there is no clear straight line of decline or decrease but a fluctuation of the result.   \\
 
-\textbf{AdaBoost} The accuracy of adaBoost remains rather robust on randomly removed features. With the focus on outliers the remaining dataset is a good example of the strength of AdaBoost even without configuration. Similair behavior is found with removing the least important features, the accuracy stays nearly the same overall. Removing the most correlated features gives a more gradual decline of each step losing some accuracy.   \\
+\textbf{AdaBoost} The accuracy of adaBoost remains rather robust on randomly removed features. With the focus on outliers the remaining dataset is a good example of the strength of AdaBoost even without configuration. Similar behavior is found with removing the least important features, the accuracy stays nearly the same overall. Removing the most correlated features gives a more gradual decline of each step losing some accuracy.   \\
 
-\textbf{SVC-rbf} The accuracy of the SVC-rbf classifier has a steady pattern over all the methods of removing features. The only noticable difference is even a slight increase in accuracy for the smallest set made by randomly removing. This means that the feature remaining still have a lot of information in them and that nearly no features were hindering the accuracy of SVC-rbf for theses datasets. The accuracy gain of most features in those dataset is nearly equal for a default SVC-rbf.   \\
+\textbf{SVC-rbf} The accuracy of the SVC-rbf classifier has a steady pattern over all the methods of removing features. The only noticeable difference is even a slight increase in accuracy for the smallest set made by randomly removing. This means that the feature remaining still have a lot of information in them and that nearly no features were hindering the accuracy of SVC-rbf for theses datasets. The accuracy gain of most features in those dataset is nearly equal for a default SVC-rbf.   \\
 
-\textbf{GaussianNB} The accuracy of the GaussianNB classifier shows interseting behavior of fluctuating between improving or deteriorating for randomly removed features. This means that similair for SVC-rbf that most features have an similair impact for GaussianNB, when looking at them randomly. Only when looking at the feature removed by least importance there is a steady increase in accuracy by removing more features. This explains that there due exist more fitting features for the GaussianNB in these datasets. For the most correlated removed features a steady decline is seen. Which shows that those feature that are somewhat correlated may be the most important features in comparison for GaussianNB. \\
+\textbf{GaussianNB} The accuracy of the GaussianNB classifier shows interesting behavior of fluctuating between improving or deteriorating for randomly removed features. This means that similar for SVC-rbf that most features have an similar impact for GaussianNB, when looking at them randomly. Only when looking at the feature removed by least importance there is a steady increase in accuracy by removing more features. This explains that there due exist more fitting features for the GaussianNB in these datasets. For the most correlated removed features a steady decline is seen. Which shows that those feature that are somewhat correlated may be the most important features in comparison for GaussianNB. \\
 
 \textbf{BernoulliNB} The most interesting behavior of the accuracy can be seen with the BernoulliNB as with all feature removing methods give an increase in accuracy. Least feature importance removing only by a slight margin gaining the best result. This means that the binarization and fitting to the Bernoulli distribution can be best realized with only the most important features of a dataset. For this classifier most features are an obstacle for performance. \\
 
-\textbf{GradientBoostingClassifier} GradientBoostingCLassifier shows a similair pattern as the RandomForestClassifier in all cases showing their similarity. The default accuracy is only slightly higher of the GradientBoostingClassifier compared to the RandomForestClassifier. \\
+\textbf{GradientBoostingClassifier} GradientBoostingCLassifier shows a similar pattern as the RandomForestClassifier in all cases showing their similarity. The default accuracy is only slightly higher of the GradientBoostingClassifier compared to the RandomForestClassifier. \\
 
 
 \newpage
@@ -944,7 +940,7 @@ Datasets in these experiments get increasingly more random by injecting the feat
 
 \newpage
 \subsection{Bias variance}
-In figure \ref{fig:BiasScaling} the bias percentage is given against the instance percentage of a dataset. The averaged dataset has 3186 instances and 160 features.
+In figure \ref{fig:BiasScaling} the bias percentage is given against the instance percentage of a dataset. The averaged dataset has 3186 instances and 160 features. In figure \ref{fig:BiasAcc} the accuracy of the same experiments as figure \ref{fig:BiasScaling} can be seen. The result of these bias variance experiments indicate little of a repeat of previous work. The most prominent reason is the less number of instances considered. This means the results are the comparable to the varying bias percentages in the below 10000 instances case. The only clear results are the high bias percentages of SVC-rbf, GaussianNB and BernoulliNB, the low bias of the SGDClassifier and the increase in bias of AdaBoost and GradientBoostingClassifier. The high bias percentage overlap with previous results and the other results are not yet researched. 
 
 
 
@@ -980,30 +976,22 @@ In figure \ref{fig:BiasScaling} the bias percentage is given against the instanc
 \section{Conclusion and discussion} \label{Chapter5}
 
 \subsection{Discussion}
-
+This section discusses mistakes, opportunities and pitfalls.
 \subsubsection{Missed opportunities}
-Within saving as many information obtainable from the algorithms a missed opportunity is the probability prediction of all the test sets when a classifier uses probability to predict. 
-
-Another missed collected data is the prediction of the training data. This data might not give a good indication of predictive accuracy but can give some valuable information of overfitting on the input data. This can be calculated as a difference in prediction results of the training and test set. For some classifiers this holds more than others. For example SGDClassifier which fits the inputted data as differentiable functions. Opposed to KNeighborsClassifier which will look up all the inputted data for neighbors which will match the training data for prediction. 
+More options exist to save more data of the executed experiments. The first missing data is probability predictions. These predictions come from some of the classifiers which work with predicting based on the highest probability. This means that for each instance the probability it is a certain target class is calculated. The second missed opportunity of collected data is the prediction of the training data. This data might not give a good indication of predictive accuracy but can give some valuable information of overfitting on the input data. This can be calculated as a difference in prediction results of the training and test set. For some classifiers this holds more than others. For example SGDClassifier which fits the inputted data as differentiable functions. Opposed to 1NN which will look up all the inputted data for neighbors which will match the training data for prediction. 
 
 \subsubsection{Duration}
-For the duration pictures some results are removed as they do not fall in line with the other results at all. By using the standard of the clean dataset which is calculated with each run we throw out any results changing more than 5$\%$ from another average.
-The reason for these differences in duration is because of multiple used systems and other processes running during computation. 
+For the duration pictures some results are removed as they do not fall in line with the other results at all. By using the standard of the clean dataset which is calculated with each run we throw out any results changing more than 5$\%$ from another average. One of the reason for these differences in duration is because of multiple used processing systems and other processes running during computation. These other process or the experiments themselves maxed out the cpu or memory of the systems and so interrupting the experiments.
 
 \subsubsection{Bias Variance}
-The datasets used by Jaoquin in \cite{Bias-var} were UCI datasets, some of these are also published on the Openml under the dataset ids (1370-1377)
+The datasets used by Jaoquin in \cite{Bias-var} were UCI datasets, some of these are also published on Openml under the dataset ids (1369-1377). These are artificially created to have datasets with a large number of instances. The 
 
 
 \subsubsection{different approach}
-Instead of measuring the influence of standard deviation, we tried to add standard values to all features, the problem with that is features have different deviation and some classifiers prefer a zero mean. The results were similar to injection std but more abrupt. Just changing(moving/word) all features for some datasets mend a drop in accuracy but the continuation of upping the number mend little to change accuracy further.
+Instead of measuring the influence of standard deviation, we tried to add standard values to all features, the problem with that is features have different deviation and some classifiers prefer a zero mean. The results were similar to injection std but more abrupt. Changing all features for some datasets meant a drop in accuracy but the continuation of upping the number meant little to change accuracy further. In figure \ref{fig:predFlat} the predictive accuracy of adding some flat amount to the features is shown. The resulting accuracy of most classifiers drops significantly in case of the addition the only classifiers with a steady accuracy is AdaBoost. The steady line of accuracy for AdaBoost is because of the focus AdaBoost has on misclassification. The sample size of this experiment is too small to further assess the failing results of the other classifiers.  
 
 
-
-
-
-
-
- \subsection{Conclusion}
+\subsection{Conclusion}
 To answer the research from the results of the experiments, a ranking is chosen. The different classifiers are compared to each other in this way to give some indication of the impact.
 These rankings can be compared to results from a review from 2007 of classification techniques \cite{RevClass}
 The result will be a ranking of classifiers on different scales shown in figure \ref{fig:table}
@@ -1027,7 +1015,9 @@ The impact of irrelevant features or redundant features for predictive accuracy 
 
 The impact of noisy data for predictive accuracy is similar for most classifier as a reduction in accuracy. Classifiers of the Naive Bayes variant GaussianNB and BernoulliNB are not resilient against the numerical noise, they depend on close to categorical translation. Classifiers kNN and SVC-rbf are most resilient, with SVC-rbf being only resilient for a single std. The close runner up in robustness against noisy data are classifiers AdaBoost and SGDClassifier with some more resilience than most others. The classifiers kNN, SVC-rbf and SGDClassifier do benefit from some preprocessing on the data to better reflect their impact. Lastly the classifiers RandomForestClassifier and GradientBoostingClassifier are left as being not very robust to the noise but more than the Naive bayes's classifiers. 
 
-The bias error is high for all classifiers this is mostly due to a low variance error. The naive bayes, GaussianNB and BernoulliNB and SVC-rbf do take the throne for most biased solutions. The results from these classifier is to be expected as their focus is a generalization of the dataset to fit their solution. The least biased solutions SGDClassifier and RandomForestClassifier gain their lack of bayes by being depended on randomness for classification. The other classifiers like GradientBoostingClassifier and AdaBoost show already a large increase in bias based on an increase in the dataset, matching previous results. 
+The percentage of bias error for each classifiers can be read from figure \ref{fig:BiasScaling} however, these results are not on a large enough scale to give conclusive evidence this is ranking between the algorithms.
+
+In total these results illustrate the 'no-free-lunch' theorem as no classifier has the best quantitative properties of all the classifiers. The easy algorithms of Naive bayes, BernoulliNB and GaussianNB are the most scalable together with the SGDClassifier. kNN is most robust against noisy numerical features and the Naive bayes are also most robust against added random features. In perspective this robustness of the Naive bayes classifiers may not be worth that much as their predictive accuracy is nearly always out shined by classifiers like RandomForestClassifier or GradientBoostingClassifier.
 
 
 
@@ -1035,17 +1025,17 @@ The bias error is high for all classifiers this is mostly due to a low variance 
 
 
 %\subsection{Conclusion}
-As recommendation the RandomForestClassifier is a strong pick for most problems with little tuning. Within a sort duration a strong result can be noticed. A direct improvement when robustness is needed, the GradientBoostingClassifier scores equal to the RandomForestClassifier with more robustness for adding features. If a dataset is more likely to get noise in the features GradientBoostingClassifier is a worse choice. The most robustness against adding irrelevant features is found in the BernoulliNB while also being one of the fastest classification and prediction. The downsize of BernoulliNB is that the input must be close to the Bernoulli distribution to achieve any competing accuracy. For noise in numerical features kNN is the best option and with some preprocessing the classifier outshines all others. 
+
 
 
 
 \subsection{Future work}
 %\subsubsection{More computation}
-Adding more experimental runs to this topic can further solidify the results, break the result or alter only slightly the results. As benchmark datasets have a hard time to be a universal standard for testing. The results of a golden standard benchmark may also limit results because of the no free lunch theorem
+Adding more experimental runs to most of the experiments can give way to more broader conclusions of the results. As benchmark datasets have a hard time to be a universal standard for testing. The results of a universal standard benchmark may also limit results because of the no free lunch theorem. This may result in an average result of shared robustness.
 
-A source of attention can be the use of that only datasets available on Openml are used. Openml has a certain community and the datasets available on Openml may not translate to other areas of interest. Another party to consider then is a platform like Kaggle which share a lot of datasets already but the commercial side to Kaggle may be more of a counterpart to Openml. 
+A source of attention can be the use of only datasets that are available on Openml are being used for this research. Openml has a certain community and the datasets available on Openml may not translate to other areas of interest. Another party to consider then is a platform like Kaggle which share a lot of datasets already but the commercial side to Kaggle may be more of a counterpart to the research nature of Openml. 
 
-A partly solution for the previous mentioned problem of datasets is the splitting of datasets in certain categories. In this thesis there was a split for categorical and numerical features possible by the classification in Openml of all inputted features. Different splitting of dataset can be done in categories like sparse/dense or cleaned and uncleaned. Further distinguishing in categorical and numerical features the different values of discrete, continuous or ordinal values. Each can need different preprocessing steps for different classifiers. 
+A partly solution for the previous mentioned problem of datasets is the splitting of datasets in certain categories. In this thesis there was for some cases a split for categorical and numerical features possible by the classification in Openml of all inputted features. Different splitting of dataset can be done in categories like sparse/dense or cleaned and uncleaned. Further distinguishing in categorical and numerical features the different values of discrete, continuous or ordinal values. Each can need different preprocessing steps for different classifiers. 
 
 
 
@@ -1055,48 +1045,42 @@ A partly solution for the previous mentioned problem of datasets is the splittin
 \section{References}
 \begingroup
 \begin{thebibliography}{9}
-\bibitem{Data-science} The Popularity of Data Science Software, Robert A. Muenchen, r4stats.com, (2017)
-\bibitem{python-pop} Most Popular Programming Languages For Machine Learning And Data Science,Adarsh Verma, fossbytes.com, (2016)
-\bibitem{ML-trends} 
-Machine learning: Trends, perspectives, and prospects, M. I. Jordan, T. M. Mitchell, Science Volume 349 issue 6245 pages 255-260, (2015)
-\bibitem{Big-data} Storage predictions: Will the explosion of data in 2017 be repeated in 2018?, Nick Ismail, www.information-age.com/, (2017)
-\bibitem{Joaquin-phd} Understanding Machine Learning Performance with experiment databases, Joaquin Vanschoren, KU Leuven, (2010)
+\bibitem{KNN} Nearest neighbor pattern classification, T. Coverm P. Hart, IEEE Transaction on Information Theory 13:21-27,(1967)
+\bibitem{Sam-var}Updating Formulae and a Pairwise Algorithm for Computing Sample Variances Tony F. Chan* Gene H. Golub’* Randall J. LeVeque, Stanford CS tech report STAN-CS-79-773(1979)
+\bibitem{Noise} Instance-based learning algorithms, Aha, David W., D. Kibler, Marc K., Machine learning 6:1 pages 37-66, (1991)
+\bibitem{KNN-Sym} A Weighted Nearest Neighbor Algorithm for Learning with symbolic features, S. Cost, S. Salzberg, Machine Learning Volume 10, number 1 pages 57-78, (1993)
+\bibitem{Cross} A study of cross-validation and bootstrap for accuracy estimation and model selection, R. Kohavi, (1995)
+\bibitem{RDF} Random Decision Forests, Tin Kam Ho, Proceedings of the 3rd Iternational Conference on Document analysis and recognition (1995)
+\bibitem{SVN} Support-Vector networks, Cortes, Corinna, Vapnik, Vladimir, Machine Learning Volume 20 issue 3 (1995)
+\bibitem{BiasCalc} Bias plus variance decomposition for zero-one loss functions,R. Kohavi, D. Wolpert, Proceedings of the international conference on machine learning pages 275-283,(1996)
+\bibitem{Red-Bias} On the optimality of the simple Bayesian classifier under zero-one loss,P. Domingos, M. Pazzani, Machine learning 29 2-3 pages 103-130, (1997)
+\bibitem{redundant} A review and empirical evolutions of feature weighting methods for a class of lazy learning algorithms, Wettschereck, D. Aha, T. Mohri, Artificial Inteligence Review 11(1-5) pages 273-314, (1997)
+\bibitem{No-Free-Lunch} No free lunch theorems for optimization, D.H. Wolpert, W.G. Macready, IEEE Transactions on Evolutionary Computation Volume 1 Issue 1, (1997)
+\bibitem{NB-text} A Comparison of event models for naïve Bayes text classification, Andrew McCallum, Kamal Nigam, AAAI-98 workshops on learning for text categorization (1998)
+\bibitem{AdaBoost} A short introduction to Boosting, Yoav Freund, Robert E. Shapire, Journal of Japanse Society for artificial Intelligence 14(5):771-780 (1999)
 \bibitem{Resil-1} Quantifying the resilience of inductive classification algorithms, M. Hilario, A. Kalousis, 
 Proceedings of the 4th European Conference on Principles of data mining and knowledge discovery, pages 106-115, (2000)
-\bibitem{Sam-var}Updating Formulae and a Pairwise Algorithm for Computing Sample Variances Tony F. Chan* Gene H. Golub’* Randall J. LeVeque, Stanford CS tech report STAN-CS-79-773(1979)
-\bibitem{SVM}LIBSVM: A library for support vector machines, Chang, Chih-Chung, Lin, Chih-Jen, ACM Transactions on Intelligent Systems and Technology (2011)
-\bibitem{Multi-pair-coup} Probability estimates for multi-class classification by pairwise coupling, Wu, Lin, Weng, Journal of Machine Learning Research 5 (2004)
-\bibitem{SVN} Support-Vector networks, Cortes, Corinna, Vapnik, Vladimir, Machine Learning Volume 20 issue 3 (1995)
-\bibitem{Bayes} Idiot’s Bayes—Not So Stupid After All?, David J. Hand, Keming Yu, International Statistical Review Volume 69 Number 3(2001)
-\bibitem{NB-text} A Comparison of event models for naïve Bayes text classification, Andrew McCallum, Kamal Nigam, AAAI-98 workshops on learning for text categorization (1998)
-\bibitem{KNN-k} Investigating the performance of Naive-bayes classifiers and k-nearest neighbor classifiers, M. J. Islam, Q. M. J. Wu, M. Ahmadi and M. A. Sid-Ahmed, International conference on convergence information technology(ICCIT) Gyeongju pages 1541-1546,(2007)
-\bibitem{RDF} Random Decision Forests, Tin Kam Ho, Proceedings of the 3rd Iternational Conference on Document analysis and recognition (1995)
-\bibitem{AdaBoost} A short introduction to Boosting, Yoav Freund, Robert E. Shapire, Journal of Japanse Society for artificial Intelligence 14(5):771-780 (1999)
-\bibitem{MadaB} Multi-class AdaBoost, J. Zhu, S. Rosset, H. Zou, T. Hastie, Statistics and its Interface volume 2, pages 349-360 (2009)
-\bibitem{SGDClass} Solving Large Scale Linear Prediction problems using stochastic gradient descent algorithms, T. Zhang, ICML Proceedings of the 21 International conference on machine learning (2004)
-\bibitem{GradientBoost} Stochastic Gradient Boosting, J. H. Friedman,  Computational Statistics \& Data analysis – Nonlinear methods and data mining volume 38 issue 4 pages 367-378,(2002)
 \bibitem{Greedy-GBC} Greedy function approximation: A gradient boosting machine, J. H. Friedman, The annals of statistics volume 29 issue 5, pages 1189-1232,(2001)
-\bibitem{Bias-var} Experiment databases, J. Vanschoren, H. Blockeel, B. Pfahringer, G. Holmes, Machine Learning Volume 82 issue 2 pages 127-158, (2012)
-\bibitem{BiasCalc} Bias plus variance decomposition for zero-one loss functions,R. Kohavi, D. Wolpert, Proceedings of the international conference on machine learning pages 275-283,(1996)
-\bibitem{RevClass} Supervised Machine Learning: A review of classification techniques, S.B. Kotsiantis, Informatica 31, (2007)
-\bibitem{ranking} Pairwise meta-rules for better meta-learning-based algorithm ranking, Quan Sun, Bernhard Pfahringer, Machine Learning Volume 93 Issue 1 pages 141-161,(2013)
-\bibitem{Sklearn-Bench} Scikit-learn: Machine Learning in python, F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion et al. Journal of Machine Learning Research 12, (2011)
-\bibitem{No-Free-Lunch} No free lunch theorems for optimization, D.H. Wolpert, W.G. Macready, IEEE Transactions on Evolutionary Computation Volume 1 Issue 1, (1997)
-\bibitem{KNN-Sym} A Weighted Nearest Neighbor Algorithm for Learning with symbolic features, S. Cost, S. Salzberg, Machine Learning Volume 10, number 1 pages 57-78, (1993)
+\bibitem{Bayes} Idiot’s Bayes—Not So Stupid After All?, David J. Hand, Keming Yu, International Statistical Review Volume 69 Number 3(2001)
+\bibitem{GradientBoost} Stochastic Gradient Boosting, J. H. Friedman,  Computational Statistics \& Data analysis – Nonlinear methods and data mining volume 38 issue 4 pages 367-378,(2002)
 \bibitem{SVM-sym} A practical guide to support vector classification, Chih-wei Hsu, Chich-Chung Chang, Chich-Jen Lin, 101. 1396-1400, (2003)
-\bibitem{Cross} A study of cross-validation and bootstrap for accuracy estimation and model selection, R. Kohavi, (1995)
-\bibitem{KNN} Nearest neighbor pattern classification, T. Coverm P. Hart, IEEE Transaction on Information Theory 13:21-27,(1967)
-\bibitem{scikit-learn} Choosing the right estimator, l,Scikit-learn, Retrieved from http://scikit-learn.org/stable/tutorial/machine$\_$learning$\_$map/index.htm on 28th March 2018.
-\bibitem{Noise} Instance-based learning algorithms, Aha, David W., D. Kibler, Marc K., Machine learning 6:1 pages 37-66
-\bibitem{Red-Bias} On the optimality of the simple Bayesian classifier under zero-one loss,P. Domingos, M. Pazzani, Machine learning 29 2-3 pages 103-130, (1997)
-\bibitem{redundant} A review and emperical evalutions of feature weighting methods for a class of lazy learning algorithms, Wettschereck, D. Aha, T. Mohri, Artificial Inteligence Review 11(1-5) pages 273-314, (1997)
-\bibitem{hyperpara} An emperical study of hyperparameter importance across datasets, Jan van Rijn, Frank Hutter, Proc. of AutoML (2017): 97-104.
+\bibitem{Multi-pair-coup} Probability estimates for multi-class classification by pairwise coupling, Wu, Lin, Weng, Journal of Machine Learning Research 5 (2004)
+\bibitem{SGDClass} Solving Large Scale Linear Prediction problems using stochastic gradient descent algorithms, T. Zhang, ICML Proceedings of the 21 International conference on machine learning (2004)
+\bibitem{RevClass} Supervised Machine Learning: A review of classification techniques, S.B. Kotsiantis, Informatica 31, (2007)
+\bibitem{KNN-k} Investigating the performance of Naive-bayes classifiers and k-nearest neighbor classifiers, M. J. Islam, Q. M. J. Wu, M. Ahmadi and M. A. Sid-Ahmed, International conference on convergence information technology(ICCIT) Gyeongju pages 1541-1546,(2007)
+\bibitem{MadaB} Multi-class AdaBoost, J. Zhu, S. Rosset, H. Zou, T. Hastie, Statistics and its Interface volume 2, pages 349-360 (2009)
+\bibitem{Joaquin-phd} Understanding Machine Learning Performance with experiment databases, Joaquin Vanschoren, KU Leuven, (2010)
+\bibitem{Sklearn-Bench} Scikit-learn: Machine Learning in python, F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion et al. Journal of Machine Learning Research 12, (2011)
+\bibitem{SVM}LIBSVM: A library for support vector machines, Chang, Chih-Chung, Lin, Chih-Jen, ACM Transactions on Intelligent Systems and Technology (2011)
 
-
-
-
-
- 
+\bibitem{Bias-var} Experiment databases, J. Vanschoren, H. Blockeel, B. Pfahringer, G. Holmes, Machine Learning Volume 82 issue 2 pages 127-158, (2012)
+\bibitem{ranking} Pairwise meta-rules for better meta-learning-based algorithm ranking, Quan Sun, Bernhard Pfahringer, Machine Learning Volume 93 Issue 1 pages 141-161,(2013)
+\bibitem{ML-trends} Machine learning: Trends, perspectives, and prospects, M. I. Jordan, T. M. Mitchell, Science Volume 349 issue 6245 pages 255-260, (2015)
+\bibitem{python-pop} Most Popular Programming Languages For Machine Learning And Data Science,Adarsh Verma, fossbytes.com, (2016)
+\bibitem{Data-science} The Popularity of Data Science Software, Robert A. Muenchen, r4stats.com, (2017)
+\bibitem{hyperpara} An empirical study of hyperparameter importance across datasets, Jan van Rijn, Frank Hutter, Proc. of AutoML : 97-104, (2017)
+\bibitem{Big-data} Storage predictions: Will the explosion of data in 2017 be repeated in 2018?, Nick Ismail, www.information-age.com/, (2017)
+\bibitem{scikit-learn} Choosing the right estimator, l,Scikit-learn, Retrieved from http://scikit-learn.org/stable/tutorial/machine$\_$learning$\_$map/index.htm on 28th March (2018)
      
 \end{thebibliography}
 \endgroup
@@ -1105,18 +1089,23 @@ Proceedings of the 4th European Conference on Principles of data mining and know
 \subsection{Datasets}
 \subsubsection{Datasets per figure}
 openml dataset identifiers per figure \\
-figure \ref{fig:predFlat} - 10,12,18 \\
-figure \ref{fig:FailDurMan} - 1038,1043,1049,1050,1176,12,1466,1468,1475,1476,1478,1479,1485,1487,1491,1492,1493,1494,14,1501,1504,1510,1515,16,22,28,300,40499,40,4134,44,4538,458 \\
-figure \ref{fig:FeatManLog} - 22, 1176, 4134, 1063, 1067, 1068, 44, 53, 4538, 458 \\
-figure \ref{fig:FeatRem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
-figure \ref{fig:predAddNum} - 11, 12, 1038,14, 16, 18, 1043, 1046, 22,1176, 1049, 1050, 28,30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499 , 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458,1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 1504, 1510, 1515, 375\\ 
-figure \ref{fig:predAddCat} - 20, 21, 26, 333, 334, 335, 40668, 4135, 4534, 469, 46, 50\\
-figure \ref{fig:Rem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
+
+figures \ref{fig:MMIs}, \ref{fig:AMMIdecay} , \ref{fig:FIC}, \ref{fig:FIDC}, \ref{fig:predAddCat}, \ref{fig:predCatFeat}, \ref{fig:predRedCatNum}  - 20, 21, 26, 333, 334, 335,40668, 4135, 4534, 469, 46, 50 \\
+figures \ref{fig:FIN},\ref{fig:FIDN}, \ref{fig:FIGBC}, \ref{fig:predAddNum}, \ref{fig:predNonCatFeat}, \ref{fig:predNonCatFeatPre} - 1038, 1043, 1046, 1049, 1050, 1063, 1067, 1068, 1176, 11, 12, 1459, 1462, 1464, 1466, 1467, 1468, 1475, 1476, 1478, 1479, 1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 14, 1501, 1504, 1510, 1515, 1570, 16, 18, 22, 28, 300, 30, 32, 36, 375, 37, 39, 40499, 40509, 40, 4134, 41, 44, 4538, 458, 53, 54 \\
+figures \ref{fig:ScalableAdded}, \ref{fig:ScalableAdded2}, \ref{fig:SADS}, \ref{fig:distrAdd} - 11, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 1176, 1049, 1050, 26, 28, 30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499, 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458, 1485, 333, 1487, 334, 1489, 335, 1491, 1492, 1493, 1494, 469, 1497, 1501, 1504, 1510, 1515, 375 \\
+figure \ref{fig:FeatManLog} and \ref{fig:SlopeDurMan}  - 22, 1176, 4134, 1063, 1067, 1068, 44, 53, 4538, 458 \\
 figure \ref{fig:Inst} - 6, 1036, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 23, 1049, 1050, 26, 28, 30, 32, 1570, 36, 4134, 4135, 1067, 1068, 44, 46, 40499, 60, 1120, 151, 1176, 182, 184, 40645, 40646, 40647, 40648, 40649, 40650, 40651, 40652, 40653, 40654, 40655, 40656, 40664, 40668, 40670, 40677, 40678, 40680, 40687, 40695, 40696, 40697, 40702, 40706, 300, 179000, 312, 375, 1459, 1461, 1462, 4534, 953, 1466, 4538, 1468, 959, 1475, 1476, 1478, 1479, 1485, 1486, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 991, 1504, 1505, 1022 \\
+figure \ref{fig:predAddCat} - 20, 21, 26, 333, 334, 335, 40668, 4135, 4534, 469, 46, 50\\
+figure \ref{fig:predAddNum} - 11, 12, 1038,14, 16, 18, 1043, 1046, 22,1176, 1049, 1050, 28,30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499 , 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458,1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 1504, 1510, 1515, 375\\ 
+figures \ref{fig:Rem}, \ref{fig:FeatRem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 figures \ref{fig:BiasAcc},\ref{fig:BiasScaling} - 1025, 1067, 1036, 1068, 1038, 1043, 1014, 1049, 1050, 1022 \\ 
-figures \ref{fig:Overfit} - 11, 12, 37, 54, 458, 1038, 1043
+figure \ref{fig:predFlat} - 10,12,18 \\
+figure \ref{fig:Overfit} - 11, 12, 37, 54, 458, 1038, 1043 \\
+figure \ref{fig:durNewest} - 40706, 6, 1036, 1038, 1043, 1046, 1176, 1049, 1050, 1570, 4134, 1063, 40, 1067, 1068, 44, 46, 53, 4534, 54, 953, 4538, 26, 60, 1489, 458, 40668, 40670, 478, 1120, 40677, 40680, 40686, 40687, 40702, 40695, 40696, 40697, 1022
+figure \ref{fig:FailDurMan} - 1038, 1043, 1049, 1050, 1176, 12, 1466, 1468, 1475, 1476, 1478, 1479, 1485, 1487, 1491, 1492, 1493, 1494, 14, 1501, 1504, 1510, 1515, 16, 22, 28, 300, 40499, 40, 4134, 44, 4538, 458 \\
+
 \subsubsection{Values}
-The number of features and instances for datasets
+In figure \ref{fig:distrAdd} the number of features and instances for datasets used in figure \ref{fig:ScalableAdded} is shown. This shows the large amount of datasets in the range before 2000 instances and the outliers in the feature dimension. The outliers in the feature dimension seem to have hundred times more features than most dataset. 
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
@@ -1128,14 +1117,15 @@ The number of features and instances for datasets
 
 
 \subsection{Different approach}
-In figure \ref{fig:Overfit} classifiers are optimized on their hyperparameters, based on the work of van Rijn and Hutter \cite{hyperpara}. The classifiers SVC-rbf, Adaboost and RandomForestClassifier were analyzed to find the most important hyperparameters to optimize on. In the work of Islam the importance k parameter in a kNN classifier is mentioned and so this value is tuned to increase accuracy\cite{KNN-k}. 
+In figure \ref{fig:Overfit} classifiers are optimized on their hyperparameters, based on the work of van Rijn and Hutter \cite{hyperpara}. The classifiers SVC-rbf, AdaBoost and RandomForestClassifier were analyzed to find the most important hyperparameters to optimize on. In the work of Islam the importance k parameter in a kNN classifier is mentioned and so this value is tuned to increase accuracy\cite{KNN-k}. 
+In figure \ref{fig:predRedCatNum} the same experiment as in figures \ref{fig:predCatRand}, \ref{fig:predCatReDup} is done but with instead of categorical random features we add numerical random features. The difference in result is mostly for the large losers in accuracy. The kNN, SVC-rbf and SGDClassifier lose nearly no accuracy, kNN even gains a little predictive accuracy with the added numerical features. 
 
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/appendix/predRedudantFeaturesCatNum.png}
-	\caption{adding or removing uniformly random std to numerical features for GaussianNB.}
+	\caption{adding numerical random features or redundnat duplicate features for a categorical dataset.}
 	\label{fig:predRedCatNum}
 \end{figure}
 
@@ -1158,15 +1148,11 @@ In figure \ref{fig:Overfit} classifiers are optimized on their hyperparameters, 
 \end{figure}
 \newpage
 \subsection{Duration variance}
-In this section duration examples are shown which show behaviour that should not happen.
-\begin{figure}[h] 
-	\centering
-	\includegraphics[
-	width=0.65\textwidth
-	]{images/appendix/DurAddOld.png}
-	\caption{Duration of the oldest version of adding random(dotted) or duplicate features(default)}
-	\label{fig:durOld}
-\end{figure}
+In this section duration examples are shown which show behavior that should not happen.
+In figure \ref{fig:durNewer} the duration against the percentage of features of the total dataset is shown. The problem in this figure is the lack of overlap between the zero points of 100 $\%$ percentage features. The classifiers AdaBoost, kNN and RandomForestClassifier have no overlap on that point. This means that the average duration does not match. The duration of added features is done in the same time frame as a run on the clean dataset. This means that all the results of these classifiers have a different duration multiplier. The reason for this can be a busy computer or false information. 
+In figure \ref{fig:durNewest} the duration against adding duplicate features or random features is shown. The results are not normal as no line is having similar behavior in previous work. Figure \ref{fig:SADR2} shows the expected behavior. The spike in duration for kNN cannot be weird coincidence of k features lining up to be zero distance from a point over multiple datasets. These odd duration values are because of a form of outside influence. In figure \ref{fig:failFixed} an even more extreme case of this is shown. In this case not even the average align giving an easier explanation of a difference in duration registration. 
+Lastly in figure \ref{fig:FailDurMan} a mismatch between two different sort of feature manipulation against duration is shown. The lines of feature removed from the dataset and feature added to the features do not algin for any example. This is a clear indication that there is a mismatch between the duration calculation of feature removing and feature addition. In figure \ref{fig:FeatManLog} the more expected behavior of the average duration is shown. The main difference between the two is that figure \ref{fig:FailDurMan} uses more datasets in the calculation. This may mean that the duration of a clean dataset is influenced by the duration of the manipulated dataset.
+
 
 \begin{figure}[h] 
 	\centering
@@ -1211,7 +1197,7 @@ In this section duration examples are shown which show behaviour that should not
 \subsection{Results per dataset per classifier}
 results for individual datasets grouped per classifier instead of averaged. 
 \subsubsection{Noisy data}
-injection of std into numerical datasets figure \ref{fig:predNonCatFeat}. 
+injection of std into numerical datasets done in figure \ref{fig:predNonCatFeat}. In figures \ref{fig:predNoisyFeaturesRF}, \ref{fig:predNoisyFeaturesKNN}, \ref{fig:predNoisyFeaturesSGD}, \ref{fig:predNoisyFeaturesADA}, \ref{fig:predNoisyFeaturesSVC}, \ref{fig:predNoisyFeaturesGNB}, \ref{fig:predNoisyFeaturesBNB}, \ref{fig:predNoisyFeaturesGBC} the individual results of each classifier is shown.
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
@@ -1288,7 +1274,8 @@ injection of std into numerical datasets figure \ref{fig:predNonCatFeat}.
 %insert tables
 \newpage
 \subsubsection{Instance duration}\label{InstancesApp}
-Percentage of instances remaing of a dataset duration per individual dataset reference to figure \ref{fig:Inst}
+Percentage of instances remaining of a dataset per individual dataset with the average result in figure \ref{fig:Inst}. In figures \ref{fig:InstRF}, \ref{fig:InstKNN}, \ref{fig:InstSGD}, \ref{fig:InstADA}, \ref{fig:InstSVC}, \ref{fig:InstGNB}, \ref{fig:InstBNB}, \ref{fig:InstGBC} the duration of cross validation in each individual dataset for each classifier.
+
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
