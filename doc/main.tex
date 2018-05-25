@@ -168,19 +168,19 @@ Machine learning is a growing field that can help process the increase of availa
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/FlowChartML.png}
-	\caption{FlowChart with the different machine learning algorithms in the sklearn library \ref{scikit-learn}}
+	\caption{FlowChart with the different machine learning algorithms in the sklearn library \cite{scikit-learn}}
 	\label{fig:FlowChart}
 \end{figure}
 %explain the need for automation and then the boost of information, I try to give.
 
 \subsection{Research question}
 In this research we focus on the classification group to give room to new algorithms
-This thesis focuses on the selection of algorithms in the classification group. The work of Joaquin introduces the properties for classifiers
+This thesis focuses on the selection of algorithms in the classification group. 
 % the proposed annotations
 We base our research question on the work of Joaquin to give properties to classifiers\cite{Joaquin-phd}. More specifically we look more closely to the resilience properties and the bias-variance profile. 
 Earlier research has been done on scalability and resilience to irrelevant variables\cite{Resil-1}
 
-The work of Joaquin describes that properties can be given to the classification group. This allow for earlier research to improve the algorithm choice of new research. Out of the quantitative properties given by Joaquin the resilience properties and the bias-variance are investigated. The resilience properties describes how an algorithm can learn from volatile data, while the bias-variance characterizes the errors taht are made by learning algorithms. Some features of these properties have been investigated over a decade ago. However new algorithms have become popular, which makes this thesis more relevant in today's worlds. 
+The work of Joaquin describes that properties can be given to the classification algorithms. This allow for earlier research to improve the algorithm choice of new research. Out of the quantitative properties given by Joaquin the resilience properties and the bias-variance are investigated. The resilience properties describe how an algorithm can learn from noisy, irrelevant or redundant data, while the bias-variance characterizes the errors that are made by learning algorithms. Some features of these properties have been investigated over a decade ago. However new algorithms have become popular, which makes this thesis more relevant in today's worlds. 
 
 Research questions have been formulated. These questions have been made to determine the properties of the research and to reflect on earlier work. 
 
@@ -191,10 +191,10 @@ Research questions have been formulated. These questions have been made to deter
 %\end{itemize}
 
 \begin{itemize}
-	\item What is the impact on runtime for the number of features for classifiers?
-	\item What is the impact on runtime for the number of instances for classifiers?
-	\item What is the impact on predictive accuracy of irrelevant or redundant features for classifiers?
-	\item What is the impact on predictive accuracy of noisy features for classifiers?
+	\item What is the impact of the number of features for classifiers on runtime?
+	\item What is the impact for the number of instances for classifiers on runtime?
+	\item What is the impact of irrelevant or redundant features for classifiers on predictive accuracy?
+	\item What is the impact of noisy features for classifiers on predictive accuracy?
 	\item What is the percentage of Bias error or variance error for classifiers?
 \end{itemize}
 
@@ -348,7 +348,7 @@ The results are mostly shown as an average result of the datasets involved. This
 
 
 \subsection{Datasets} \label{description}
-Depending on the property that an experiment focuses on different datasets are chosen or datasets are split on a property. Categorical features are not an optimal input for a nearest neighbor classifier as the distant between converted numbers does not tell much about the relation between the features. Multiple target classes datasets are inconvenient for the bias-variance calculation, so we focus on 2 class target datasets, which there are plenty enough on Openml. 
+Depending on the property that an experiment focuses on different datasets are chosen or datasets are split on a property. Categorical features are not an optimal input for a nearest neighbor classifier as the distant between converted numbers does not tell much about the relation between the features. Multiple target classes datasets are inconvenient for the bias-variance calculation, so we focus on 2 class target datasets, which there are plenty enough on OpenML. 
 
 \subsubsection{Bias-variance datasets}
 An important part of a dataset to be viable for bias variance analysis is it having 2 classes as target. This is due to calculation we use to find the bias and variance error. The bias and variance error is in this way like recall or precision error more suitable for a 2 classes target.  %give picture of instance versus features
@@ -358,7 +358,7 @@ Categorical datasets hold only features with categorical values. These features 
 Numerical datasets hold only features with numerical values. These features are hard to use by classifiers like BernoulliNB which translates the values in their own way by uniqueness. For classifiers like KNeighborsClassifier it is easier to use the uniqueness of numerical values for predictions.
 
 \subsection{Collected data}
-Experiment data is saved to give insight to what the results are. Depending on the experiment different data is important or stored. 
+Experiment data is saved to in what the results are. Depending on the experiment different data is important or stored. 
 \begin{itemize}
 	\item predictive accuracy for measuring the predictive accuracy we store the default scikit-learn scoring calculation
 	\item duration instances for the time needed to calculate 
@@ -368,10 +368,10 @@ Experiment data is saved to give insight to what the results are. Depending on t
 The duration for each classification instance and for each prediction the time is added to indicate how long the total cross validation took. 
 
 \subsubsection{Predictions}\label{pred}
-The predictions of the outputted target value is saved. Individual files are chosen for each case of predictions. The true value for the prediction is also saved as reference and option for recalculation. 
+The predictions of the outputted target value are saved. Individual files are chosen for each case of predictions. The true value for the prediction is also saved as reference and option for recalculation. 
 
 \subsubsection{scores}
-The scores gives the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
+The scores give the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
 
 \subsubsection{SummaryGuesses}
 SummaryGuesses give a quick overview of the obtained results. It stores in python dictionaries the total number of predictions for each class. The results is that you can easily observe if a classifier has picked a class exclusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
@@ -470,7 +470,6 @@ Meta features like mean mutual information or entropy for categorical features a
 	\caption{Mutual information difference between measure}\label{fig:MMIs}
 \end{figure}
 
-\paragraph{replication of previous work}
 In figure \ref{paper-thesis} the experiment setup of Hilario and the experiment setup of this thesis are shown\cite{Resil-1}. Hilario shows that with the added random features the mutual information decreases an indicator that the added features could not improve the accuracy. In the experiment of this thesis the added features also show a decrease in mutual information but the mean mutual information scale is 10 times smaller. This indicates that the datasets used are less valuable in contrast to the ones used by Hilario. Comparing any results is harder as the versions of the classifiers have been changed over time.
 
 
@@ -629,13 +628,13 @@ The averaged size of this dataset is 3797 instances and 200 features. he slope o
 
 \textbf{AdaBoost} AdaBoost has one of the longest classification times with default 5 times more estimators it is bound to take some more time as RandomForestClassifier. The impact of random features compared to any sort of duplicate features is large with a steady increase in duration. This is mostly due to the variation in the added features and the more effort the Decision Trees need to filter out any information. The effect of the adaptive boost is unnoticeable between random or duplicate features compared to the standard RandomForestClassifier.  \\
 
-\textbf{SVC-rbf} SVC-rbf has one of the slowest classification and prediction time. With the calculation of the decision surface taking the most time. The duration of prediction is also slow in comparison to the other classifiers. The impact of the random features is noticeable with the variation present in those features SVC takes a bit longer to  classify and predict. \\
+\textbf{SVC-rbf} SVC-rbf has one of the slowest classification and prediction times. With the calculation of the decision surface taking the most time. The duration of prediction is also slow in comparison to the other classifiers. The impact of the random features is noticeable with the variation present in those features SVC takes a bit longer to  classify and predict. \\
 
 \textbf{GaussianNB} GaussianNB has one of the quickest prediction and classification time. The calculation needed for the mean and the variance is easy and there seems no significant impact of the different added features. That is reasonable as it should have little impact on the calculation of the mean and variance of a single feature.\\
 
 \textbf{BernoulliNB} BernoulliNB is also one of the quickest in prediction and classification time. With a similar approach as BernoulliNB there is little calculation in both prediction and classification. The only added calculation for BernoulliNB is a binarization. \\
 
-\textbf{GradientBoostingClassifier} The GradientBoostingClassifier need the most time of all classifiers for classification and prediction. With 10 times the estimators of RandomForestClassifier it takes on average 250 times the total duration. With the calculation in multiple stages the duration time ramps up to fit the Decision trees. The impact of random features is more than either of the duplicate features. This is also due to more variation in the features with also using DecisionTrees, GradientBoostingClassifier 
+\textbf{GradientBoostingClassifier} The GradientBoostingClassifier needs the most time of all classifiers for classification and prediction. With 10 times the estimators of RandomForestClassifier it takes on average 250 times the total duration. With the calculation in multiple stages the duration time ramps up to fit the Decision trees. The impact of random features is more than either of the duplicate features. This is also due to more variation in the features with also using DecisionTrees, GradientBoostingClassifier %TODO
   \\
 
 %The slopes of the different classifiers are close to a linear scale and vary a bit between addition(figure \ref{fig:SADS}). This is mostly an the starting impact of the added features compared to the clean dataset. 
@@ -672,7 +671,8 @@ In figure \ref{fig:FeatRem} the duration against features removed from a dataset
 
 \textbf{AdaBoost} AdaBoost classifier needs more time for least important removed feature dataset than randomly removed features. This seems similar to the RandomForestClassifier. With the important features left AdaBoost has a harder time to classify outliers which the removed features were more likely to be used for. \\
 
-\textbf{SVC-rbf} The SVC-rbf classifier needs more time for important feature in line with most other classifier, this means that with the less important feature removed, more time is needed for the decision surface calculation. This is also in line with the similarity of duration between the feature importance and correlation features being removed duration. With less correlated features being important features the odds are higher of a less linear relation between the targets. \\
+\textbf{SVC-rbf} The SVC-rbf classifier needs more time for important feature in line with most other classifier, this means that with the less important feature removed, more time is needed for the decision surface calculation. This is also in line with the similarity of duration between the feature importance and correlation features being removed duration. With less correlated features being important features the odds are higher of a less linear relation between the targets.%TODO
+ \\
 
 \textbf{GaussianNB} Removing the least important features from a dataset has less of an impact of decreasing the duration than removing random features. The effect of calculating means and variances should not have this effect as that calculation is more dependent on instances than values. The only reason can be the calculation of the maximum likelihood needing slightly more workload. The Difference between feature importance and correlation feature removing is negligible \\
 
@@ -697,14 +697,14 @@ Most classifiers paint a clear picture in the results. Removing features has mor
 \end{figure}
 \begin{figure}[H]
 	\centering	
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.85\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/scalability/FeatManSlopeLog.png}
 		\caption{features removed randomly and features   duplicated with a log scale }
 		\label{fig:FeatManSlopeLog}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.85\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/scalability/FeatManSlope1Log.png}
@@ -984,7 +984,7 @@ More options exist to save more data of the executed experiments. The first miss
 For the duration pictures some results are removed as they do not fall in line with the other results at all. By using the standard of the clean dataset which is calculated with each run we throw out any results changing more than 5$\%$ from another average. One of the reason for these differences in duration is because of multiple used processing systems and other processes running during computation. These other process or the experiments themselves maxed out the cpu or memory of the systems and so interrupting the experiments.
 
 \subsubsection{Bias Variance}
-The datasets used by Jaoquin in \cite{Bias-var} were UCI datasets, some of these are also published on Openml under the dataset ids (1369-1377). These are artificially created to have datasets with a large number of instances. The 
+The datasets used by Joaquin in \cite{Bias-var} were UCI datasets, some of these are also published on OpenML under the dataset ids (1369-1377). These are artificially created to have datasets with a large number of instances.%TODO 
 
 
 \subsubsection{different approach}
@@ -1033,9 +1033,9 @@ In total these results illustrate the 'no-free-lunch' theorem as no classifier h
 %\subsubsection{More computation}
 Adding more experimental runs to most of the experiments can give way to more broader conclusions of the results. As benchmark datasets have a hard time to be a universal standard for testing. The results of a universal standard benchmark may also limit results because of the no free lunch theorem. This may result in an average result of shared robustness.
 
-A source of attention can be the use of only datasets that are available on Openml are being used for this research. Openml has a certain community and the datasets available on Openml may not translate to other areas of interest. Another party to consider then is a platform like Kaggle which share a lot of datasets already but the commercial side to Kaggle may be more of a counterpart to the research nature of Openml. 
+A source of attention can be the use of only datasets that are available on OpenML are being used for this research. OpenML has a certain community and the datasets available on OpenML may not translate to other areas of interest. Another party to consider then is a platform like Kaggle which share a lot of datasets already but the commercial side to Kaggle may be more of a counterpart to the research nature of OpenML. 
 
-A partly solution for the previous mentioned problem of datasets is the splitting of datasets in certain categories. In this thesis there was for some cases a split for categorical and numerical features possible by the classification in Openml of all inputted features. Different splitting of dataset can be done in categories like sparse/dense or cleaned and uncleaned. Further distinguishing in categorical and numerical features the different values of discrete, continuous or ordinal values. Each can need different preprocessing steps for different classifiers. 
+A partly solution for the previous mentioned problem of datasets is the splitting of datasets in certain categories. In this thesis there was for some cases a split for categorical and numerical features possible by the classification in OpenML of all inputted features. Different splitting of dataset can be done in categories like sparse/dense or cleaned and uncleaned. Further distinguishing in categorical and numerical features the different values of discrete, continuous or ordinal values. Each can need different preprocessing steps for different classifiers. 
 
 
 
@@ -1088,7 +1088,7 @@ Proceedings of the 4th European Conference on Principles of data mining and know
 \section{Appendix}
 \subsection{Datasets}
 \subsubsection{Datasets per figure}
-openml dataset identifiers per figure \\
+OpenML dataset identifiers per figure \\
 
 figures \ref{fig:MMIs}, \ref{fig:AMMIdecay} , \ref{fig:FIC}, \ref{fig:FIDC}, \ref{fig:predAddCat}, \ref{fig:predCatFeat}, \ref{fig:predRedCatNum}  - 20, 21, 26, 333, 334, 335,40668, 4135, 4534, 469, 46, 50 \\
 figures \ref{fig:FIN},\ref{fig:FIDN}, \ref{fig:FIGBC}, \ref{fig:predAddNum}, \ref{fig:predNonCatFeat}, \ref{fig:predNonCatFeatPre} - 1038, 1043, 1046, 1049, 1050, 1063, 1067, 1068, 1176, 11, 12, 1459, 1462, 1464, 1466, 1467, 1468, 1475, 1476, 1478, 1479, 1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 14, 1501, 1504, 1510, 1515, 1570, 16, 18, 22, 28, 300, 30, 32, 36, 375, 37, 39, 40499, 40509, 40, 4134, 41, 44, 4538, 458, 53, 54 \\
