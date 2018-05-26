@@ -641,7 +641,7 @@ The averaged size of this dataset is 3797 instances and 200 features. he slope o
 
 
 \paragraph{Removed features}
-In figure \ref{fig:FeatRem} the duration against features removed from a dataset are shown. Three different techniques of feature removing are shown. In figure \ref{fig:FeatRemImp} features are randomly remove or a RandomForestClassifier is fitted on the training set and the least important feature is removed. In figure \ref{fig:FeatCorImp} the features are removed by their importance or by having the most correlation with another feature in the training set. In figure \ref{fig:FeatRemImp} the average dataset is 2230 instances with 307 features and in figure \ref{fig:FeatCorImp} the average dataset is 3329 instances with 258 features.
+In figure \ref{fig:FeatRem} the duration against features removed from a dataset are shown. Three different techniques of feature removing are shown. In figure \ref{fig:FeatRemImp} features are randomly removed or a RandomForestClassifier is fitted on the training set and the least important feature is removed. In figure \ref{fig:FeatCorImp} the features are removed by their importance or by having the most correlation with another feature in the training set. In figure \ref{fig:FeatRemImp} the average dataset is 2230 instances with 307 features and in figure \ref{fig:FeatCorImp} the average dataset is 3329 instances with 258 features.
 \begin{figure}[H]
 	\centering	
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -729,23 +729,23 @@ The averaged result can be easily captured with a linear fit with taking the log
 
 \begin{figure}[H]
 	\centering	
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[
-		width=0.65\textwidth
-		]{images/scalability/Instances.png}
-		\caption{The percentage of the initial daaset against the duration needed. The dots are the results and the lines are fitted on these dots. The scale is log based}
-		\label{fig:Instances}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[
-		width=0.65\textwidth
-		]{images/scalability/InstancesPredictionSlope.png}
-		\caption{The default line is the slope of the experiments and the dotted line is a prediction line with figure \ref{fig:Instances} as input. }
-		\label{fig:InstancesPredSlope}
-	\end{subfigure}
-\begin{subfigure}[b]{0.45\textwidth}
+\begin{subfigure}[b]{0.65\textwidth}
 	\includegraphics[
-	width=0.65\textwidth
+	width=0.55\textwidth
+	]{images/scalability/Instances.png}
+	\caption{The percentage of instances of the initial dataset against the duration needed. The points are the results and the lines are fitted on these points. The scale is log based}
+	\label{fig:Instances}
+\end{subfigure}
+\begin{subfigure}[b]{0.65\textwidth}
+	\includegraphics[
+	width=0.55\textwidth
+	]{images/scalability/InstancesPredictionSlope.png}
+	\caption{The default line is the slope of the experiments and the dotted line is a prediction line with figure \ref{fig:Instances} as input. }
+	\label{fig:InstancesPredSlope}
+\end{subfigure}
+\begin{subfigure}[b]{0.65\textwidth}
+	\includegraphics[
+	width=0.85\textwidth
 	]{images/scalability/InstancesPrediction.png}
 	\caption{The default line are the result of experiments done, the same as the ones in figure \ref{fig:Instances}. The dotted line is prediciting by a KernelRidge for each inputted dataset the trend line of the duration. }
 	\label{fig:InstancesPred}
@@ -762,25 +762,25 @@ The averaged result can be easily captured with a linear fit with taking the log
 This section focusses on feature manipulation of clean datasets and the accuracy impact. By either removing or adding features the dataset changes and maybe also the workings of classifiers. By comparing the results of a clean dataset to a manipulation in the feature dimension we see how classifiers handle these feature changes.
 
 \subsubsection{Adding features}
-We consider here random, duplicate and redundant duplicate features as they are all redundant. In section \ref{chapter312} the importance and in section \ref{chapter311} the mutual information is shown which changes with the addition of certain features.\\
+We consider here random, duplicate and redundant duplicate features as they are all redundant. In section \ref{chapter312} the importance and in section \ref{chapter311} the mutual information is shown which changes with the addition of certain features. In figures \ref{fig:predAddCat} and \ref{fig:predAddNum} the predictive accuracy against added features is shown. The figures highlight the impact of either categorical or numerical features.   \\
 
 \begin{figure}[H]
 	\centering	
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predAddCatDup.png}
 		\caption{Adding increasingly more duplicate features to categorical datasets}
 		\label{fig:predCatDup}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predAddCatReDup.png}
 		\caption{Adding increasingly more redundant duplicate features to categorical datasets}
 		\label{fig:predCatReDup}
 	\end{subfigure}
-\begin{subfigure}[b]{0.45\textwidth}
+\begin{subfigure}[b]{0.65\textwidth}
 	\includegraphics[
 	width=0.65\textwidth
 	]{images/RedudantFeature/predAddCatRand.png}
@@ -794,21 +794,21 @@ We consider here random, duplicate and redundant duplicate features as they are 
 
 \begin{figure}[H]
 	\centering	
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predAddNumDup.png}
 		\caption{Adding increasingly more duplicate features to numerical datasets}
 		\label{fig:predNumDup}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predAddNumReDup.png}
 		\caption{Adding increasingly more redundant duplicate features to numerical datasets}
 		\label{fig:predNumReDup}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predAddNumRand.png}
@@ -845,25 +845,25 @@ We consider here random, duplicate and redundant duplicate features as they are 
 \newpage
 
 \subsubsection{Removing Features}
-Randomly removing features, based on least importance or based on most correlation. The accuracy against the feature left is shown. 
+Figure \ref{fig:Rem} shows three kinds of feature removing. Randomly removing features, removing based on least importance or removing based on most correlation. The predictive accuracy against the remaining features are shown for each kind. 
 
 \begin{figure}[H]
 	\centering	
-	\begin{subfigure}[b]{0.48\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predRemMan.png}
 		\caption{Features randomly removed from a dataset.}
 		\label{fig:predRemMan}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.48\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predRemImp.png}
 		\caption{Features removed based on the least feature importance in the training set done by a RandomForestClassifier}
 		\label{fig:predRemImp}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.48\textwidth}
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/RedudantFeature/predRemCor.png}
@@ -1095,8 +1095,6 @@ figures \ref{fig:FIN},\ref{fig:FIDN}, \ref{fig:FIGBC}, \ref{fig:predAddNum}, \re
 figures \ref{fig:ScalableAdded}, \ref{fig:ScalableAdded2}, \ref{fig:SADS}, \ref{fig:distrAdd} - 11, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 1176, 1049, 1050, 26, 28, 30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499, 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458, 1485, 333, 1487, 334, 1489, 335, 1491, 1492, 1493, 1494, 469, 1497, 1501, 1504, 1510, 1515, 375 \\
 figure \ref{fig:FeatManLog} and \ref{fig:SlopeDurMan}  - 22, 1176, 4134, 1063, 1067, 1068, 44, 53, 4538, 458 \\
 figure \ref{fig:Inst} - 6, 1036, 12, 1038, 14, 16, 18, 1043, 20, 21, 1046, 22, 23, 1049, 1050, 26, 28, 30, 32, 1570, 36, 4134, 4135, 1067, 1068, 44, 46, 40499, 60, 1120, 151, 1176, 182, 184, 40645, 40646, 40647, 40648, 40649, 40650, 40651, 40652, 40653, 40654, 40655, 40656, 40664, 40668, 40670, 40677, 40678, 40680, 40687, 40695, 40696, 40697, 40702, 40706, 300, 179000, 312, 375, 1459, 1461, 1462, 4534, 953, 1466, 4538, 1468, 959, 1475, 1476, 1478, 1479, 1485, 1486, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 991, 1504, 1505, 1022 \\
-figure \ref{fig:predAddCat} - 20, 21, 26, 333, 334, 335, 40668, 4135, 4534, 469, 46, 50\\
-figure \ref{fig:predAddNum} - 11, 12, 1038,14, 16, 18, 1043, 1046, 22,1176, 1049, 1050, 28,30, 32, 1570, 36, 37, 4134, 1063, 39, 40, 1067, 1068, 300, 41, 44, 1459, 40499 , 53, 1462, 1464, 54, 1466, 1467, 1468, 40509, 4538, 1475, 1476, 1478, 1479, 458,1485, 1487, 1489, 1491, 1492, 1493, 1494, 1497, 1501, 1504, 1510, 1515, 375\\ 
 figures \ref{fig:Rem}, \ref{fig:FeatRem} - 1038, 1043, 22, 1176, 1049, 1050, 1063, 1067, 1068 \\
 figures \ref{fig:BiasAcc},\ref{fig:BiasScaling} - 1025, 1067, 1036, 1068, 1038, 1043, 1014, 1049, 1050, 1022 \\ 
 figure \ref{fig:predFlat} - 10,12,18 \\

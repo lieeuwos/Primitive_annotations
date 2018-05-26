@@ -196,7 +196,8 @@ def read_features(func,clfName,amount,did):
 def read_did_preds(func,clfName,amount,did,name):
     list1 = []
     for i in range(1,4):
-        list1.append(read_did_pred(func,clfName,amount,did,name + str(i)))
+        if checkForExistFile2(func,clfName,amount,did,name + str(i)):
+            list1.append(read_did_pred(func,clfName,amount,did,name + str(i)))
     return list1
         
 def read_did_predSummary(func,clfName,amount,did,name):
@@ -219,6 +220,10 @@ def read_did_predSummary(func,clfName,amount,did,name):
 def checkForExist(func,clfName,amount,did):          
     path = dropbox + func + '\\' + clfName + '\\' + str(amount) + '\\' + str(did)
     return os.path.isdir(path)
+
+def checkForExistFile2(func,clfName,amount,did,name):          
+    path = dropbox + func + '\\' + clfName + '\\' + str(amount) + '\\' + str(did) + '\\' + name + '.csv'
+    return os.path.isfile(path)
 
 def checkForExistFile(func,clfName,amount,did):          
     for i in range(0,100):
@@ -247,6 +252,29 @@ def ScoresFromPredictions(func,clfName,amount,did,scoreM,Ramount):
                 score[i].append(cohen_kappa_score(predictions[i][j],predictions[last][j]))
         
     return score
+
+def ScoresFromBias(func,clfName,amount,did,scoreM):
+    file = read_did_pred(func,clfName,amount,did,'Predictions01')
+    order = read_did_pred(func,clfName,amount,did,'order0')[0]
+    X,y = read_did(amount)
+    preds = []
+    true_preds = []
+    for i,item in enumerate(file):
+        for j,val in enumerate(file[i]):
+            preds.append(val)
+            true_preds.append(y[order[i]])
+    if scoreM == 'accuracy':
+        score = accuracy_score(preds,true_preds)
+    elif scoreM == 'precision' and readDict(amount)['NumberOfClasses'] == 2:
+        score = precision_score(preds,true_preds)
+    elif scoreM == 'recall' and readDict(amount)['NumberOfClasses'] == 2:
+        score = recall_score(preds,true_preds) 
+    elif scoreM == 'zero_one_loss':
+        score = zero_one_loss(preds,true_preds)
+    elif scoreM == 'kappa':
+        score = cohen_kappa_score(preds,true_preds)
+    return score
+        
 
 def ScoresFromPredictionsAvg(func,clfName,amount,did,scoreM):
     Ramount = checkForExistFile(func,clfName,amount,did) 
