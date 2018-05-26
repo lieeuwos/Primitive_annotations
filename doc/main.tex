@@ -174,13 +174,12 @@ Machine learning is a growing field that can help process the increase of availa
 %explain the need for automation and then the boost of information, I try to give.
 
 \subsection{Research question}
-In this research we focus on the classification group to give room to new algorithms
-This thesis focuses on the selection of algorithms in the classification group. 
+This thesis focuses on the selection of algorithms in the classification problem. 
 % the proposed annotations
 We base our research question on the work of Joaquin to give properties to classifiers\cite{Joaquin-phd}. More specifically we look more closely to the resilience properties and the bias-variance profile. 
 Earlier research has been done on scalability and resilience to irrelevant variables\cite{Resil-1}
 
-The work of Joaquin describes that properties can be given to the classification algorithms. This allow for earlier research to improve the algorithm choice of new research. Out of the quantitative properties given by Joaquin the resilience properties and the bias-variance are investigated. The resilience properties describe how an algorithm can learn from noisy, irrelevant or redundant data, while the bias-variance characterizes the errors that are made by learning algorithms. Some features of these properties have been investigated over a decade ago. However new algorithms have become popular, which makes this thesis more relevant in today's worlds. 
+The work of Joaquin describes that properties can be given to the classification algorithms. This allows for earlier research to improve the algorithm choice of new research. Out of the quantitative properties given by Joaquin the resilience properties and the bias-variance are investigated. The resilience properties describe how an algorithm can learn from noisy, irrelevant or redundant data, while the bias-variance characterizes the errors that are made by learning algorithms. Some features of these properties have been investigated over a decade ago. However new algorithms have become popular, which makes this thesis more relevant in today's worlds. 
 
 Research questions have been formulated. These questions have been made to determine the properties of the research and to reflect on earlier work. 
 
@@ -191,10 +190,10 @@ Research questions have been formulated. These questions have been made to deter
 %\end{itemize}
 
 \begin{itemize}
-	\item What is the impact of the number of features for classifiers on runtime?
-	\item What is the impact for the number of instances for classifiers on runtime?
-	\item What is the impact of irrelevant or redundant features for classifiers on predictive accuracy?
-	\item What is the impact of noisy features for classifiers on predictive accuracy?
+	\item What is the impact of the number of features on classifier runtime?
+	\item What is the impact of the number of instances on classifier runtime?
+	\item What is the impact of irrelevant or redundant features on classifier predictive accuracy?
+	\item What is the impact of noisy features on classifier predictive accuracy?
 	\item What is the percentage of Bias error or variance error for classifiers?
 \end{itemize}
 
@@ -343,7 +342,7 @@ In this section definitions and abbreviations are explained and set in context. 
 
 \newpage
 \section{Experimental setup} \label{Chapter3}
-The different experiments use different datasets. The datasets used for some experiments need some prerequiste on the dataset to be used in the experiment. The chosen datasets can have a large impact on shown results.
+The different experiments use different datasets. The datasets used for some experiments need some prerequisite on the dataset to be used in the experiment. The chosen datasets can have a large impact on shown results.
 The results are mostly shown as an average result of the datasets involved. This can average out outliers but can also give a false sense of the reality as other patterns can exist in the dataset.
 
 
@@ -579,12 +578,13 @@ The averaged size of this dataset is 3797 instances and 200 features. he slope o
 		\caption{only the time needed to make predictions}
 		\label{fig:SADRP}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
+\newpage
+	\begin{subfigure}[b]{0.65\textwidth}
 		\includegraphics[width=\textwidth]{images/scalability/FeatAddDupRand.png}
 		\caption{The combined time of predicting and classifying on a dataset with added random and redundant duplicated features}
 		\label{fig:SADR}
 	\end{subfigure}
-	\caption{Adding redundant duplicate and random features to a dataset plotted against the duration needed.}
+	\caption{Adding redundant duplicate(default line) and random features(dotted line) to a dataset plotted against the duration needed.}
 	\label{fig:ScalableAdded}
 \end{figure}
 \begin{figure}[H]
@@ -648,14 +648,14 @@ In figure \ref{fig:FeatRem} the duration against features removed from a dataset
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/scalability/FeatRemImp.png}
-		\caption{features randomly removed or removed by importance }
+		\caption{features randomly removed(default line) or removed by least importance(dotted line) }
 		\label{fig:FeatRemImp}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[
 		width=0.65\textwidth
 		]{images/scalability/FeatCorImp.png}
-		\caption{features removed by least importance or by most correlation with other features}
+		\caption{features removed by least importance(default line) or by most correlation with other features(dotted line)}
 		\label{fig:FeatCorImp}
 	\end{subfigure}
 	
@@ -1197,7 +1197,8 @@ Lastly in figure \ref{fig:FailDurMan} a mismatch between two different sort of f
 \subsection{Results per dataset per classifier}
 results for individual datasets grouped per classifier instead of averaged. 
 \subsubsection{Noisy data}
-injection of std into numerical datasets done in figure \ref{fig:predNonCatFeat}. In figures \ref{fig:predNoisyFeaturesRF}, \ref{fig:predNoisyFeaturesKNN}, \ref{fig:predNoisyFeaturesSGD}, \ref{fig:predNoisyFeaturesADA}, \ref{fig:predNoisyFeaturesSVC}, \ref{fig:predNoisyFeaturesGNB}, \ref{fig:predNoisyFeaturesBNB}, \ref{fig:predNoisyFeaturesGBC} the individual results of each classifier is shown.
+injection of std into numerical datasets done in figure \ref{fig:predNonCatFeat}. In figures \ref{fig:predNoisyFeaturesRF}, \ref{fig:predNoisyFeaturesKNN},
+\ref{fig:predNoisyFeatures1NN}, \ref{fig:predNoisyFeaturesSGD}, \ref{fig:predNoisyFeaturesADA}, \ref{fig:predNoisyFeaturesSVC}, \ref{fig:predNoisyFeaturesGNB}, \ref{fig:predNoisyFeaturesBNB}, \ref{fig:predNoisyFeaturesGBC} the individual results of each classifier is shown.
 \begin{figure}[h] 
 	\centering
 	\includegraphics[
@@ -1274,7 +1275,7 @@ injection of std into numerical datasets done in figure \ref{fig:predNonCatFeat}
 %insert tables
 \newpage
 \subsubsection{Instance duration}\label{InstancesApp}
-Percentage of instances remaining of a dataset per individual dataset with the average result in figure \ref{fig:Inst}. In figures \ref{fig:InstRF}, \ref{fig:InstKNN}, \ref{fig:InstSGD}, \ref{fig:InstADA}, \ref{fig:InstSVC}, \ref{fig:InstGNB}, \ref{fig:InstBNB}, \ref{fig:InstGBC} the duration of cross validation in each individual dataset for each classifier.
+Percentage of instances remaining of a dataset per individual dataset with the average result in figure \ref{fig:Inst}. In figures \ref{fig:InstRF}, \ref{fig:InstKNN},\ref{fig:Inst1NN}, \ref{fig:InstSGD}, \ref{fig:InstADA}, \ref{fig:InstSVC}, \ref{fig:InstGNB}, \ref{fig:InstBNB}, \ref{fig:InstGBC} the duration of cross validation in each individual dataset for each classifier.
 
 \begin{figure}[h] 
 	\centering
@@ -1353,6 +1354,21 @@ Percentage of instances remaining of a dataset per individual dataset with the a
 	\caption{number of instances against duration for GradientBoostingClassifier}
 	\label{fig:InstGBC}
 \end{figure}
+
+\newpage 
+\newpage
+\newpage
+\subsection{Legend}
+The results in figures 8 till 22,25,28,29,30 and 31 contain the results of 9 classifiers. The same colors are used for all results. The colors matching the classifiers are shown in figure \ref{fig:Legend}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[
+	width=0.65\textwidth
+	]{images/Legend.png}
+	\caption{Legend for most averaged results shown in this thesis}
+	\label{fig:Legend}
+\end{figure}
+
 
 
 
