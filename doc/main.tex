@@ -212,40 +212,43 @@ In the first chapter the research question are introduced, followed by the secon
 
 
 \section{Preliminaries} \label{Chapter2}
-Before we discuss in detail the solutions for the steps of our approach, this chapter provides
+Before we discuss the steps of our approach in detail, this chapter provides
 some background knowledge and definitions which are required for a good understanding of
 the remainder of this thesis.
-\subsection{Sklearn/scikit-learn library}
-The scikit-learn library is based in Python and is made to make machine learning in python accessible and organized. 
-All resources are open source and hosted on Github. Before scikit-learn there were already other libraries hosting machine learning algorithms in python but scikit-learn was the first to make a standard guideline which makes the classifier easier to interchange. By having default functions for fitting and predicting.
-%subsubsections for classifiers?
+\subsection{scikit-learn library}
+The Python library scikit-learn is made to make machine learning in python accessible and organized. 
+All resources are open source and hosted on Github. Before scikit-learn there were already other libraries hosting machine learning algorithms in python but scikit-learn was the first to make a standard interface which makes the classifier easier to interchange, by imposing default functions for fitting and predicting.
+
 
 
 \subsubsection{RandomForestClassifier}
-RandomForestClassifier is an ensemble method of directive trees \cite{RDF}. The random forest classifier constructs directive trees on subsamples of the input data.  A directive tree is a decision tree classifier which splits the features on certain thresholds to decide on the type of class. The highest probabilistic prediction of all the directive trees is the prediction. The subsamples for the directive trees are chosen randomly so the results can vary between runs on the same input. This splitting of the data is either randomly or choosing the best split. The criterion to judge the best split is either Gini or entropy based. The number of splits, features and samples are also considered during fitting. 
-RandomForestClassifier is made up of decision trees. These trees split the features on certain thresholds or values in each node. The top most node of the tree is the most deciding part as it is defines the first step in the tree. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the top most nodes in the trees of a random forest. The value of feature importance can be calculated as the percentage of occurrence in all the top most nodes of trees in the RandomForestClassifier. This feature importance value tells us what the RandomForestClassifier finds to be important features in a dataset.
+RandomForestClassifier is an ensemble method for decision trees \cite{RF}. A decision tree classifier splits the features on certain thresholds to decide on the class. The random forest classifier constructs decision trees on subsamples of the input data. The vote of all the decision trees is the prediction. The subsamples for the decision trees are chosen by bootstrapping with replacement so the results can vary between runs on the same input.  The subsamples consists of a random set of features in each split. The criterion to judge the best split is typically Gini or entropy based. To optimize the classifiers the number of splits, features and samples can be varied. 
+
+RandomForestClassifier also estimates the importance of each feature. The top most node of the tree is the most deciding part as it is defines the first step in the tree. The first split in a decision tree has the most impact on the selection and might indicate a deciding feature. By looking at all the top most nodes in the trees of a random forest, the value of feature importance can be calculated as the percentage of occurrence in all the top most nodes of trees in the RandomForestClassifier. This feature importance value tells us what the RandomForestClassifier finds to be important features in a dataset.
 
 
 \subsubsection{KNeighborsClassifier}
-In the scikit-learn library KNeighborsClassifier is an implementation of the k-nearest neighbors classification algorithm(kNN)\cite{KNN}. The kNN uses as it names tells the k nearest neighbors for calculation. This is done by instance-based learning and results in non-generalizing learning. Instance-based learning and non-generalizing learning means that during fitting no complete model is made but only the given feature set is stored in order of appearing. The target predicting is done by going through the inputted feature set to find the nearest k points for each instance, depending on the majority of the k neighbors classes the classification is decided. The default metric for distance measuring is Euclidean distance(absolute distance) another option is the Manhattan distance. The Manhattan distance is the sum of all differences in features between two instances, this is quicker than calculating the Euclidean distance but less accurate. A ball tree, a kd-tree or a brute search is used find the k nearest neighbor. These can heavily influence the search time, depending on the number of instances and number of features. These methods can influence the prediction time heavily but should not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality.\cite{KNN-k}
+In the scikit-learn library is KNeighborsClassifier an implementation of the k-nearest neighbors classification algorithm (kNN) \cite{KNN}. The kNN uses, as it names tells, the k nearest neighbors for predicting the class of each new sample. This is done by instance-based learning and results in non-generalizing learning. Instance-based learning and non-generalizing learning mean that during fitting no complete model is made, but only the given instances are stored in order of appearing. The target prediction is done by going through the inputted feature set to find the nearest k points for each instance. Depending on the majority classes of the k neighbors the classification is decided. The default metric for distance measuring is Euclidean distance, but another option is the Manhattan distance. The Manhattan distance is the sum of all differences in features between two instances, which is quicker than calculating the Euclidean distance but less accurate. A ball tree, a kd-tree or a brute search is used find the k nearest neighbor efficiently. These can heavily influence the search time, depending on the number of instances and number of features. Hence, they can influence the prediction time, but should not influence predictive accuracy. The previously mentioned k parameter is an influencer for prediction quality and run run time \cite{KNN-k}.
 
 \subsubsection{SGDClassifier}
-SGDClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. The classifier expects continuous features with a mean of zero and sparse setting. This makes the classifier sensitive to categorical data, as it performs optimally with continuous features. The iterative steps for calculation gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value indicates what degree of slope indicates a near minimal or maximal. The learning rate is used to update the model in each iteration. The fitted functions are linear, if the input has multiple target classes a classifier predicts one class versus all other classes. 
+SGDClassifier is an incremental function to stochastically approximate the gradient descent of a loss or cost function \cite{SGDClass}. The default classifier to optimize is a linear SVM on its loss function. The classifier expects continuous features with a mean of zero and sparse setting. This makes the classifier sensitive to categorical data, as it performs optimally with continuous features. The iterative steps for the calculation of gradient descent are bounded by the inverse of the learning rate and a threshold value. The threshold value is a stopping criterion. The learning rate defines how much the model weights are updated in each iteration. The fitted functions are linear. If the input has multiple target classes, a classifier predicts one class versus all other classes. 
 
 \subsubsection{AdaBoostingClassifier}
-AdaBoostingClassifier (AdaBoost) is an ensemble classifier that fits other classifiers and outputs the weighted results of those classifiers \cite{AdaBoost}. AdaBoost trains these other classifiers on previously misclassified results by increasing their influence this makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost classifier with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
+AdaBoostingClassifier (AdaBoost) is an iterative ensemble classifier that fits other classifiers and updates the weights of training instances \cite{AdaBoost}. AdaBoost trains each subsequent classifiers on previously misclassified results by increasing their influence, which makes it heavily subjected to noisy data and outliers. The scikit-learn library uses the multi class AdaBoost-SAMME implementation from J. Zhu et al \cite{MadaB}. The solution of J. Zhu solves the lack of multi-class solution of the weak learners (other classifiers) by extending the initial AdaBoost classifier with a forward stage wise additive step. In this step a continual calculation of a loss function will output the prediction and in a two class case it reduces to the initial solution.
 
 \subsubsection{SVC-rbf}
-SVC-rbf is a support vector classifier(SVC) implementation with a radial basis function. The radial basis function(rbf) is used to handle a large feature dimension. The standard support vector machine splits for each feature pair, doing this for a large feature space the computation grows outside a feasible duration for classification \cite{SVN}. The feasible duration doing a run of fitting and predicting in a day or two. This fit time is quadratic with the number of samples based on the implementation of libsvm\cite{SVM}. The fitting of a SVC will assign each example to one of two categories and will map them in a new dimension space. This mapping is to make a clear separation between the two categories. However, with the radial basis function this is done with the distant from the points indicated by a separation area in a multi feature space. Classifying a point is finding in which class area this point falls. The multi class problem is solved by  all combinations of classes pairs and the class with the most votes is picked \cite{Multi-pair-coup}. To optimize the decision surface there are two main parameters C and gamma. The parameter C trades off misclassification of training examples against simplicity of the decision surface, a low C indicates a simple decision surface and lenient misclassification. The gamma parameter is a measure of influence for a single training example. The larger gamma is, the less influence a single instances has.
+SVC-rbf is a support vector classifier (SVC) implementation with a radial basis function \cite{SVN}. The fitting of a SVC will assign each example to one of two categories and will map them in a new dimension space. This mapping is to make a clear separation between the two categories. However, with the radial basis function this is done with the distant from the points indicated by a hyperplane.
+ The fit time is quadratic with the number of samples based on the implementation of libsvm\cite{SVM}.  Classifying a point is finding in which class area this point falls. The multi class problem is solved by  all combinations of classes pairs and the class with the most votes is picked \cite{Multi-pair-coup}. To optimize the decision surface there are two main parameters C and gamma. The parameter C trades off misclassification of training examples against simplicity of the decision surface, a low C indicates a simple decision surface and lenient misclassification. The gamma parameter is a measure of influence for a single training example. The larger gamma is, the less influence a single instances has on nearby neighbors.
 
 \subsubsection{GaussianNB}
-GaussianNB is a Naïve Bayes classifier implementation with the  assumption that the feature set is Gaussian distributed \cite{Bayes}. Fitting the data, a partial fit function is used based on the work of Chan, Golub and LeVeque \cite{Sam-var}. This calculates the assumed means and variances of a Gaussian distribution of the inputted feature set. Based on this distribution the prediction is made by filling in the maximum likelihood. The limited calculation needed for fitting and prediction makes this one of the fastest classifiers. The only parameter of this classifier specifies the prior probabilities of the classes. This means that no adjustment to the given input is made on importances for classification. which will when specified not be adjusted to the given input. 
+GaussianNB is a Naïve Bayes classifier implementation with the  assumption that the feature set is Gaussian distributed \cite{Bayes}. Fitting the data, a partial fit function is used based on the work of Chan, Golub and LeVeque \cite{Sam-var}. This calculates the assumed means and variances of a Gaussian distribution of the inputted feature set. Based on this distribution the prediction is made by filling in the maximum likelihood. The limited calculation needed for fitting and prediction makes this one of the fastest classifiers. As parameter to the classifier %TODO rewrite prior parameter
+ The only parameter of this classifier specifies the prior probabilities of the classes. This means that no adjustment to the given input is made on importances for classification. which will when specified not be adjusted to the given input. 
 
 \subsubsection{BernoulliNB}
-BernoulliNB is a Naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This binarization is done by binning numerical values in ranges of their value or splitting categorical values into separate classes for each class their own. This binarization can be disabled or reduced by a threshold on the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability.
+BernoulliNB is a Naïve Bayes classifier implementation assuming a Bernoulli distribution with Boolean like values \cite{NB-text}. The first step of this implementation is checking if the features are binary-valued, if any other data is found this input will be binarized. This binarization is done by binning numerical values in ranges of their value or splitting categorical values into separate classes for each class their own. This binarization can be disabled or reduced by a threshold on the input. Based on this Boolean model a smoothed version of the maximum likelihood is used for prediction. This classifier is mostly used in document classification as it can binary store occurrence useful for prediction class probability. %TODO why not multinomial
 
 \subsubsection{GradientBoostingClassifier}
-GradientBoostingClassifier builds from other classifiers, which makes it an ensemble classifier, like AdaBoost \cite{GradientBoost}. GradientBoostingClassifier builds an additive model in a forward stage-wise fashion. This means that the default loss function is optimized in a stage-wise fashion. A logistic regression is created to classify a probabilistic output \cite{Greedy-GBC}. 
+GradientBoostingClassifier builds from other classifiers, which makes it an ensemble classifier, like AdaBoost \cite{GradientBoost}. GradientBoostingClassifier builds an additive model in a forward stage-wise fashion. This means that the default loss function is optimized in a stage-wise fashion. A logistic regression is created to classify based on probabilistic outputs \cite{Greedy-GBC}. 
 
 
 
@@ -259,41 +262,41 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	algorithm & A process with a specified in and output that solves a problem in a step by step case.\\ [1ex]
 	
-	amount & a value that is mostly used for the relative change of a feature. The amount of noise is mostly a ratio to relate different level of noise disruption. \\[1ex]	
+	amount & A value that is mostly used for the relative change of a feature. The amount of noise is mostly a ratio to relate different level of noise disruption. \\[1ex]	
 	
 	annotations & Adjectives of something like an algorithm, examples can be robust or biased\\ [1ex]
 	
-	bootstrapping & is a test to calculate accuracy on a dataset. The techniques uses random sampling with replacements.  \\ [1ex]
+	bootstrapping & Is a test to calculate accuracy on a dataset. The techniques uses random sampling with replacements.  \\ [1ex]
 	
-	categorical & as property of a feature. This means that the feature has distinct categories or classes. The numerical relation between two categorical values has no meaning. \\ [1ex]
+	categorical & As property of a feature. This means that the feature has distinct categories or classes. The numerical relation between two categorical values has no meaning. \\ [1ex]
 	
-	classifier & machine learning algorithm to specifically predict classes \\ [1ex]
+	classifier & Machine learning algorithm to specifically predict classes \\ [1ex]
 	
-	class	 & categorical features consist of at least 2 classes\\ [1ex]
+	class	 & Categorical features consist of at least 2 classes\\ [1ex]
 	
-	cross validation & is a method to measure accuracy. This is done by splitting the data in k folds. In each fold 1/k of the dataset is tested and the rest is used for fitting. The value 10 is chosen for k as this is on average a well working number\cite{Cross}. \\ [1ex]
+	cross validation & Is a method to measure accuracy. This is done by splitting the data in k folds. In each fold 1/k of the dataset is tested and the rest is used for fitting. The value 10 is chosen for k as this is on average a well working number\cite{Cross}. \\ [1ex]
 	
-	datapoint & a datapoint is a single value of a feature. For example a single instance has for all features a single datapoint.\\[1ex]
+	datapoint & A datapoint is a single value of a feature. For example a single instance has for all features a single datapoint.\\[1ex]
 	
-	dataset & a dataset are values in a matrix format, where each row represents a single Instance and each column represent all the values of a feature.\\ [1ex]
+	dataset & A dataset are values in a matrix format, where each row represents a single Instance and each column represent all the values of a feature.\\ [1ex]
 	
-	dataset manipulation & like the word suggested is the manipulation of a dataset by adding or removing; of features or instances. This influences the internal structure of a dataset.  \\ [1ex]
+	dataset manipulation & Like the word suggested is the manipulation of a dataset by adding or removing; of features or instances. This influences the internal structure of a dataset.  \\ [1ex]
 	
-	dense matrix & most values in a matrix are different and fluctuate with each row or column.(non-zero)\\ [1ex]
+	dense matrix & Most values in a matrix are different and fluctuate with each row or column.(non-zero)\\ [1ex]
 		
 	estimator & An estimator is part of an ensemble classifier. It is a single instance of a classifier in the vote of an ensemble classifier.\\ [1ex]
 	
-	features & part of a whole, Consider a flower it has a color, size, amount of branches, number of leaves and age. Features describe someone or something in this context. Features are part of a dataset and the input to a machine learner.\\ [1ex]
+	features & Part of a whole, Consider a flower it has a color, size, amount of branches, number of leaves and age. Features describe someone or something in this context. Features are part of a dataset and the input to a machine learner.\\ [1ex]
 	
-	feature importance & is a value for all features in a dataset calculated with either RandomForestClassifier, AdaBoost or GradientBoostingClassifier. The value explains the perceived importance of a feature in a dataset, 100 percent meaning most important and 0 no importance.  \\ [1ex]
+	feature importance & Is a value for all features in a dataset calculated with either RandomForestClassifier, AdaBoost or GradientBoostingClassifier. The value explains the perceived importance of a feature in a dataset, 100 percent meaning most important and 0 no importance.  \\ [1ex]
 	
-	fit & preparing the classifier for prediction, synonym with inputting the training data \\ [1ex]
+	fit & Preparing the classifier for prediction, synonym with inputting the training data \\ [1ex]
 	
-	Github & an online platfrom to host data. It uses git commands and is mostly used with programming project to organize a common project wich each member can locally alter and centralize share updates or modifications. \\ [1ex]	
+	Github & An online platfrom to host data. It uses git commands and is mostly used with programming project to organize a common project wich each member can locally alter and centralize share updates or modifications. \\ [1ex]	
 	
 	machine learning & An algorithm that will will learn something and may adopt to the input to better fit the learned instance. To goal of learning can be mostly to predict a Target value, this can be part of an initial input. Multiple flavors of machine learners exists, for example regression, classification, clustering.\\ [1ex]	
 	
-	numerical & exact values, more uniquely than a category. For example a temperature value or time value. Such a value can be subtracted or divided \\ [1ex]	
+	numerical & Exact values, more uniquely than a category. For example a temperature value or time value. Such a value can be subtracted or divided \\ [1ex]	
 \end{tabular}
 \newpage
 \begin{tabular}{ p{0.20\linewidth} p{0.7437\linewidth} }
@@ -302,11 +305,11 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	sample & A part of a larger something.\\ [1ex]
 	
-	scalability & is the capability of a system to handle growing amount of work. Work can be something like more input in or more output out. \\[1ex]	
+	scalability & Is the capability of a system to handle growing amount of work. Work can be something like more input in or more output out. \\[1ex]	
 	
-	slope & a slope value is the value to go from one point to another as a vector. For example from point (1,1) to point (2,3) there is a slope of 1/2.\\[1ex]
+	slope & A slope value is the value to go from one point to another as a vector. For example from point (1,1) to point (2,3) there is a slope of 1/2.\\[1ex]
 	
-	sparse matrix & a matrix with mostly zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
+	sparse matrix & A matrix with mostly zero values, the counterpart of dense were all values fluctuate a lot.	\\ [1ex]
 	
 	target & In a classification problem the value or classes that needs to be predicted. This is value is most likely also a feature of the origin of the data. Each feature in a dataset can be chosen to be the target feature in a supervised machine learning setting. The supervised machine learning has the precondition of knowing what needs to be predicted. \\ [+1ex]	
 	
@@ -1042,6 +1045,7 @@ A partly solution for the previous mentioned problem of datasets, is the splitti
 \section{References}
 \begingroup
 \begin{thebibliography}{9}
+	%TODO reorder on name and use MDP(First ins scholar)
 \bibitem{KNN} Nearest neighbor pattern classification, T. Coverm P. Hart, IEEE Transaction on Information Theory 13:21-27,(1967)
 \bibitem{Sam-var}Updating Formulae and a Pairwise Algorithm for Computing Sample Variances Tony F. Chan* Gene H. Golub’* Randall J. LeVeque, Stanford CS tech report STAN-CS-79-773(1979)
 \bibitem{Noise} Instance-based learning algorithms, Aha, David W., D. Kibler, Marc K., Machine learning 6:1 pages 37-66, (1991)
@@ -1078,6 +1082,8 @@ Proceedings of the 4th European Conference on Principles of data mining and know
 \bibitem{hyperpara} An empirical study of hyperparameter importance across datasets, Jan van Rijn, Frank Hutter, Proc. of AutoML : 97-104, (2017)
 \bibitem{Big-data} Storage predictions: Will the explosion of data in 2017 be repeated in 2018?, Nick Ismail, www.information-age.com/, (2017)
 \bibitem{scikit-learn} Choosing the right estimator, l,Scikit-learn, Retrieved from http://scikit-learn.org/stable/tutorial/machine$\_$learning$\_$map/index.htm on 28th March (2018)
+
+\bibitem{RF} Breiman, Leo. "Arcing classifier (with discussion and a rejoinder by the author)." The annals of statistics 26.3 (1998): 801-849.
      
 \end{thebibliography}
 \endgroup
