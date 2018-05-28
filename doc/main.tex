@@ -149,17 +149,18 @@ Supervisor: Joaquin Vanschoren \\
 
 \section{Introduction} \label{Chapter1}
 This report is the result of my graduation project which completes my Business Information Systems study at Eindhoven University of Technology.
-The project was performed internally at the Eindhoven University of Technology in the Data mining department.
+The project was performed internally at the Eindhoven University of Technology in the Data mining group.
 In this project we investigated annotations of primitives, more specifically primitives in the scikit-learn library.
+Primitives in this case are machine learning algorithms.%TODO
 To elaborate on this we will outline the research questions and thesis structure further in this introduction.
  
 
 \subsection{Problem description}\label{Intr-Prob}
-Machine learning is a growing field that can help process the increase of available data \cite{Big-data}, \cite{ML-trends}. Python is a trending machine learning language, as it holds premade machine learning algorithms in the scikit-learn (sklearn) library.\cite{python-pop}. This library is made to easily choose between different algorithm for a machine learning problem. Figure \ref{fig:FlowChart} depicts a flowchart with the different machine learning algorithms that can be chosen in the sklearn library. It can be seen that different algorithms are recommended depending on the early results, size and problem.
+Machine learning is a growing field that can help process the increase of available data \cite{Big-data,ML-trends}. Python is a trending machine learning language, as it holds premade machine learning algorithms in the scikit-learn (sklearn) library \cite{python-pop}. This library is made to easily choose between different algorithm for a machine learning problem. Figure \ref{fig:FlowChart} depicts a flowchart with the different machine learning algorithms that can be chosen in the sklearn library. It can be seen that different algorithms are recommended depending on the early results, size and problem.
  
- It can be seen that different algorithms are recommend depending on the problem, size of the dataset and early results. 
+It can be seen that different algorithms are recommended depending on the problem, the size of the dataset and early results. 
  It can also be seen that four different groups are present: classification, regression, clustering and dimensionality reduction. The selection of a group depends on the type of the problem that needs to be solved. Each group contains a different selection of algorithms. A specific algorithm is recommended depending on the size of the data and early results.
- However, with time new algorithms are added to the library. This allows for the recommendation of more specialized algorithms for a particular problem. Each different problem cannot be solved by the same algorithms. This concept is based on the 'no-free-lunch' theorem, which describes that one particular algorithm cannot be used to solve all optimization problems \cite{No-Free-Lunch}.  
+ However, with time new algorithms are added to the library. This allows for the recommendation of more specialized algorithms for a particular problem. The same algorithm cannot find a optimal solution for all problems. This concept is based on the `no-free-lunch' theorem \cite{No-Free-Lunch}.  
 
  
 
@@ -176,12 +177,12 @@ Machine learning is a growing field that can help process the increase of availa
 \subsection{Research question}
 This thesis focuses on the selection of algorithms in the classification problem. 
 % the proposed annotations
-We base our research question on the work of Joaquin to give properties to classifiers\cite{Joaquin-phd}. More specifically we look more closely to the resilience properties and the bias-variance profile. 
+We base our research question on earlier work on defining properties of classifiers \cite{Joaquin-phd}. More specifically, we look more closely at the resilience properties and the bias-variance profile. 
 Earlier research has been done on scalability and resilience to irrelevant variables\cite{Resil-1}
 
-The work of Joaquin describes that properties can be given to the classification algorithms. This allows for earlier research to improve the algorithm choice of new research. Out of the quantitative properties given by Joaquin the resilience properties and the bias-variance are investigated. The resilience properties describe how an algorithm can learn from noisy, irrelevant or redundant data, while the bias-variance characterizes the errors that are made by learning algorithms. Some features of these properties have been investigated over a decade ago. However new algorithms have become popular, which makes this thesis more relevant in today's worlds. 
+The resilience properties can be measured for classification algorithms. This allows us to learn from previous experiments to improve the algorithm choice for new problems. Out of the quantitative properties given, the resilience properties and the bias-variance are investigated. The resilience properties describe how an algorithm is affected by noisy, irrelevant or redundant data, while the bias-variance analysis characterizes the errors that are made by learning algorithms. Some features of these properties have been investigated over a decade ago, but  it is not straightforward to leverage them when recommending algorithms for new problems. Moreover, new algorithms are being introduced, which makes this thesis more relevant in today's worlds. The field of AutoML aims to intelligently recommend algorithms and their configurations and for this, these properties can help make data-driven decisions. In this work we aim to objectively and systematically measure key properties that may influence the choice of algorithms, and gain deeper understanding how data defects affect these algorithms. This can be summarized in the following research questions
 
-Research questions have been formulated. These questions have been made to determine the properties of the research and to reflect on earlier work. 
+%Research questions have been formulated. These questions have been made to determine the properties of the research and to reflect on earlier work. 
 
 %\begin{itemize}
 %	\item scalability: runtime is measured with either a varying sample size or varying feature space 
@@ -190,21 +191,22 @@ Research questions have been formulated. These questions have been made to deter
 %\end{itemize}
 
 \begin{itemize}
-	\item What is the impact of the number of features on classifier runtime?
-	\item What is the impact of the number of instances on classifier runtime?
 	\item What is the impact of irrelevant or redundant features on classifier predictive accuracy?
 	\item What is the impact of noisy features on classifier predictive accuracy?
-	\item What is the percentage of Bias error or variance error for classifiers?
+	\item What is the impact of the number of features on classifier runtime?
+	\item What is the impact of the number of instances on classifier runtime?
+
+	\item What is the percentage of bias error or variance error for classifiers as this may effect algorithm performance on the datasets of different sizes and may warrant ensembling of classifiers (Bagging or Boosting)?
 \end{itemize}
 
-To summarize we rank the classifiers on their performance(predictive accuracy), robustness and scalability to find a ranking like done by Quan Sun and Bernhard Phahringer\cite{ranking}.
+To summarize we rank the classifiers on their performance(predictive accuracy), robustness and scalability on our findings, to built a ranking similar to \cite{RevClass}, yet more detailed and data-driven.  We also provide notebooks for all our experiments to encourage further analysis and reuse.
 
 
 %\subsection{thesis structure}
 
 
 \subsection{Outline}
-In the first chapter the research question is introduced, followed by the second chapter, this chapter discusses the relevant background information. The third chapter gives the setup of the experiments for the classifiers. The fourth chapter shows the results for each classifier. The fifth chapter presents the conclusion and answers the research questions and discusses future extensions.
+In the first chapter the research question are introduced, followed by the second chapter, which discusses the relevant background information. The third chapter outlines the setup of the experiments to answer the research questions. The fourth chapter analysis and discusses the results for each classifier. The fifth chapter presents the conclusions, answers the research questions, and discusses future extensions.
 
 \newpage
 
@@ -308,14 +310,7 @@ In this section definitions and abbreviations are explained and set in context. 
 	
 	target & In a classification problem the value or classes that needs to be predicted. This is value is most likely also a feature of the origin of the data. Each feature in a dataset can be chosen to be the target feature in a supervised machine learning setting. The supervised machine learning has the precondition of knowing what needs to be predicted. \\ [+1ex]	
 	
-	weight & The influence or power of a value, function or object. It can be expressed as a fraction of 1 to indicate its factor from other weights.	\\ [1ex]
-	
-	
-	
-	
-	
-	
-	algorithm & \\ [1ex]	
+	weight & The influence or power of a value, function or object. It can be expressed as a fraction of 1 to indicate its factor from other weights.	\\ [1ex]	
 	\end{tabular}
 
 \subsubsection{Abbreviations}
@@ -363,25 +358,27 @@ Experiment data is saved to in what the results are. Depending on the experiment
 	\item duration instances for the time needed to calculate 
 	\item control data like predictions and real target values. Summarizing data of the predictions to make a faster observation. 
 \end{itemize}
+
+
 \subsubsection{Duration}
 The duration for fitting training instances and for each prediction the time is added to indicate how long the total cross validation took. 
 
 \subsubsection{Predictions}\label{pred}
 The predictions of the outputted target value are saved. Individual files are chosen for each case of predictions. The true value for the prediction is also saved as reference and option for recalculation. 
 
-\subsubsection{scores}
+\subsubsection{Scores}
 The scores give the predictive accuracy of all the made classifiers. There can be multiple lists for each configuration of classifier or test input. The score is a value between 0 and 1 indicating the fraction of rightly predicted values
 
 \subsubsection{SummaryGuesses}
 SummaryGuesses give a quick overview of the obtained results. It stores in python dictionaries the total number of predictions for each class. The results is that you can easily observe if a classifier has picked a class exclusively and you can compare the balance to the inputted dataset to see if the classifier does find a difference between classes. This data can also be generated from the predictions \ref{pred}.
 
-\subsubsection{BiasVar}
+\subsubsection{Bias variance}
 When bootstrapping is done a bias and variance error is calculated together with the total error value. These are stored for easy lookup to the bias and variance error part of a classifier.
 
 \subsubsection{Identifier}
 The data input is shuffled as the saved datasets are sorted by class. The identifier can be used to match prediction results to a specific instance in the dataset. This way of saving is used to reduce space needed to save potential useful information. Odd behavior on small datasets can be explained by an off balanced dataset for training. The split of the data can be realistic but may affect averaged result significantly. 
 
-\subsubsection{RemovedFeatures}
+\subsubsection{Removed features}
 In the case we use metafeatures like feature importance or correlation to remove features we save the removed features per fold of the cross validation. Comparing the removed features of each fold we can find if there are multiple irrelevant features or the features are likely to be randomly more important than another.
 
 \subsection{Experiments}
@@ -399,7 +396,7 @@ Another option to measure scalability is to measure the impact of number of inst
 Duplicate features experiments have multiple goals in mind. By adding existing feature we can measure scalability of datasets with some number of features. These duplicate features can also be identified as adding little to the dataset or the same features can overrule existing important features. The accuracy on these modified dataset
 can teach us about the impact of features on accuracy and how classifiers handle these irrelevant features. The method to add these duplicate features is by randomly picking and adding. This can result in features being multiple times in the manipulated  dataset even though it is only twice the original dataset size. The predictive accuracy is measured over the whole dataset by doing a 10 fold cross validation.
 
-\subsubsection{Random Features}
+\subsubsection{Random features}
 Random features experiments have similar goals in mind as duplicate features. By adding the random features we can measure scalability of datasets with random features. These random features can deceivingly have information as there is much variability. The accuracy that is measured can explain what the impact is for different classifiers. Two sorts of random features are added; Numerical and categorical features. We add either the categorical or numerical depending on the the dataset. The odds of either a categorical or numerical feature being added is depended on the amount of numerical and categorical features of the initial dataset. The predictive accuracy is measured over the whole dataset by doing a 10 fold cross validation. These experiment can redo the results of Wettschereck et al., Hilario and Domingos and Pazzani \cite{redundant} \cite{Resil-1} \cite{Red-Bias}. Those works indicated the poor robustness of kNN and the great robustness of Naive bayes solutions.   %\cite{catVSnum} the influence of categorical vs numerical why we need to add a similair feature.
 
 
@@ -558,7 +555,7 @@ In the figures \ref{fig:FIC},\ref{fig:FID} the feature importance of duplicates 
 \subsection{Scalability}
 All results with a duration axis. The duration axis is in seconds and shows a 10 fold cross validiation. This means that the duration encompasses 10 times fitting over 90\% of the data and 10 times predicting 10\% of the data. In total fitting over 9 times the dataset size and once predicting the whole dataset.
 
-\subsubsection{features}
+\subsubsection{Features}
 Due to the robustness experiments a lot of results change the composition of a dataset in the feature dimension. In this subsection all results changing the composition of a dataset are included with a duration y axis. 
 
 
@@ -844,7 +841,7 @@ We consider here random, duplicate and redundant duplicate features as they are 
 \end{table}
 \newpage
 
-\subsubsection{Removing Features}
+\subsubsection{Removing features}
 Figure \ref{fig:Rem} shows three kinds of feature removing. Randomly removing features, removing based on least importance or removing based on most correlation. The predictive accuracy against the remaining features are shown for each kind. 
 
 \begin{figure}[H]
@@ -983,11 +980,11 @@ More options exist to save more data of the executed experiments. The first miss
 \subsubsection{Duration}
 For the duration pictures some results are removed as they do not fall in line with the other results at all. By using the standard of the clean dataset which is calculated with each run we throw out any results changing more than 5$\%$ from another average. One of the reason for these differences in duration is because of multiple used processing systems and other processes running during computation. These other process or the experiments themselves maxed out the cpu or memory of the systems and so interrupting the experiments.
 
-\subsubsection{Bias Variance}
+\subsubsection{Bias variance}
 The datasets used by Joaquin in \cite{Bias-var} were UCI datasets, some of these are also published on OpenML under the dataset ids (1369-1377). These are artificially created to have a large number of instances. The time needed for fitting and %TODO 
 
 
-\subsubsection{different approach}
+\subsubsection{Different approach}
 Instead of measuring the influence of standard deviation, we tried to add standard values to all features, the problem with that is features have different deviation and some classifiers prefer a zero mean. The results were similar to injection std but more abrupt. Changing all features for some datasets meant a drop in accuracy but the continuation of upping the number meant little to change accuracy further. In figure \ref{fig:predFlat} the predictive accuracy of adding some flat amount to the features is shown. The resulting accuracy of most classifiers drops significantly in case of the addition the only classifiers with a steady accuracy is AdaBoost. The steady line of accuracy for AdaBoost is because of the focus AdaBoost has on misclassification. The sample size of this experiment is too small to further assess the failing results of the other classifiers.  
 
 
