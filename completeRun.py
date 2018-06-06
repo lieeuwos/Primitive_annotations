@@ -1617,10 +1617,10 @@ def pre(clfName):
 def cv_featurePre(did,cv,amount):
     X,y = read_did(did)
     cat = read_did_cat(did)
-    func = 'cvNoisePreProcess'
+    func = 'cvNoisePreProcess2'
 #    func = 'TestcvScoreFeatures4'
     clfNames = ['GradientBoost','RandomForestClassifier','KNeighborsClassifier', '1NeighborsClassifier', 'SGDClassifier', 'AdaBoost', 'SVC-rbf', 'GaussianNB', 'BernoulliNB']
-#    
+    clfNames = ['GaussianNB', 'BernoulliNB']
     clf = []
     scorings = []
     score = []
