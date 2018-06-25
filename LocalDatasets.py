@@ -397,6 +397,23 @@ def doneFracs(func,clfName,amountList):
                 listAdd.append(did)
     return list(set(listAdd))
 
+def doneExists(func,clfName,amountList):
+    list_of_files = []
+    for (dirpath, dirnames, filenames) in os.walk(pathL):
+        for filename in filenames:
+            if filename.endswith('cat.csv'): 
+                list_of_files.append(int(filename[:-7]))
+    listAdd = []
+    count = []
+    for did in list_of_files:
+        path = dropbox + func + '\\' + clfName + '\\' + str(did) 
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            if list1Inlist2(dirnames,amountList):
+                count.append(dirnames)
+                listAdd.append(did)
+    return list(set(listAdd)),count
+                
+
 # this is for experiments saved as the features manipulated(added or removed)
 def DoneFeatureMan(func,clfName,amountList):
     list_of_files = []

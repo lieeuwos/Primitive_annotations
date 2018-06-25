@@ -227,6 +227,14 @@ def cat_needed(X,cat,amount):
         if i:
             count = count + 1
     return count
+
+def cat_needed2(X,cat,amount):
+    count = 0
+    for i in cat:
+        if i:
+            count = count + 1
+            
+    return round(amount*(count/len(cat)))
     
 
 def random_test_set(X,y,amount,rand):
@@ -848,6 +856,25 @@ def preProcessV2(X_train,train_X,X_test,test_X,cat,catM,clfName):
 def random_seed(seed):
     random.seed(seed)
     return random.random()
+
+#returns the 1st and quartiles 
+def CIIntervals(ScoreLine):
+    lines = [[],[],[],[]]
+    for i in ScoreLine:
+        val = CIScores(i)
+        for j,item in enumerate(val):
+            lines[j].append(item)
+    return lines
+
+
+def CIScores(ResultList):
+    inp = sorted(ResultList)
+    Cis = []
+    Cis.append(inp[round(len(inp)/4)])
+    Cis.append(inp[round(len(inp)/2)])
+    Cis.append(inp[round(len(inp)/1.5)])
+    Cis.append(sum(inp)/len(inp))
+    return Cis
 
 
     
