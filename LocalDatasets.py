@@ -193,6 +193,18 @@ def read_features(func,clfName,amount,did):
             scorez[i] = scorez[i] + sum(temp[i])/len(temp[i])/Ramount
     return scorez
 
+def read_featuresFull(func,clfName,amount,did):
+    scorez = [[],[],[]] # amount of scores in the set
+    name = 'scores'
+    Ramount = checkForExistFile(func,clfName,amount,did)
+    for k in range(0,Ramount):
+        temp = read_did_pred(func,clfName,amount,did,name + str(k))
+        for i in range(0,len(temp)):
+            for j, item in enumerate(temp[i]):
+                scorez[i].append(temp[i][j])
+#            scorez[i] = scorez[i] + sum(temp[i])/len(temp[i])/Ramount
+    return scorez
+
 def read_did_preds(func,clfName,amount,did,name):
     list1 = []
     for i in range(1,4):
