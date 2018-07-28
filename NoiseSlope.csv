@@ -1,0 +1,10 @@
+,default setting,tuned
+RandomForestClassifier,-4.2,-5.6
+KNeighborsClassifier,-4.3,-6.2
+1NeighborsClassifier,-4.6,-
+SGDClassifier,-3.4,-
+AdaBoost,-3.0,-4.9
+SVC-rbf,-1.5,-5.1
+GaussianNB,-2.9,-
+BernoulliNB,-2.0,-
+GradientBoost,-3.8,-5.5
