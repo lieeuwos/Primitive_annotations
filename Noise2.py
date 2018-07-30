@@ -360,6 +360,31 @@ def noise_set2(X,cat,amount):
                     noise_X[i][j] = random.choice(std_x[j])          
     return noise_X
 
+def noise_for_datasets(XList,cat,amount):
+    X = XList[0]
+    noise_X = deepcopy(X)
+    std_x = std_G2(X,cat)
+    for i,x in enumerate(noise_X):
+        for j,x2 in enumerate(x):
+            if random.random() > 0.5 and not cat[j]:
+                noise_X[i][j] = noise_X[i][j] + amount*random.random()*std_x[j]
+            elif not cat[j]:
+                noise_X[i][j] = noise_X[i][j] - amount*random.random()*std_x[j]
+            else:
+                if random.random()*amount > 0.5:
+                    noise_X[i][j] = random.choice(std_x[j])  
+    noise_X2 = deepcopy(XList[1])
+    for i,x in enumerate(noise_X2):
+        for j,x2 in enumerate(x):
+            if random.random() > 0.5 and not cat[j]:
+                noise_X2[i][j] = noise_X2[i][j] + amount*random.random()*std_x[j]
+            elif not cat[j]:
+                noise_X2[i][j] = noise_X2[i][j] - amount*random.random()*std_x[j]
+            else:
+                if random.random()*amount > 0.5:
+                    noise_X[i][j] = random.choice(std_x[j])  
+    return noise_X,noise_X2
+
 def std_G(X,cat):
     std = []
     Xt = list(map(list, zip(*X)))
