@@ -1,0 +1,10 @@
+,average,small Instances,large Instances,medium Instances,small Features,large Features,medium Features
+RandomForestClassifier,3.14,3.82,2.52,3.85,2.32,8.3,2.57
+KNeighborsClassifier,7.35,4.08,5.55,10.87,2.3,3.66,12.78
+1NeighborsClassifier,8.87,4.17,9.74,11.49,4.23,4.47,13.86
+SGDClassifier,2.46,1.51,0.57,4.02,0.15,2.75,3.78
+AdaBoost,1.09,2.12,1.5,3.11,1.76,3.78,2.67
+SVC-rbf,0.71,3.01,-1.01,1.41,1.68,-0.45,1.75
+GaussianNB,0.03,1.03,-1.85,0.51,0.04,0.57,0.0
+BernoulliNB,0.24,1.8,-0.15,1.85,0.44,1.86,1.68
+GradientBoost,1.5,1.61,0.18,3.19,0.67,3.45,2.4
